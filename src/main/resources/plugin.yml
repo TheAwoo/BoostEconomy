@@ -1,0 +1,20 @@
+name: BoostEconomy
+version: 1.0
+main: boostdevteam.boosteconomy.BoostEconomy
+api-version: 1.16
+load: STARTUP
+authors: [ _ItsWagPvP ]
+description: An economy plugin based with Vault
+website: www.boostdevteam.eu
+commands:
+  money:
+    description: Show your's money
+    aliases: [bal, balance]
+  eco:
+    description: Admin command
+    aliases: [economy]
+  pay:
+    description: Send money to a player
+  be:
+    description: Main command
+    aliases: [ boosteconomy ]

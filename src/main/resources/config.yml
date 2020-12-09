@@ -1,0 +1,30 @@
+# BoostEconomy made by ItsWagPvP for BoostDevTeam
+# Ver 1.0
+#
+# Local placeholders:
+# %money% = The player's money
+# %target% = Target player name
+
+Messages:
+  General:
+    NoPerms: "&b&lBoostEconomy &8--> &cYou do not have enough permissions"
+    NoConsole: "&b&lBoostEconomy &8--> &cYou can't do this from console"
+    Reload: "&b&lBoostEconomy &8--> &aThe plugin has been reloaded with success!"
+    InvalidArgs: "&b&lBoostEconomy &8--> &7Invalid args! /be <reload/help>"
+  Money:
+    Chat: "&b&lMoney &8--> &7You have &a%money%$"
+    Done: "&b&lMoney &8--> &aDone!"
+    Refreshed: "&b&lMoney &8--> &7Your money has been changed, now you have &a%money%$"
+    InvalidArgs:
+      Pay: "&b&lMoney &8--> &7Invalid args! /pay <player> <money>"
+      Eco: "&b&lMoney &8--> &7Invalid args! /eco <player> <set/take/give> <money>"
+    PlayerNotFound: "&b&lMoney &8--> &cPlayer not found!"
+    NoMoney: "&b&lMoney &8--> &cYou do not have enough money!"
+    Others: "&b&lMoney &8--> &a%target% &7have &a%money%$"
+
+Config:
+  SaveUUID: true
+  # Default money on join for the first time
+  StartMoney: 0.00
+  # When a player join the console send the message of saving data
+  ConsoleSaveMessage: true
