@@ -17,9 +17,11 @@ public class BE implements CommandExecutor {
             if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
                 if (args.length == 0) {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
-                    if (sender instanceof Player) {
-                        Player p = (Player) sender;
-                        p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_AMBIENT, 1.0f, 1.0f);
+                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                        if (sender instanceof Player) {
+                            Player p = (Player) sender;
+                            p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                        }
                     }
                 } else if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
@@ -31,18 +33,22 @@ public class BE implements CommandExecutor {
                                 e.printStackTrace();
                             }finally {
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.Reload").replaceAll("&", "§"));
-                                if (sender instanceof Player) {
-                                    Player p = (Player) sender;
-                                    p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                    if (sender instanceof Player) {
+                                        Player p = (Player) sender;
+                                        p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                    }
                                 }
                             }
 
 
                         }else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                            if (sender instanceof Player) {
-                                Player p = (Player) sender;
-                                p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    Player p = (Player) sender;
+                                    p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                }
                             }
                         }
                     }else if (args[0].equalsIgnoreCase("help")) {
@@ -53,16 +59,23 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/money [player] §7Show the money of a player");
                             sender.sendMessage("§b§l/eco <player> <set/give/take> <money> §7Commands for admin");
                             sender.sendMessage("§8§l§m+---------------------------+");
-                            if (sender instanceof Player) {
-                                Player p = (Player) sender;
-                                p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                        Player player = (Player) sender;
+                                        player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                    }
+                                }
                             }
+
                         }
                     }else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
-                        if (sender instanceof Player) {
-                            Player p = (Player) sender;
-                            p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_ENDERMAN_AMBIENT, 1.0f, 1.0f);
+                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                            }
                         }
                     }
                 }

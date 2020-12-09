@@ -1,7 +1,6 @@
 name: BoostEconomy
-version: 1.0
+version: 1.0.1
 main: boostdevteam.boosteconomy.BoostEconomy
-api-version: 1.16
 load: STARTUP
 authors: [ _ItsWagPvP ]
 description: An economy plugin based with Vault
@@ -17,4 +16,4 @@ commands:
     description: Send money to a player
   be:
     description: Main command
-    aliases: [ boosteconomy ]
+    aliases: [boosteconomy]

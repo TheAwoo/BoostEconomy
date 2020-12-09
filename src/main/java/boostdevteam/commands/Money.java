@@ -25,16 +25,28 @@ public class Money implements CommandExecutor {
                             if (sender.hasPermission("boosteconomy.money.others")) {
                                 Player p = Bukkit.getServer().getPlayer(args[0]);
                                 if (p != null) {
-                                    Economy ecoTarget = new Economy(p, 0);
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                    if (!(p == sender)) {
+                                        Economy ecoTarget = new Economy(p, 0);
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
 
-                                    player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-
-                                }else {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                            }
+                                        }else {
+                                        Economy money = new Economy((Player) sender, 0);
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                    }
+                                    }else {
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                    }
                                 }
                         }else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                    player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                }
                         }
                     }
                 }

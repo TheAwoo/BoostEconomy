@@ -9,7 +9,6 @@ import boostdevteam.events.PluginListener;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
 
-import org.apache.commons.lang.ObjectUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -108,7 +107,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         // Plugin shutdown logic
         if (!setupEconomy()) {
             Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cDisabled due to no Vault dependency found!");
-            return;
         } else {
             try {
                 hook.offHook();
@@ -142,6 +140,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             return false;
         }
         return true;
+    }
+
+    public static String getVersion() {
+        return Bukkit.getBukkitVersion();
     }
 
 }

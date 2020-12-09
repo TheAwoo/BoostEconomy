@@ -311,7 +311,7 @@ public class MetricsLite {
             throw new IllegalAccessException("This method must not be called from the main thread!");
         }
         if (logSentData) {
-            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] Sending data to bStats: §e" + data);
+            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] Sending data to bStats");
         }
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 

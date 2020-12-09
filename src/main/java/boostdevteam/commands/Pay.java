@@ -21,46 +21,66 @@ public class Pay implements CommandExecutor {
                     if (args.length == 2) {
                         Player p = Bukkit.getServer().getPlayer(args[0]);
                         if (p != null) {
-                            if (NumberUtils.isNumber(args[1])) {
-                                Economy money = new Economy((Player) sender, Double.parseDouble(args[1]));
-                                if (money.detractable()) {
+                            if (!(p == sender)) {
+                                if (NumberUtils.isNumber(args[1])) {
+                                    Economy money = new Economy((Player) sender, Double.parseDouble(args[1]));
+                                    if (money.detractable()) {
 
-                                    Economy ecoTarget = new Economy(p, Double.parseDouble(args[1]));
-                                    money.takeBalance();
-                                    ecoTarget.addBalance();
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
+                                        Economy ecoTarget = new Economy(p, Double.parseDouble(args[1]));
+                                        money.takeBalance();
+                                        ecoTarget.addBalance();
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
 
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
-                                    p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                        p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + ecoTarget.getBalance()));
+
+                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                            p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                        }
 
 
-                                    player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                    p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                        return true;
 
-                                    return true;
-
+                                    } else {
+                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.NoMoney").replaceAll("&", "§"));
+                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                        }
+                                    }
                                 } else {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.NoMoney").replaceAll("&", "§"));
+                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
+                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                    }
+                                    return true;
+                                }
+                            }else {
+                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PayYourself").replaceAll("&", "§"));
+                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
                                     player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
                                 }
-                            } else {
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
-                                player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                return true;
                             }
+
                         } else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
-                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                            }
                             return true;
                         }
                     } else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
-                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                        }
                         return true;
                     }
                 } else {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                    player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                    }
                     return true;
                 }
                 return true;

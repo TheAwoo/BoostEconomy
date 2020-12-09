@@ -21,9 +21,9 @@ Messages:
     PlayerNotFound: "&b&lMoney &8--> &cPlayer not found!"
     NoMoney: "&b&lMoney &8--> &cYou do not have enough money!"
     Others: "&b&lMoney &8--> &a%target% &7have &a%money%$"
+    PayYourself: "&b&lMoney &8--> &cYou can't pay yourself!"
 
 Config:
-  SaveUUID: true
   # Default money on join for the first time
   StartMoney: 0.00
   # When a player join the console send the message of saving data

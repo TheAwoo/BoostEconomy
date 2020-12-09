@@ -28,23 +28,20 @@ public class Data {
     }
 
     public void saveData(Player p, double money) {
-        if (BoostEconomy.getInstance().getConfig().getBoolean("Messages.")) {
 
 
             try {
 
-
                 this.data.set("Data." + p.getName() + ".Money", money);
-                if (BoostEconomy.getInstance().getConfig().getBoolean("Config.SaveUUID")) {
-                    String uuid = String.valueOf(p.getUniqueId());
-                    this.data.set("Data." + p.getName() + "UUID", uuid);
-                }
+                //if (BoostEconomy.getInstance().getConfig().getBoolean("Config.SaveUUID")) {
+                //    String uuid = String.valueOf(p.getUniqueId());
+                //    this.data.set("Data." + p.getName() + ".UUID", uuid);
+                //}
 
                 this.data.save(FileData);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
     }
     public boolean hasBalance(Player p) {
         return this.data.getString("Data." + p.getName() + ".Money")!=null;
