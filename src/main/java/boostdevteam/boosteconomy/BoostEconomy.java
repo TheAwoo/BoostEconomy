@@ -4,6 +4,7 @@ import boostdevteam.commands.BE;
 import boostdevteam.commands.Eco;
 import boostdevteam.commands.Money;
 import boostdevteam.commands.Pay;
+import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
 
 import boostdevteam.vaultapi.VEconomy;
@@ -41,9 +42,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public void onLoad() {
         // Plugin load logic
 
-        Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §eLoading!");
+        Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §eLoading!");
 
         saveDefaultConfig();
+
 
     }
 
@@ -56,15 +58,32 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         if (!setupEconomy() ) {
             getServer().getPluginManager().disablePlugin(this);
         }else {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
+                public void run() {
+                    if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
+                        new UpdateChecker(plugin, 86591).getVersion(version -> {
+                            if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
+                            } else {
+                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
+                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + plugin.getDescription().getVersion());
+                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
+                            }
+                        });
+                    }
+
+                }
+            }, 20);
+
             try {
                 int pluginId = 9572;
                 @SuppressWarnings("unused")
                 MetricsLite metrics = new MetricsLite(this, pluginId);
             }catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError with metrics!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError with metrics!");
                 e.printStackTrace();
             }finally {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aMetrics loaded with success!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aMetrics loaded with success!");
             }
             //
             try {
@@ -79,14 +98,15 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
                     hook.onHook();
                 }catch (Exception e) {
-                    Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError hooking with Vault!");
+                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError hooking with Vault!");
                     e.printStackTrace();
                 } finally {
-                    Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aHooked successfully with Vault!");
+                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aHooked successfully with Vault!");
                 }
 
 
                 Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
+                Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
 
 
                 getCommand("money").setExecutor(new Money());
@@ -94,10 +114,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 getCommand("be").setExecutor(new BE());
                 getCommand("pay").setExecutor(new Pay());
             }catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cUnexpected error!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cUnexpected error!");
                 e.printStackTrace();
             }finally {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aLoaded with success!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aLoaded with success!");
             }
         }
     }
@@ -106,16 +126,16 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
         if (!setupEconomy()) {
-            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cDisabled due to no Vault dependency found!");
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cDisabled due to no Vault dependency found!");
         } else {
             try {
                 hook.offHook();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError removing hook from Vault!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError removing hook from Vault!");
                 e.printStackTrace();
             } finally {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aUnhooked successfully from Vault!");
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cPlugin disabled with success!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aUnhooked successfully from Vault!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cPlugin disabled with success!");
             }
         }
     }

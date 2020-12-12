@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.0
+# Ver 1.0.3
 #
 # Local placeholders:
 # %money% = The player's money
@@ -24,6 +24,9 @@ Messages:
     PayYourself: "&b&lMoney &8--> &cYou can't pay yourself!"
 
 Config:
+  CheckForUpdates:
+    Console: true
+    Player: true # Need to have the boosteconomy.checkforupdates permission
   # Default money on join for the first time
   StartMoney: 0.00
   # When a player join the console send the message of saving data

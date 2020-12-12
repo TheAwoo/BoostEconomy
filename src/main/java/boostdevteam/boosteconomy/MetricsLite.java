@@ -290,7 +290,7 @@ public class MetricsLite {
             } catch (Exception e) {
                 // Something went wrong! :(
                 if (logFailedRequests) {
-                    Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] Could not submit plugin stats of §e" + plugin.getName());
+                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Could not submit plugin stats of §e" + plugin.getName());
                 }
             }
         }).start();
@@ -311,7 +311,7 @@ public class MetricsLite {
             throw new IllegalAccessException("This method must not be called from the main thread!");
         }
         if (logSentData) {
-            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] Sending data to bStats");
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Sending data to bStats");
         }
         HttpsURLConnection connection = (HttpsURLConnection) new URL(URL).openConnection();
 
@@ -342,7 +342,7 @@ public class MetricsLite {
         }
 
         if (logResponseStatusText) {
-            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] Sent data to bStats and received response:" + builder);
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Sent data to bStats and received response:" + builder);
         }
     }
 

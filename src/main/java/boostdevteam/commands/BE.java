@@ -29,7 +29,7 @@ public class BE implements CommandExecutor {
                             try {
                                 BoostEconomy.onReload();
                             }catch (Exception e) {
-                                Bukkit.getLogger().severe("§7[§bBoostEconomy§7] §cError while reloading the plugin!");
+                                Bukkit.getLogger().severe("[BoostEconomy] §cError while reloading the plugin!");
                                 e.printStackTrace();
                             }finally {
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.Reload").replaceAll("&", "§"));

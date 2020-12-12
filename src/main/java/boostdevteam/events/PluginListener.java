@@ -18,7 +18,7 @@ public class PluginListener implements Listener{
         if (!data.hasBalance(p)) {
             data.saveData(p, BoostEconomy.getInstance().getConfig().getDouble("Config.StartMoney"));
             if (BoostEconomy.getInstance().getConfig().getBoolean("Config.ConsoleSaveMessage")) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §7Saving data for §3" + e.getPlayer().getName());
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Saving data for §3" + e.getPlayer().getName());
             }
 
         }

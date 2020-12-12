@@ -28,15 +28,9 @@ public class Data {
     }
 
     public void saveData(Player p, double money) {
-
-
             try {
 
                 this.data.set("Data." + p.getName() + ".Money", money);
-                //if (BoostEconomy.getInstance().getConfig().getBoolean("Config.SaveUUID")) {
-                //    String uuid = String.valueOf(p.getUniqueId());
-                //    this.data.set("Data." + p.getName() + ".UUID", uuid);
-                //}
 
                 this.data.save(FileData);
             } catch (IOException e) {
