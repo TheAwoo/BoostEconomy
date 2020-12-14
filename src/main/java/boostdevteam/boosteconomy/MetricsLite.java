@@ -220,6 +220,7 @@ public class MetricsLite {
         String osName = System.getProperty("os.name");
         String osArch = System.getProperty("os.arch");
         String osVersion = System.getProperty("os.version");
+        Boolean usingGui = BoostEconomy.getInstance().getConfig().getBoolean("GUI.UseGUI");
         int coreCount = Runtime.getRuntime().availableProcessors();
 
         JsonObject data = new JsonObject();
@@ -236,6 +237,8 @@ public class MetricsLite {
         data.addProperty("osArch", osArch);
         data.addProperty("osVersion", osVersion);
         data.addProperty("coreCount", coreCount);
+
+        data.addProperty("gui-use", usingGui);
 
         return data;
     }

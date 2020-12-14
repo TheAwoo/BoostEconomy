@@ -1,5 +1,6 @@
 name: BoostEconomy
-version: 1.0.3
+version: 1.0.4
+api-version: 1.13
 main: boostdevteam.boosteconomy.BoostEconomy
 load: STARTUP
 authors: [ _ItsWagPvP ]

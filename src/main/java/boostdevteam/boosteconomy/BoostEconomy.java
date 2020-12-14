@@ -28,14 +28,12 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             plugin.getServer().getPluginManager().enablePlugin(plugin);
             plugin.reloadConfig();
             plugin.saveConfig();
-
         }catch (Exception e){
             Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError while reloading the plugin!");
             e.printStackTrace();
         }finally {
             Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aPlugin reloaded with success!");
         }
-
     }
 
     @Override
@@ -45,8 +43,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §eLoading!");
 
         saveDefaultConfig();
-
-
     }
 
     @Override
@@ -58,22 +54,27 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         if (!setupEconomy() ) {
             getServer().getPluginManager().disablePlugin(this);
         }else {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
-                public void run() {
-                    if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
-                        new UpdateChecker(plugin, 86591).getVersion(version -> {
-                            if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
-                            } else {
-                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
-                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + plugin.getDescription().getVersion());
-                                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
-                            }
-                        });
-                    }
+            if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
+                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
+                    public void run() {
+                        if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
+                            new boostdevteam.boosteconomy.UpdateChecker(plugin, 86591).getVersion(version -> {
+                                if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
+                                } else {
+                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
+                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + plugin.getDescription().getVersion());
+                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
+                                }
+                            });
+                        }
 
-                }
-            }, 20);
+                    }
+                }, 20);
+            }else {
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You are using a server version not compatible with the updater! §c(Works with 1.12+)");
+            }
+
 
             try {
                 int pluginId = 9572;
@@ -107,6 +108,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
                 Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
                 Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
+                Bukkit.getPluginManager().registerEvents(new Money(), this);
 
 
                 getCommand("money").setExecutor(new Money());
@@ -141,7 +143,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public static BoostEconomy getInstance() {
-
         return plugin;
     }
 
@@ -165,5 +166,4 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
     }
-
 }

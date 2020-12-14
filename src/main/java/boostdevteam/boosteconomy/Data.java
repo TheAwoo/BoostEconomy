@@ -19,7 +19,7 @@ public class Data {
                 this.data.createSection("Data");
                 this.data.save(FileData);
             }catch (IOException e) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cERROR!");
+                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError on creating the file data.yml!");
                 e.printStackTrace();
             }
             return;
@@ -34,11 +34,12 @@ public class Data {
 
                 this.data.save(FileData);
             } catch (IOException e) {
+                Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §cError on saving the data for " + p.getName());
                 e.printStackTrace();
             }
     }
     public boolean hasBalance(Player p) {
-        return this.data.getString("Data." + p.getName() + ".Money")!=null;
+        return this.data.getString("Data." + p.getName() + ".Money") != null;
     }
 
     public String getValue(Player p) {

@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.0.3
+# Ver 1.0.4
 #
 # Local placeholders:
 # %money% = The player's money
@@ -20,14 +20,22 @@ Messages:
       Eco: "&b&lMoney &8--> &7Invalid args! /eco <player> <set/take/give> <money>"
     PlayerNotFound: "&b&lMoney &8--> &cPlayer not found!"
     NoMoney: "&b&lMoney &8--> &cYou do not have enough money!"
-    Others: "&b&lMoney &8--> &a%target% &7have &a%money%$"
+    Others: "&b&lMoney &8--> &a%target% &7has &a%money%$"
     PayYourself: "&b&lMoney &8--> &cYou can't pay yourself!"
 
 Config:
+  # The updater works only with 1.12+
   CheckForUpdates:
     Console: true
-    Player: true # Need to have the boosteconomy.checkforupdates permission
+    Player: true # Need to have the "boosteconomy.checkforupdates" permission
   # Default money on join for the first time
   StartMoney: 0.00
   # When a player join the console send the message of saving data
   ConsoleSaveMessage: true
+GUI:
+  # !! NOT USABLE UNDER 1.14 !!
+  # /money command with GUI
+  UseGUI: false
+  InvalidVersion: "&b&lBoostEconomy &8--> &cYou can't use GUI in this version"
+  Money:
+    Title: "&9&lMoney"

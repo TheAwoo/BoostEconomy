@@ -11,11 +11,10 @@ public class VHook {
 
     public void onHook() {
         veco = BoostEconomy.veco;
-        plugin.getServer().getServicesManager().register(Economy.class, veco, plugin, ServicePriority.Normal);
+        plugin.getServer().getServicesManager().register(Economy.class, veco, plugin, ServicePriority.Lowest);
     }
 
     public void offHook() {
         plugin.getServer().getServicesManager().unregister(Economy.class, BoostEconomy.veco);
     }
-
 }
