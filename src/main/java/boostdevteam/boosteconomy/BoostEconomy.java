@@ -28,11 +28,12 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             plugin.getServer().getPluginManager().enablePlugin(plugin);
             plugin.reloadConfig();
             plugin.saveConfig();
+            plugin.saveDefaultConfig();
         }catch (Exception e){
             Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError while reloading the plugin!");
             e.printStackTrace();
         }finally {
-            Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §aPlugin reloaded with success!");
+            Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy§7] §aPlugin reloaded with success!");
         }
     }
 
@@ -75,7 +76,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You are using a server version not compatible with the updater! §c(Works with 1.12+)");
             }
 
-
             try {
                 int pluginId = 9572;
                 @SuppressWarnings("unused")
@@ -105,6 +105,12 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aHooked successfully with Vault!");
                 }
 
+                BoostEconomy.getInstance().getConfig().options().header(
+                        "bStats collects some data for plugin authors like how many servers are using their plugins.\n" +
+                                "To honor their work, you should not disable it.\n" +
+                                "This has nearly no effect on the server performance!\n" +
+                                "Check out https://bStats.org/ to learn more :)"
+                ).copyDefaults(true);
 
                 Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
                 Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);

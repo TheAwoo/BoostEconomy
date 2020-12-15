@@ -1,9 +1,16 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.0.4
-#
+# Ver 1.0.5
+# -
 # Local placeholders:
 # %money% = The player's money
 # %target% = Target player name
+# -
+# The GUI.UseGUI can only use in 1.14+ (If true the plugin reset the GUI.UseGUI option)
+# The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
+# -
+# ConsoleSaveMessage: When a player join the console send the message of saving data
+# StartMoney: Default money on join for the first time
+# PlayerCheckForUpdates: Need to have the "boosteconomy.checkforupdates" permission
 
 Messages:
   General:
@@ -24,17 +31,12 @@ Messages:
     PayYourself: "&b&lMoney &8--> &cYou can't pay yourself!"
 
 Config:
-  # The updater works only with 1.12+
   CheckForUpdates:
     Console: true
-    Player: true # Need to have the "boosteconomy.checkforupdates" permission
-  # Default money on join for the first time
+    Player: true
   StartMoney: 0.00
-  # When a player join the console send the message of saving data
   ConsoleSaveMessage: true
 GUI:
-  # !! NOT USABLE UNDER 1.14 !!
-  # /money command with GUI
   UseGUI: false
   InvalidVersion: "&b&lBoostEconomy &8--> &cYou can't use GUI in this version"
   Money:

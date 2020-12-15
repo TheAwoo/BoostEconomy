@@ -2,17 +2,22 @@ package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.misc.Economy;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -23,10 +28,7 @@ import java.util.List;
 
 public class Money implements CommandExecutor, Listener {
 
-
-
     public ItemStack createButton(Material id, short data, int amount, List<String> lore, String display) {
-
 
         @SuppressWarnings("deprecation")
         ItemStack item = new ItemStack(id, amount, data);
@@ -105,7 +107,6 @@ public class Money implements CommandExecutor, Listener {
             if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-
                     if (sender.hasPermission("boosteconomy.money")) {
                         if (cmd.getName().equalsIgnoreCase("money")) {
                             if (args.length == 0) {
@@ -181,7 +182,6 @@ public class Money implements CommandExecutor, Listener {
                                             skull.setItemMeta(Meta);
 
                                             money.setItem(13, skull);
-                                            //
 
                                             for (int i = 0; i < money.getSize(); i++) {
                                                 if (money.getItem(i) == null || money.getItem(i).getType().equals(Material.AIR)) {
@@ -233,10 +233,17 @@ public class Money implements CommandExecutor, Listener {
                 }
             } else {
                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("GUI.InvalidVersion").replaceAll("&", "§"));
-                Bukkit.getConsoleSender().sendMessage(BoostEconomy.getInstance().getConfig().getString("GUI.InvalidVersion").replaceAll("&", "§"));
+                sender.sendMessage("§b§lMoney §8--> §7The config GUI has been reset to false! §c(Only for 1.14+)");
+                try {
+                    BoostEconomy.getInstance().getConfig().set("GUI.UseGUI", false);
+                    BoostEconomy.getInstance().saveDefaultConfig();
+                    BoostEconomy.getInstance().saveConfig();
+                }catch (Exception e) {
+                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Error while resetting the §cconfig.yml");
+                }finally {
+                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Reset has been successfully done on GUI.UseGUI in the §cconfig.yml");
+                }
             }
-
-
         }
 
         return true;
