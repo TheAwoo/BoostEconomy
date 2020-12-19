@@ -65,7 +65,14 @@ public class BE implements CommandExecutor {
                                     }
                                 }
                             }
-
+                        }else {
+                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    Player p = (Player) sender;
+                                    p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                }
+                            }
                         }
                     }else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));

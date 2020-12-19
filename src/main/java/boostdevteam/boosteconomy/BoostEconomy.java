@@ -7,6 +7,8 @@ import boostdevteam.commands.Pay;
 import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
 
+import boostdevteam.tabcompleter.BETabCompleter;
+import boostdevteam.tabcompleter.EcoTabCompleter;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
 
@@ -106,21 +108,12 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 }
 
                 BoostEconomy.getInstance().getConfig().options().header(
-                        "bStats collects some data for plugin authors like how many servers are using their plugins.\n" +
-                                "To honor their work, you should not disable it.\n" +
-                                "This has nearly no effect on the server performance!\n" +
-                                "Check out https://bStats.org/ to learn more :)"
+                        "BoostEconomy"
                 ).copyDefaults(true);
 
-                Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
-                Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
-                Bukkit.getPluginManager().registerEvents(new Money(), this);
+                loadEvents();
+                loadCommands();
 
-
-                getCommand("money").setExecutor(new Money());
-                getCommand("eco").setExecutor(new Eco());
-                getCommand("be").setExecutor(new BE());
-                getCommand("pay").setExecutor(new Pay());
             }catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cUnexpected error!");
                 e.printStackTrace();
@@ -128,6 +121,24 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aLoaded with success!");
             }
         }
+    }
+
+    public void loadEvents() {
+        Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
+        Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
+        Bukkit.getPluginManager().registerEvents(new Money(), this);
+    }
+
+    public void loadCommands() {
+        getCommand("money").setExecutor(new Money());
+
+        getCommand("eco").setExecutor(new Eco());
+        getCommand("eco").setTabCompleter(new EcoTabCompleter());
+
+        getCommand("be").setExecutor(new BE());
+        getCommand("be").setTabCompleter(new BETabCompleter());
+
+        getCommand("pay").setExecutor(new Pay());
     }
 
     @Override
@@ -172,4 +183,5 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
     }
+
 }
