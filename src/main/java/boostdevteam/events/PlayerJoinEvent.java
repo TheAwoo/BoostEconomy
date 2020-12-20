@@ -1,7 +1,6 @@
 package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.boosteconomy.UpdateChecker;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

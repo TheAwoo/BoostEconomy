@@ -9,6 +9,8 @@ import boostdevteam.events.PluginListener;
 
 import boostdevteam.tabcompleter.BETabCompleter;
 import boostdevteam.tabcompleter.EcoTabCompleter;
+import boostdevteam.tabcompleter.MoneyTabCompleter;
+import boostdevteam.tabcompleter.PayTabCompleter;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
 
@@ -71,7 +73,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                                 }
                             });
                         }
-
                     }
                 }, 20);
             }else {
@@ -131,6 +132,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public void loadCommands() {
         getCommand("money").setExecutor(new Money());
+        getCommand("money").setTabCompleter(new MoneyTabCompleter());
 
         getCommand("eco").setExecutor(new Eco());
         getCommand("eco").setTabCompleter(new EcoTabCompleter());
@@ -139,6 +141,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         getCommand("be").setTabCompleter(new BETabCompleter());
 
         getCommand("pay").setExecutor(new Pay());
+        getCommand("pay").setTabCompleter(new PayTabCompleter());
     }
 
     @Override
@@ -169,7 +172,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             data = new Data();
             new Data();
         }
-
         return data;
     }
 
@@ -183,5 +185,4 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
     }
-
 }

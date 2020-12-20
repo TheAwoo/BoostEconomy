@@ -35,5 +35,4 @@ public class Economy extends VEconomy{
     public boolean detractable() {
         return getBalance() - this.money >= 0;
     }
-
 }

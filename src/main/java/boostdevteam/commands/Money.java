@@ -162,7 +162,7 @@ public class Money implements CommandExecutor, Listener {
                                             }
 
                                             if (sender instanceof Player) {
-                                                p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                                player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
                                             }
 
                                             player.openInventory(moneyTarget);
