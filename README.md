@@ -3,9 +3,7 @@
 Minecraft plugin made by ItsWagPvP for BoostDevTeam (v1.0.4)
 
 To do list:
-- Fix the player list in the Tab Completer
-- Add /be debug (Info for the server / plugin / developer)
-- Add /be checkforupdates 
+-
 
 Depends with <a href="https://www.spigotmc.org/resources/vault.34315/">Vault</a>
 
@@ -19,7 +17,7 @@ boostdevteam@gmail.com
 If you want you can check out our other projects on our <a href="http://www.boostdevteam.eu/projects.html">site</a>
 
 ### Commands:
-- /be [Alias: boosteconomy, economy] (<)reload/help) (Reloads the plugin or show the help command)
+- /be [Alias: boosteconomy, economy, boosteco] (<)reload/help/debug/checkforupdates) (Reloads the plugin or show the help command)
 - /money [Alias: bal, balance] (player) <- Unnecessary
 - /eco (player) (set/give/take) (money)
 - /pay (player) (money)
