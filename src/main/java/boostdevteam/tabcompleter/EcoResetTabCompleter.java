@@ -12,7 +12,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PayTabCompleter implements TabCompleter {
+public class EcoResetTabCompleter implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
@@ -24,10 +24,6 @@ public class PayTabCompleter implements TabCompleter {
                         .map(Player::getName)
                         .collect(Collectors.toList());
                 return playerNames;
-            }
-            case 2: {
-                List<String> list3 = Arrays.asList("0", "100", "1000");
-                return list3;
             }
             default:
                 List<String> listDefault = Arrays.asList("");

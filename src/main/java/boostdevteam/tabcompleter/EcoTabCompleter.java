@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class EcoTabCompleter implements TabCompleter {
     @Nullable
@@ -19,19 +19,24 @@ public class EcoTabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                for (Player pList : Bukkit.getOnlinePlayers()) {
-                    List<String> list = new ArrayList<String>();
-                    list.add("" + pList.getName());
-                    return list;
-                }
+                List<String> playerNames = Bukkit.getOnlinePlayers()
+                        .stream()
+                        .map(Player::getName)
+                        .collect(Collectors.toList());
+                return playerNames;
             }
             case 2: {
-                List<String> list2 = Arrays.asList("set", "give", "take");
-                return list2;
+                List<String> listUse = Arrays.asList("set", "give", "take", "reset");
+                return listUse;
             }
             case 3: {
-                List<String> list3 = Arrays.asList("0", "100", "1000");
-                return list3;
+                if (args[(i - 1)].equalsIgnoreCase("reset")) {
+                    List<String> listReset = Arrays.asList("");
+                    return listReset;
+                } else {
+                    List<String> listMoney = Arrays.asList("0", "100", "1000");
+                    return listMoney;
+                }
             }
             default:
                 List<String> listDefault = Arrays.asList("");

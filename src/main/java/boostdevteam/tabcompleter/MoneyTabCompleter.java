@@ -8,9 +8,9 @@ import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MoneyTabCompleter implements TabCompleter {
     @Nullable
@@ -19,11 +19,11 @@ public class MoneyTabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                for (Player pList : Bukkit.getOnlinePlayers()) {
-                    List<String> list = new ArrayList<String>();
-                    list.add("" + pList.getName());
-                    return list;
-                }
+                List<String> playerNames = Bukkit.getOnlinePlayers()
+                        .stream()
+                        .map(Player::getName)
+                        .collect(Collectors.toList());
+                return playerNames;
             }
             default:
                 List<String> listDefault = Arrays.asList("");

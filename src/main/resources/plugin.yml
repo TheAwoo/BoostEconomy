@@ -1,9 +1,9 @@
 name: BoostEconomy
-version: 1.0.7
+version: 1.0.9
 api-version: 1.13
 main: boostdevteam.boosteconomy.BoostEconomy
 load: STARTUP
-authors: [ _ItsWagPvP ]
+author: _ItsWagPvP
 description: An economy plugin based with Vault
 website: www.boostdevteam.eu
 commands:
@@ -17,4 +17,7 @@ commands:
     description: Send money to a player
   be:
     description: Main command
-    aliases: [boosteconomy]
+    aliases: [boosteconomy, boosteco]
+  ecoreset:
+    description: Resets the money of a player
+    aliases: [moneyreset, economyreset, boosteconomyreset, boosteconomyresetmoney]

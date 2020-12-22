@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.0.7
+# Ver 1.0.9
 # -
 # Local placeholders:
 # %money% = The player's money
@@ -16,6 +16,7 @@ Messages:
   General:
     NoPerms: "&b&lBoostEconomy &8--> &cYou do not have enough permissions"
     NoConsole: "&b&lBoostEconomy &8--> &cYou can't do this from console"
+    NoPlayer: "&b&lBoostEconomy &8--> &cYou can't do this from player!"
     Reload: "&b&lBoostEconomy &8--> &aThe plugin has been reloaded with success!"
     InvalidArgs: "&b&lBoostEconomy &8--> &7Invalid args! /be <reload/help>"
   Money:
@@ -25,10 +26,12 @@ Messages:
     InvalidArgs:
       Pay: "&b&lMoney &8--> &7Invalid args! /pay <player> <money>"
       Eco: "&b&lMoney &8--> &7Invalid args! /eco <player> <set/take/give> <money>"
+      Reset: "&b&lMoney &8--> &7Invalid args! /ecoreset <player>"
     PlayerNotFound: "&b&lMoney &8--> &cPlayer not found!"
     NoMoney: "&b&lMoney &8--> &cYou do not have enough money!"
     Others: "&b&lMoney &8--> &a%target% &7has &a%money%$"
     PayYourself: "&b&lMoney &8--> &cYou can't pay yourself!"
+    Resetted: "&b&lMoney &8--> &7Your money has been resetted to &c%money%$"
 
 Config:
   CheckForUpdates:

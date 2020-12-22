@@ -15,7 +15,7 @@ public class BETabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                List<String> list = Arrays.asList("reload", "help");
+                List<String> list = Arrays.asList("reload", "help", "checkforupdates", "debug");
                 return list;
                 }
             default: {

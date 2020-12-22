@@ -24,6 +24,10 @@ public class Economy extends VEconomy{
         BoostEconomy.getData().saveData(this.p, this.money);
     }
 
+    public double resetBalance() {
+        return BoostEconomy.getInstance().getConfig().getDouble("Config.StartMoney");
+    }
+
     public void addBalance() {
         super.depositPlayer(p.getName(), money);
     }

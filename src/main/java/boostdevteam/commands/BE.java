@@ -9,6 +9,8 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
+import java.io.Console;
+
 public class BE implements CommandExecutor {
 
     @Override
@@ -57,6 +59,62 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/money [player] §7Show the money of a player");
                             sender.sendMessage("§b§l/eco <player> <set/give/take> <money> §7Commands for admin");
                             sender.sendMessage("§8§l§m+---------------------------+");
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                        Player player = (Player) sender;
+                                        player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
+                                    }
+                                }
+                            }
+                        }else {
+                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    Player p = (Player) sender;
+                                    p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                }
+                            }
+                        }
+                    } else if (args[0].equalsIgnoreCase("debug")) {
+                        if (sender instanceof ConsoleCommandSender) {
+                            sender.sendMessage("§8§l§m+---------------------------+");
+                            sender.sendMessage("§7Version of the server: §c" + Bukkit.getBukkitVersion());
+                            sender.sendMessage("§7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
+                            sender.sendMessage("§8§l§m+---------------------------+");
+                        }else {
+                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
+                                if (sender instanceof Player) {
+                                    Player p = (Player) sender;
+                                    p.playSound(p.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
+                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPlayer").replaceAll("&", "§"));
+                                }
+                            }
+
+                        }
+                    }else if (args[0].equalsIgnoreCase("checkforupdates")) {
+                        if (sender.hasPermission("boosteconomy.checkforupdates")) {
+                            if (sender instanceof ConsoleCommandSender) {
+                                new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
+                                    if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
+                                    } else {
+                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
+                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
+                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
+                                    }
+                                });
+                            } else {
+                                new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
+                                    if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                        sender.sendMessage("§b§lBoostEconomy §8--> §aNo new version available!");
+                                    } else {
+                                        sender.sendMessage("§b§lBoostEconomy §8--> §7New version available! §av" + version);
+                                        sender.sendMessage("§b§lBoostEconomy §8--> §7You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
+                                        sender.sendMessage("§b§lBoostEconomy §8--> §eDownload it at https://www.spigotmc.org/resources/86591");
+                                    }
+                                });
+                            }
                             if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
                                 if (sender instanceof Player) {
                                     if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {

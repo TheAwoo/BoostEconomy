@@ -1,22 +1,20 @@
 package boostdevteam.boosteconomy;
 
-import boostdevteam.commands.BE;
-import boostdevteam.commands.Eco;
-import boostdevteam.commands.Money;
-import boostdevteam.commands.Pay;
+import boostdevteam.commands.*;
 import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
 
-import boostdevteam.tabcompleter.BETabCompleter;
-import boostdevteam.tabcompleter.EcoTabCompleter;
-import boostdevteam.tabcompleter.MoneyTabCompleter;
-import boostdevteam.tabcompleter.PayTabCompleter;
+import boostdevteam.tabcompleter.*;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.concurrent.Callable;
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -63,7 +61,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
                     public void run() {
                         if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
-                            new boostdevteam.boosteconomy.UpdateChecker(plugin, 86591).getVersion(version -> {
+                            new UpdateChecker(plugin, 86591).getVersion(version -> {
                                 if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
                                     Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
                                 } else {
@@ -142,6 +140,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         getCommand("pay").setExecutor(new Pay());
         getCommand("pay").setTabCompleter(new PayTabCompleter());
+
+        getCommand("ecoreset").setExecutor(new EcoReset());
+        getCommand("ecoreset").setTabCompleter(new EcoResetTabCompleter());
     }
 
     @Override
