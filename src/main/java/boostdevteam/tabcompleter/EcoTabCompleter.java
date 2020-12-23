@@ -26,17 +26,12 @@ public class EcoTabCompleter implements TabCompleter {
                 return playerNames;
             }
             case 2: {
-                List<String> listUse = Arrays.asList("set", "give", "take", "reset");
+                List<String> listUse = Arrays.asList("set", "give", "take");
                 return listUse;
             }
             case 3: {
-                if (args[(i - 1)].equalsIgnoreCase("reset")) {
-                    List<String> listReset = Arrays.asList("");
-                    return listReset;
-                } else {
-                    List<String> listMoney = Arrays.asList("0", "100", "1000");
-                    return listMoney;
-                }
+                List<String> listMoney = Arrays.asList("0", "100", "1000");
+                return listMoney;
             }
             default:
                 List<String> listDefault = Arrays.asList("");

@@ -9,8 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
-import java.io.Console;
-
 public class BE implements CommandExecutor {
 
     @Override
@@ -54,10 +52,11 @@ public class BE implements CommandExecutor {
                     }else if (args[0].equalsIgnoreCase("help")) {
                         if (sender.hasPermission("boosteconomy.help")) {
                             sender.sendMessage("§8§l§m+---------------------------+");
-                            sender.sendMessage("§b§l/be <reload/help> §7The main command");
+                            sender.sendMessage("§b§l/be <reload/help/debug/checkforupdates> §7The main command");
                             sender.sendMessage("§b§l/pay <player> <money> §7Send money to a player");
                             sender.sendMessage("§b§l/money [player] §7Show the money of a player");
                             sender.sendMessage("§b§l/eco <player> <set/give/take> <money> §7Commands for admin");
+                            sender.sendMessage("§b§l/ecoreset <player> §7Resets the money of a player");
                             sender.sendMessage("§8§l§m+---------------------------+");
                             if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
                                 if (sender instanceof Player) {

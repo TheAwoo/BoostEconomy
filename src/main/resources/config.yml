@@ -1,9 +1,10 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.0.9
+# Ver 1.1.0
 # -
 # Local placeholders:
 # %money% = The player's money
 # %target% = Target player name
+# %player% = The player who have done the action
 # -
 # The GUI.UseGUI can only use in 1.14+ (If true the plugin reset the GUI.UseGUI option)
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
@@ -23,6 +24,9 @@ Messages:
     Chat: "&b&lMoney &8--> &7You have &a%money%$"
     Done: "&b&lMoney &8--> &aDone!"
     Refreshed: "&b&lMoney &8--> &7Your money has been changed, now you have &a%money%$"
+    Pay:
+      Send: "&b&lMoney &8--> &7You have sent &c%money%$ &7to &c%target%"
+      Received: "&b&lMoney &8--> &7You have received &c%money%$ &7from &c%player%"
     InvalidArgs:
       Pay: "&b&lMoney &8--> &7Invalid args! /pay <player> <money>"
       Eco: "&b&lMoney &8--> &7Invalid args! /eco <player> <set/take/give> <money>"
