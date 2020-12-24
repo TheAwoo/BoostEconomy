@@ -17,7 +17,7 @@ public class Pay implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("pay")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (sender.hasPermission("boosteconnomy.pay")) {
+                if (sender.hasPermission("boosteconomy.pay")) {
                     if (args.length == 2) {
                         Player p = Bukkit.getServer().getPlayer(args[0]);
                         if (p != null) {
