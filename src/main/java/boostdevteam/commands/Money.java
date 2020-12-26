@@ -2,22 +2,17 @@ package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.misc.Economy;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.Sound;
-
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
-
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
-
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
@@ -48,7 +43,7 @@ public class Money implements CommandExecutor, Listener {
                 if (sender.hasPermission("boosteconomy.money")) {
                     if (cmd.getName().equalsIgnoreCase("money")) {
                         if (args.length == 0) {
-                            Economy money = new Economy((Player) sender, 0);
+                            Economy money = new Economy(player, 0);
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
                         } else if (args.length == 1) {
                             if (sender.hasPermission("boosteconomy.money.others")) {
@@ -117,12 +112,15 @@ public class Money implements CommandExecutor, Listener {
                                 ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                 SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                 Meta.setOwningPlayer(player);
-                                Meta.setDisplayName("§cYou have " + eco.getBalance() + "$");
+                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                        .replaceAll("&", "§")
+                                        .replaceAll("%money%", "" + eco.getBalance()));
                                 skull.setItemMeta(Meta);
 
                                 money.setItem(13, skull);
+
+                                // Old method:
                                 //money.setItem(13, createButton(Material.PLAYER_HEAD, (short) 0, 1, new ArrayList<String>(), "§cYou have " + eco.getBalance() + "$"));
-                                //
 
                                 for (int i = 0; i < money.getSize(); i++) {
                                     if (money.getItem(i) == null || money.getItem(i).getType().equals(Material.AIR)) {
@@ -140,7 +138,6 @@ public class Money implements CommandExecutor, Listener {
                             } else if (args.length == 1) {
                                 if (sender.hasPermission("boosteconomy.money.others")) {
                                     Player p = Bukkit.getServer().getPlayer(args[0]);
-                                    final String eventPlayer = p.getName();
                                     if (p != null) {
                                         if (!(p == sender)) {
                                             Inventory moneyTarget = Bukkit.createInventory(player, 27, BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"));
@@ -149,7 +146,10 @@ public class Money implements CommandExecutor, Listener {
                                             ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                             SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                             Meta.setOwningPlayer(p);
-                                            Meta.setDisplayName("§c" + p.getName() + " has " + ecoTarget.getBalance() + "$");
+                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.OthersHead")
+                                                    .replaceAll("&", "§")
+                                                    .replaceAll("%target%", "" + p.getName())
+                                                    .replaceAll("%money%", "" + ecoTarget.getBalance()));
                                             skull.setItemMeta(Meta);
 
                                             moneyTarget.setItem(13, skull);
@@ -178,7 +178,9 @@ public class Money implements CommandExecutor, Listener {
                                             ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                             SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                             Meta.setOwningPlayer(player);
-                                            Meta.setDisplayName("§cYou have " + eco.getBalance() + "$");
+                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                                    .replaceAll("&", "§")
+                                                    .replaceAll("%money%", "" + eco.getBalance()));
                                             skull.setItemMeta(Meta);
 
                                             money.setItem(13, skull);

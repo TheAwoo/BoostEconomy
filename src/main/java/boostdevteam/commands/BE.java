@@ -57,6 +57,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/money [player] §7Show the money of a player");
                             sender.sendMessage("§b§l/eco <player> <set/give/take> <money> §7Commands for admin");
                             sender.sendMessage("§b§l/ecoreset <player> §7Resets the money of a player");
+                            sender.sendMessage("§b§l/baltop §7Show the top balances of the server");
                             sender.sendMessage("§8§l§m+---------------------------+");
                             if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
                                 if (sender instanceof Player) {
@@ -143,6 +144,6 @@ public class BE implements CommandExecutor {
                 }
             }
         }
-        return true;
+        return false;
     }
 }

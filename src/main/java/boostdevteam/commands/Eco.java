@@ -1,7 +1,6 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.boosteconomy.Data;
 import boostdevteam.misc.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
@@ -147,6 +146,6 @@ public class Eco implements CommandExecutor {
                 }
             }
         }
-        return true;
+        return false;
     }
 }

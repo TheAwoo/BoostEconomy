@@ -1,5 +1,5 @@
 name: BoostEconomy
-version: 1.1.1
+version: 1.1.3
 api-version: 1.13
 main: boostdevteam.boosteconomy.BoostEconomy
 load: STARTUP
@@ -9,15 +9,28 @@ website: www.boostdevteam.eu
 commands:
   money:
     description: Show your's money
-    aliases: [bal, balance]
+    aliases:
+      - bal
+      - balance
   eco:
     description: Admin command
-    aliases: [economy]
+    aliases:
+      - economy
   pay:
     description: Send money to a player
   be:
     description: Main command
-    aliases: [boosteconomy, boosteco]
+    aliases:
+      - boosteconomy
+      - boosteco
   ecoreset:
     description: Resets the money of a player
-    aliases: [moneyreset, economyreset, boosteconomyreset, boosteconomyresetmoney]
+    aliases:
+      - moneyreset
+      - economyreset
+      - boosteconomyreset
+      - oosteconomyresetmoney
+  baltop:
+    description:
+    aliases:
+      - balancetop

@@ -3,18 +3,12 @@ package boostdevteam.boosteconomy;
 import boostdevteam.commands.*;
 import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
-
 import boostdevteam.tabcompleter.*;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
-
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.concurrent.Callable;
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -143,6 +137,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         getCommand("ecoreset").setExecutor(new EcoReset());
         getCommand("ecoreset").setTabCompleter(new EcoResetTabCompleter());
+
+        getCommand("baltop").setExecutor(new BalTop());
+        getCommand("baltop").setTabCompleter(new BalTopTabCompleter());
     }
 
     @Override

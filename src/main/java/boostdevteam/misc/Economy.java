@@ -1,8 +1,8 @@
 package boostdevteam.misc;
 
+import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.vaultapi.VEconomy;
 import org.bukkit.entity.Player;
-import boostdevteam.boosteconomy.*;
 
 public class Economy extends VEconomy{
 
@@ -20,16 +20,11 @@ public class Economy extends VEconomy{
     }
 
     public void setBalance() {
-
         BoostEconomy.getData().saveData(this.p, this.money);
     }
 
-    public double resetBalance() {
-        return BoostEconomy.getInstance().getConfig().getDouble("Config.StartMoney");
-    }
-
     public void addBalance() {
-        super.depositPlayer(p.getName(), money);
+        super.depositPlayer(this.p.getName(), money);
     }
 
     public void takeBalance() {

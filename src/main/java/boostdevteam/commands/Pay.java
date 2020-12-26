@@ -93,6 +93,6 @@ public class Pay implements CommandExecutor {
                 Bukkit.getConsoleSender().sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
             }
         }
-        return true;
+        return false;
      }
 }
