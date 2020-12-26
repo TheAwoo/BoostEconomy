@@ -117,12 +117,15 @@ public class Money implements CommandExecutor, Listener {
                                 ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                 SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                 Meta.setOwningPlayer(player);
-                                Meta.setDisplayName("§cYou have " + eco.getBalance() + "$");
+                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                        .replaceAll("&", "§")
+                                        .replaceAll("%money%", "" + eco.getBalance()));
                                 skull.setItemMeta(Meta);
 
                                 money.setItem(13, skull);
+
+                                // Old method:
                                 //money.setItem(13, createButton(Material.PLAYER_HEAD, (short) 0, 1, new ArrayList<String>(), "§cYou have " + eco.getBalance() + "$"));
-                                //
 
                                 for (int i = 0; i < money.getSize(); i++) {
                                     if (money.getItem(i) == null || money.getItem(i).getType().equals(Material.AIR)) {
@@ -140,7 +143,6 @@ public class Money implements CommandExecutor, Listener {
                             } else if (args.length == 1) {
                                 if (sender.hasPermission("boosteconomy.money.others")) {
                                     Player p = Bukkit.getServer().getPlayer(args[0]);
-                                    final String eventPlayer = p.getName();
                                     if (p != null) {
                                         if (!(p == sender)) {
                                             Inventory moneyTarget = Bukkit.createInventory(player, 27, BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"));
@@ -149,7 +151,10 @@ public class Money implements CommandExecutor, Listener {
                                             ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                             SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                             Meta.setOwningPlayer(p);
-                                            Meta.setDisplayName("§c" + p.getName() + " has " + ecoTarget.getBalance() + "$");
+                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.OthersHead")
+                                                    .replaceAll("&", "§")
+                                                    .replaceAll("%target%", "" + p.getName())
+                                                    .replaceAll("%money%", "" + ecoTarget.getBalance()));
                                             skull.setItemMeta(Meta);
 
                                             moneyTarget.setItem(13, skull);
@@ -178,7 +183,9 @@ public class Money implements CommandExecutor, Listener {
                                             ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
                                             SkullMeta Meta = (SkullMeta) skull.getItemMeta();
                                             Meta.setOwningPlayer(player);
-                                            Meta.setDisplayName("§cYou have " + eco.getBalance() + "$");
+                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                                    .replaceAll("&", "§")
+                                                    .replaceAll("%money%", "" + eco.getBalance()));
                                             skull.setItemMeta(Meta);
 
                                             money.setItem(13, skull);
