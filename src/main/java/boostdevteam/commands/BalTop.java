@@ -28,6 +28,8 @@ public class BalTop implements CommandExecutor {
                     int pageSize = 10;
                     int start = (page - 1) * pageSize;
 
+
+                    // Send the message
                     for ( int i = start; i < data.getBalTop().size() && i < start + pageSize; i++ ) {
                         Data.BoostPlayerData pData = data.getBalTop().get(i);
                         FileConfiguration config = BoostEconomy.getInstance().getConfig();

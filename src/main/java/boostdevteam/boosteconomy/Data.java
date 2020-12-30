@@ -38,6 +38,7 @@ public class Data
         loadFromData();
     }
 
+    // Save data and save data for the baltop
     public void saveData(Player p, double money) {
         try {
 

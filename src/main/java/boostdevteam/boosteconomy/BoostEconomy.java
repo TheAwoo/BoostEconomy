@@ -117,8 +117,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public void loadEvents() {
+        // OnJoin data saves
         Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
+        // CheckForUpdates event
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
+        // InventoryClick Event
         Bukkit.getPluginManager().registerEvents(new Money(), this);
     }
 
