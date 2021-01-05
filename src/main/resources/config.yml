@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.1.3
+# Ver 1.1.4
 # -
 # Local placeholders:
 # %money% = The player's money
@@ -46,10 +46,48 @@ Config:
     Player: true
   StartMoney: 0.00
   ConsoleSaveMessage: true
+  UseSounds: true
+  Sounds:
+    Success: "BLOCKNOTE_BLOCK_NOTE_PLING"
+    Error: "ENTITY_SPIDER_DEATH"
+
 GUI:
-  UseGUI: false
   InvalidVersion: "&b&lBoostEconomy &8--> &cYou can't use GUI in this version"
   Money:
+    UseGUI: false
     Title: "&9&lMoney"
     YourHead: "&cYou have %money%$"
     OthersHead: "&c%target% has %money%$"
+  BalTop:
+    UseGUI: false
+    Title: "&9&lTop 10 balances"
+    Number: "&b&l%number%°"
+    Lore: "&f&l%player%: &c%money%"
+
+Banknotes:
+  UseBanknotes: true
+  Material: PAPER
+  Data: 0
+  Maximun-Float-Amount: 2
+  Minimum-Float-Amount: 0
+  Maximum-Withdraw-Amount: 100000000
+  Minimun-Withdraw-Amount: 0
+  Console-Name: "Console"
+  Name: "&9Banknote"
+  Lore:
+    - "&7Value: &a$%money%"
+    - "&7Withdrawn by &a%player%"
+  Allow-Right-Click-To-Deposit-Notes: true
+  Messages:
+    Note-Redeemed: "&b&lBanknote &8--> &7Banknote for &a%money%$ &7has been redeemed"
+    Invalid-Number: "&b&lBanknote &8--> &cThe number that you have inserted is invalid!"
+    Less-Than-Minimum: "&b&lBanknote &8--> &cThe number that you have inserted is lower than the minimum!"
+    More-than-Maximum: "&b&lBanknote &8--> &cThe number that you have inserted is bigger than the maximum!"
+    Insufficient-Funds: "&b&lBanknote &8--> &eYou don't have enough money!"
+    Inventory-Full: "&b&lBanknote &8--> &cYour inventory is full!"
+    Note-Created: "&b&lBanknote &8--> &7You have successfully created a banknotes of &a%money%$!"
+    Player-Not-Found: "&b&lBanknote &8--> &cPlayer not found!"
+    Note-Received: "&b&lBanknote &8--> &7You have received a banknote of &a%money%$&7 by &c%player%"
+    Note-Given: "&b&lBanknote &8--> &7You have given a banknotes of &c%money%$&7 to &a%player%"
+    Invalid-Note: "&b&lBanknote &8--> &cThe banknote is invalid"
+    Nothing-In-Hand: "&b&lBanknote &8--> &cYou don't have nothing in your hand!"

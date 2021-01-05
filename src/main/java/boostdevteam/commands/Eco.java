@@ -33,24 +33,17 @@ public class Eco implements CommandExecutor {
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
                                     if (sender instanceof Player) {
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            Player player = (Player) sender;
-                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playErrorSound((Player) sender);
+                                        BoostEconomy.playSuccessSound(p);
                                     }
 
                                     return true;
 
                                 } else {
+
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                                     if (sender instanceof Player) {
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            Player player = (Player) sender;
-                                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playErrorSound((Player) sender);
                                     }
                                     return true;
                                 }
@@ -62,24 +55,17 @@ public class Eco implements CommandExecutor {
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
                                     if (sender instanceof Player) {
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            Player player = (Player) sender;
-                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playSuccessSound(p);
+                                        BoostEconomy.playSuccessSound((Player) sender);
                                     }
 
                                     return true;
 
                                 } else {
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+
                                     if (sender instanceof Player) {
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            Player player = (Player) sender;
-                                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playErrorSound((Player) sender);
                                     }
                                     return true;
                                 }
@@ -91,13 +77,8 @@ public class Eco implements CommandExecutor {
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
                                     if (sender instanceof Player) {
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            Player player = (Player) sender;
-                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playSuccessSound(p);
+                                        BoostEconomy.playSuccessSound((Player) sender);
                                     }
 
                                 }else {
@@ -116,10 +97,7 @@ public class Eco implements CommandExecutor {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Eco").replaceAll("&", "§"));
 
                             if (sender instanceof Player) {
-                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                    Player player = (Player) sender;
-                                    player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                }
+                                BoostEconomy.playErrorSound((Player) sender);
                             }
                             return true;
                         }
@@ -127,10 +105,7 @@ public class Eco implements CommandExecutor {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
 
                         if (sender instanceof Player) {
-                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                Player player = (Player) sender;
-                                player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                            }
+                            BoostEconomy.playErrorSound((Player) sender);
                         }
                         return true;
                     }
@@ -138,10 +113,7 @@ public class Eco implements CommandExecutor {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Eco").replaceAll("&", "§"));
 
                     if (sender instanceof Player) {
-                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                            Player player = (Player) sender;
-                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                        }
+                        BoostEconomy.playErrorSound((Player) sender);
                     }
                 }
             }

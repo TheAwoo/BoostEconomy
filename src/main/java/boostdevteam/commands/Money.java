@@ -37,7 +37,7 @@ public class Money implements CommandExecutor, Listener {
 
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
-        if (!(BoostEconomy.getInstance().getConfig().getBoolean("GUI.UseGUI"))) {
+        if (!(BoostEconomy.getInstance().getConfig().getBoolean("GUI.Money.UseGUI"))) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (sender.hasPermission("boosteconomy.money")) {
@@ -53,32 +53,26 @@ public class Money implements CommandExecutor, Listener {
                                         Economy ecoTarget = new Economy(p, 0);
                                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
 
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playSuccessSound(player);
                                     } else {
                                         Economy money = new Economy((Player) sender, 0);
+
                                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                        BoostEconomy.playSuccessSound(player);
                                     }
                                 } else {
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
-                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                    }
+                                    BoostEconomy.playErrorSound(player);
                                 }
                             } else {
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                    player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                }
+                                BoostEconomy.playErrorSound(player);
                             }
                         }
                     }
                 } else {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                    }
+                    BoostEconomy.playErrorSound(player);
                 }
             } else {
                 if (cmd.getName().equalsIgnoreCase("money")) {
@@ -89,7 +83,6 @@ public class Money implements CommandExecutor, Listener {
                         if (p != null) {
                             Economy ecoTarget = new Economy(p, 0);
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
-
                         } else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                         }
@@ -98,7 +91,7 @@ public class Money implements CommandExecutor, Listener {
             }
         }
         //
-        if (BoostEconomy.getInstance().getConfig().getBoolean("GUI.UseGUI")) {
+        if (BoostEconomy.getInstance().getConfig().getBoolean("GUI.Money.UseGUI")) {
             if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
@@ -128,11 +121,7 @@ public class Money implements CommandExecutor, Listener {
                                     }
                                 }
 
-                                if (sender instanceof Player) {
-                                    Player p = (Player) sender;
-                                    p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                }
-
+                                BoostEconomy.playSuccessSound(player);
                                 player.openInventory(money);
 
                             } else if (args.length == 1) {
@@ -161,9 +150,7 @@ public class Money implements CommandExecutor, Listener {
                                                 }
                                             }
 
-                                            if (sender instanceof Player) {
-                                                player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                            }
+                                            BoostEconomy.playSuccessSound(player);
 
                                             player.openInventory(moneyTarget);
 
@@ -191,31 +178,23 @@ public class Money implements CommandExecutor, Listener {
                                                 }
                                             }
 
-                                            if (sender instanceof Player) {
-                                                p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                            }
+                                            BoostEconomy.playSuccessSound(player);
 
                                             player.openInventory(money);
                                         }
                                     } else {
                                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
-                                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                        }
+                                        BoostEconomy.playErrorSound(player);
                                     }
                                 } else {
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                    }
+                                    BoostEconomy.playErrorSound(player);
                                 }
                             }
                         }
                     } else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                        }
+                        BoostEconomy.playErrorSound(player);
                     }
                 } else {
                     if (cmd.getName().equalsIgnoreCase("money")) {
@@ -226,7 +205,6 @@ public class Money implements CommandExecutor, Listener {
                             if (p != null) {
                                 Economy ecoTarget = new Economy(p, 0);
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
-
                             } else {
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                             }
@@ -235,9 +213,9 @@ public class Money implements CommandExecutor, Listener {
                 }
             } else {
                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("GUI.InvalidVersion").replaceAll("&", "§"));
-                sender.sendMessage("§b§lMoney §8--> §7The config GUI has been reset to false! §c(Only for 1.14+)");
+                sender.sendMessage("§b§lGUI §8--> §7The config GUI has been reset to false! §c(Only for 1.14+)");
                 try {
-                    BoostEconomy.getInstance().getConfig().set("GUI.UseGUI", false);
+                    BoostEconomy.getInstance().getConfig().set("GUI.Money.UseGUI", false);
                     BoostEconomy.getInstance().saveDefaultConfig();
                     BoostEconomy.getInstance().saveConfig();
                 }catch (Exception e) {
@@ -260,6 +238,9 @@ public class Money implements CommandExecutor, Listener {
         }
 
         if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"))) {
+            e.setCancelled(true);
+        }
+        if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.BalTop.Title").replaceAll("&", "§"))) {
             e.setCancelled(true);
         }
     }

@@ -107,7 +107,11 @@ public class Data
         @Override
         public int compare( BoostPlayerData arg0, BoostPlayerData arg1 )
         {
-            return Double.compare( arg1.getMoney(), arg0.getMoney() );
+            int results = Double.compare( arg1.getMoney(), arg0.getMoney() );
+            if ( results == 0 ) {
+                results = arg0.getName().compareToIgnoreCase( arg1.getName() );
+            }
+            return results;
         }
     }
 

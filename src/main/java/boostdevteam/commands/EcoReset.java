@@ -4,7 +4,6 @@ import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.boosteconomy.Data;
 import boostdevteam.misc.Economy;
 import org.bukkit.Bukkit;
-import org.bukkit.Sound;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -23,9 +22,7 @@ public class EcoReset implements CommandExecutor {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
 
                         if (sender instanceof Player) {
-                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                            }
+                            BoostEconomy.playErrorSound(player);
                         }
 
                     } else if (args.length == 1) {
@@ -42,10 +39,8 @@ public class EcoReset implements CommandExecutor {
                                 p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));
 
                                 if (sender instanceof Player) {
-                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                        player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                        p.playSound(p.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                    }
+                                    BoostEconomy.playSuccessSound(player);
+                                    BoostEconomy.playSuccessSound(p);
                                 }
 
                                 return true;
@@ -55,36 +50,28 @@ public class EcoReset implements CommandExecutor {
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
 
                                 if (sender instanceof Player) {
-                                    if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                        player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                    }
+                                    BoostEconomy.playErrorSound(player);
                                 }
                             }
                         } else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
                             if (sender instanceof Player) {
-                                if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                    player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                                }
+                                BoostEconomy.playErrorSound(player);
                             }
                         }
                     } else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
 
                         if (sender instanceof Player) {
-                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                            }
+                            BoostEconomy.playErrorSound(player);
                         }
                     }
                 } else {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
                     if (sender instanceof Player) {
-                        if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                            player.playSound(player.getPlayer().getLocation(), Sound.ENTITY_SPIDER_DEATH, 1.0f, 1.0f);
-                        }
+                        BoostEconomy.playErrorSound(player);
                     }
                 }
             }

@@ -6,9 +6,23 @@ import boostdevteam.events.PluginListener;
 import boostdevteam.tabcompleter.*;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
+import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
+import org.bukkit.Material;
+import org.bukkit.Sound;
+import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -17,6 +31,31 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static VEconomy veco;
     public static VHook hook;
+
+    private final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
+
+    //The base item
+    private ItemStack base;
+
+    // Economy instance
+    private Economy economy;
+     //The base lore for the item
+    private List<String> baseLore;
+
+    public String colorMessage(String message) {
+        if (message == null) {
+            return "null";
+        }
+        return ChatColor.translateAlternateColorCodes('&', message);
+    }
+
+    public String getMessage(String path) {
+        if (!getConfig().isString(path)) {
+            return path;
+        }
+
+        return ChatColor.translateAlternateColorCodes('&', getConfig().getString(path));
+    }
 
     public static void onReload() {
         try {
@@ -33,6 +72,25 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    public static void playErrorSound (Player player) {
+        if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
+            Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
+            if (getVersion().contains("1.13") || getVersion().contains("1.14") || getVersion().contains("1.15") || getVersion().contains("1.16")) {
+                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            }
+        }
+
+    }
+
+    public static void playSuccessSound (Player player) {
+        if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
+            Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success"));
+            if (getVersion().contains("1.13") || getVersion().contains("1.14") || getVersion().contains("1.15") || getVersion().contains("1.16")) {
+                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            }
+        }
+    }
+
     @Override
     public void onLoad() {
         // Plugin load logic
@@ -40,6 +98,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §eLoading!");
 
         saveDefaultConfig();
+
     }
 
     @Override
@@ -116,6 +175,17 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    public String formatDouble(double value) {
+        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
+
+        int max = getConfig().getInt("Banknotes.Maximum-Float-Amount");
+        int min = getConfig().getInt("Banknotes.Minimum-Float-Amount");
+
+        nf.setMaximumFractionDigits(max);
+        nf.setMinimumFractionDigits(min);
+        return nf.format(value);
+    }
+
     public void loadEvents() {
         // OnJoin data saves
         Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
@@ -123,6 +193,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
         // InventoryClick Event
         Bukkit.getPluginManager().registerEvents(new Money(), this);
+
+        getServer().getPluginManager().registerEvents(new boostdevteam.events.Banknotes(this), this);
     }
 
     public void loadCommands() {
@@ -143,6 +215,18 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         getCommand("baltop").setExecutor(new BalTop());
         getCommand("baltop").setTabCompleter(new BalTopTabCompleter());
+
+        if (getConfig().getBoolean("Banknotes.UseBanknotes")) {
+
+            getCommand("withdraw").setExecutor(new Withdraw(this));
+            getCommand("withdraw").setTabCompleter(new WithdrawTabCompleter());
+
+            getCommand("deposit").setExecutor(new Deposit(this));
+            getCommand("deposit").setTabCompleter(new DepositTabCompleter());
+
+            getCommand("banknotes").setExecutor(new Banknotes(this));
+            getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
+        }
     }
 
     @Override
@@ -185,5 +269,87 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
+    }
+
+    public Economy getEconomy() {
+        return economy;
+    }
+
+    public void loadItem () {
+        base = new ItemStack(Material.getMaterial(getConfig().getString("Banknotes.Material", "PAPER")), 1, (short) getConfig().getInt("Banknotes.Data"));
+        ItemMeta meta = base.getItemMeta();
+        meta.setDisplayName(colorMessage(getConfig().getString("Banknotes.Name", "&9Banknote")));
+        base.setItemMeta(meta);
+
+        // Load the base lore
+        baseLore = getConfig().getStringList("Banknotes.Lore");
+    }
+
+    public ItemStack createBanknote(String creatorName, double amount) {
+        loadItem();
+        if (creatorName.equals("CONSOLE")) {
+            creatorName = getConfig().getString("Banknotes.Console-Name");
+        }
+        List<String> formatLore = new ArrayList<String>();
+
+        // Format the base lore
+        for (String baseLore : this.baseLore) {
+            formatLore.add(colorMessage(baseLore.replace("%money%", "" + amount).replace("%player%", creatorName)));
+        }
+
+        // Add the base lore to the item
+        ItemStack ret = base.clone();
+        ItemMeta meta = ret.getItemMeta();
+        meta.setLore(formatLore);
+        ret.setItemMeta(meta);
+
+        return ret;
+    }
+
+    /**
+     * Returns whether an ItemStack is a banknote
+     *
+     * @param itemstack The item that may or may not be a note
+     * @return True if the item represents a note, false otherwise
+     */
+    public boolean isBanknote(ItemStack itemstack) {
+        if (itemstack.getType() == base.getType() && itemstack.getDurability() == base.getDurability()
+                && itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
+            String display = itemstack.getItemMeta().getDisplayName();
+            List<String> lore = itemstack.getItemMeta().getLore();
+
+            // The size thing for the lore is a bit ghetto
+            return display.equals(this.getMessage("Banknotes.Name")) && lore.size() == getConfig().getStringList("Banknotes.Lore").size();
+        }
+        return false;
+    }
+
+    /**
+     * Returns the amount of money that the banknote holds
+     *
+     * @param itemstack The banknote
+     * @return The amount of money that the note holds, 0 if the
+     * item isn't a note
+     */
+
+    public double getBanknoteAmount(ItemStack itemstack) {
+        if (itemstack.getItemMeta().hasDisplayName()) {
+            String display = itemstack.getItemMeta().getDisplayName();
+            List<String> lore = itemstack.getItemMeta().getLore();
+
+            if (display.equals(this.getMessage("Banknotes.Name").replaceAll("&", "§"))) {
+                for (String money : lore) {
+                    Matcher matcher = MONEY_PATTERN.matcher(money);
+
+                    if (matcher.find()) {
+                        String amount = matcher.group(1);
+                        return Double.parseDouble(amount.replaceAll(",", ""));
+
+
+                    }
+                }
+            }
+        }
+        return 0;
     }
 }
