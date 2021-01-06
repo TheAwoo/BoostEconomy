@@ -75,9 +75,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static void playErrorSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
-            if (getVersion().contains("1.13") || getVersion().contains("1.14") || getVersion().contains("1.15") || getVersion().contains("1.16")) {
-                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
-            }
+            player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+
         }
 
     }
@@ -85,9 +84,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static void playSuccessSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success"));
-            if (getVersion().contains("1.13") || getVersion().contains("1.14") || getVersion().contains("1.15") || getVersion().contains("1.16")) {
-                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
-            }
+            player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
         }
     }
 
@@ -344,12 +341,21 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     if (matcher.find()) {
                         String amount = matcher.group(1);
                         return Double.parseDouble(amount.replaceAll(",", ""));
-
-
                     }
                 }
             }
         }
         return 0;
+    }
+
+    public boolean isLegacy () {
+        if (BoostEconomy.getVersion().contains("1.13")
+                || BoostEconomy.getVersion().contains("1.14")
+                || BoostEconomy.getVersion().contains("1.15")
+                || BoostEconomy.getVersion().contains("1.16")) {
+            return false;
+        } else {
+            return true;
+        }
     }
 }

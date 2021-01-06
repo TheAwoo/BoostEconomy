@@ -4,7 +4,7 @@ import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.Sound;
+import org.bukkit.SkullType;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -25,7 +25,6 @@ public class Money implements CommandExecutor, Listener {
 
     public ItemStack createButton(Material id, short data, int amount, List<String> lore, String display) {
 
-        @SuppressWarnings("deprecation")
         ItemStack item = new ItemStack(id, amount, data);
         ItemMeta meta = item.getItemMeta();
         meta.setDisplayName(display);
@@ -92,7 +91,6 @@ public class Money implements CommandExecutor, Listener {
         }
         //
         if (BoostEconomy.getInstance().getConfig().getBoolean("GUI.Money.UseGUI")) {
-            if (Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
                     if (sender.hasPermission("boosteconomy.money")) {
@@ -102,26 +100,43 @@ public class Money implements CommandExecutor, Listener {
                                 Inventory money = Bukkit.createInventory(player, 27, BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"));
                                 Economy eco = new Economy(player, 0);
 
-                                ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
-                                SkullMeta Meta = (SkullMeta) skull.getItemMeta();
-                                Meta.setOwningPlayer(player);
-                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
-                                        .replaceAll("&", "§")
-                                        .replaceAll("%money%", "" + eco.getBalance()));
-                                skull.setItemMeta(Meta);
+                                if (!(BoostEconomy.getInstance().isLegacy())) {
+                                    ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-                                money.setItem(13, skull);
+                                    SkullMeta Meta = (SkullMeta) skull.getItemMeta();
+                                    Meta.setOwningPlayer(player);
+                                    Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                            .replaceAll("&", "§")
+                                            .replaceAll("%money%", "" + eco.getBalance()));
+                                    skull.setItemMeta(Meta);
 
-                                // Old method:
-                                //money.setItem(13, createButton(Material.PLAYER_HEAD, (short) 0, 1, new ArrayList<String>(), "§cYou have " + eco.getBalance() + "$"));
+                                    money.setItem(13, skull);
+
+                                } else {
+                                    ItemStack skull = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
+
+                                    SkullMeta Meta = (SkullMeta) skull.getItemMeta();
+                                    Meta.setOwner("" + player);
+                                    Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                            .replaceAll("&", "§")
+                                            .replaceAll("%money%", "" + eco.getBalance()));
+                                    skull.setItemMeta(Meta);
+
+                                    money.setItem(13, skull);
+                                }
 
                                 for (int i = 0; i < money.getSize(); i++) {
                                     if (money.getItem(i) == null || money.getItem(i).getType().equals(Material.AIR)) {
-                                        money.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 0, 1, new ArrayList<String>(), "§a"));
+                                        if (!(BoostEconomy.getInstance().isLegacy())) {
+                                            money.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 15, 1, new ArrayList<String>(), "§a"));
+                                        } else {
+                                            money.setItem(i, new ItemStack(Material.getMaterial("STAINED_GLASS_PANE"), 1, (short) 15));
+                                        }
                                     }
                                 }
 
                                 BoostEconomy.playSuccessSound(player);
+
                                 player.openInventory(money);
 
                             } else if (args.length == 1) {
@@ -132,21 +147,44 @@ public class Money implements CommandExecutor, Listener {
                                             Inventory moneyTarget = Bukkit.createInventory(player, 27, BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"));
                                             Economy ecoTarget = new Economy(p, 0);
 
-                                            ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
-                                            SkullMeta Meta = (SkullMeta) skull.getItemMeta();
-                                            Meta.setOwningPlayer(p);
-                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.OthersHead")
-                                                    .replaceAll("&", "§")
-                                                    .replaceAll("%target%", "" + p.getName())
-                                                    .replaceAll("%money%", "" + ecoTarget.getBalance()));
-                                            skull.setItemMeta(Meta);
+                                            if (!(BoostEconomy.getInstance().isLegacy())) {
 
-                                            moneyTarget.setItem(13, skull);
+                                                ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
+                                                SkullMeta Meta = (SkullMeta) skull.getItemMeta();
+                                                Meta.setOwningPlayer(p);
+                                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.OthersHead")
+                                                        .replaceAll("&", "§")
+                                                        .replaceAll("%target%", "" + p.getName())
+                                                        .replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                                skull.setItemMeta(Meta);
+
+                                                moneyTarget.setItem(13, skull);
+
+                                            } else {
+
+                                                ItemStack skullItem = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
+
+                                                SkullMeta Meta = (SkullMeta) skullItem.getItemMeta();
+                                                Meta.setOwner("" + player);
+                                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.OthersHead")
+                                                        .replaceAll("&", "§")
+                                                        .replaceAll("%target%", "" + p.getName())
+                                                        .replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                                skullItem.setItemMeta(Meta);
+
+
+                                                moneyTarget.setItem(13, skullItem);
+                                            }
+
                                             //
 
                                             for (int i = 0; i < moneyTarget.getSize(); i++) {
                                                 if (moneyTarget.getItem(i) == null || moneyTarget.getItem(i).getType().equals(Material.AIR)) {
-                                                    moneyTarget.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 0, 1, new ArrayList<String>(), "§a"));
+                                                    if (!(BoostEconomy.getInstance().isLegacy())) {
+                                                        moneyTarget.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 15, 1, new ArrayList<String>(), "§a"));
+                                                    } else {
+                                                        moneyTarget.setItem(i, new ItemStack(Material.getMaterial("STAINED_GLASS_PANE"), 1, (short) 15));
+                                                    }
                                                 }
                                             }
 
@@ -154,27 +192,44 @@ public class Money implements CommandExecutor, Listener {
 
                                             player.openInventory(moneyTarget);
 
-                                            if (BoostEconomy.getVersion().contains("1.13") || BoostEconomy.getVersion().contains("1.14") || BoostEconomy.getVersion().contains("1.15") || BoostEconomy.getVersion().contains("1.16")) {
-                                                player.playSound(player.getPlayer().getLocation(), Sound.BLOCK_NOTE_BLOCK_PLING, 1.0f, 1.0f);
-                                            }
                                         } else {
 
                                             Inventory money = Bukkit.createInventory(player, 27, BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"));
                                             Economy eco = new Economy(player, 0);
 
-                                            ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
-                                            SkullMeta Meta = (SkullMeta) skull.getItemMeta();
-                                            Meta.setOwningPlayer(player);
-                                            Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
-                                                    .replaceAll("&", "§")
-                                                    .replaceAll("%money%", "" + eco.getBalance()));
-                                            skull.setItemMeta(Meta);
+                                            if (!(BoostEconomy.getInstance().isLegacy())) {
+                                                ItemStack skull = new ItemStack(Material.PLAYER_HEAD, 1);
 
-                                            money.setItem(13, skull);
+                                                SkullMeta Meta = (SkullMeta) skull.getItemMeta();
+                                                Meta.setOwningPlayer(player);
+                                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                                        .replaceAll("&", "§")
+                                                        .replaceAll("%money%", "" + eco.getBalance()));
+                                                skull.setItemMeta(Meta);
+
+                                                money.setItem(13, skull);
+
+                                            } else {
+                                                ItemStack skull = new ItemStack(Material.getMaterial("SKULL_ITEM"), 1, (short) SkullType.PLAYER.ordinal());
+
+                                                SkullMeta Meta = (SkullMeta) skull.getItemMeta();
+                                                Meta.setDisplayName(BoostEconomy.getInstance().getConfig().getString("GUI.Money.YourHead")
+                                                        .replaceAll("&", "§")
+                                                        .replaceAll("%money%", "" + eco.getBalance()));
+                                                skull.setItemMeta(Meta);
+
+                                                money.setItem(13, skull);
+                                            }
+
+
 
                                             for (int i = 0; i < money.getSize(); i++) {
                                                 if (money.getItem(i) == null || money.getItem(i).getType().equals(Material.AIR)) {
-                                                    money.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 0, 1, new ArrayList<String>(), "§a"));
+                                                    if (!(BoostEconomy.getInstance().isLegacy())) {
+                                                        money.setItem(i, createButton(Material.BLACK_STAINED_GLASS_PANE, (short) 15, 1, new ArrayList<String>(), "§a"));
+                                                    } else {
+                                                        money.setItem(i, new ItemStack(Material.getMaterial("STAINED_GLASS_PANE"), 1, (short) 15));
+                                                    }
                                                 }
                                             }
 
@@ -211,21 +266,7 @@ public class Money implements CommandExecutor, Listener {
                         }
                     }
                 }
-            } else {
-                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("GUI.InvalidVersion").replaceAll("&", "§"));
-                sender.sendMessage("§b§lGUI §8--> §7The config GUI has been reset to false! §c(Only for 1.14+)");
-                try {
-                    BoostEconomy.getInstance().getConfig().set("GUI.Money.UseGUI", false);
-                    BoostEconomy.getInstance().saveDefaultConfig();
-                    BoostEconomy.getInstance().saveConfig();
-                }catch (Exception e) {
-                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Error while resetting the §cconfig.yml");
-                }finally {
-                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] Reset has been successfully done on GUI.UseGUI in the §cconfig.yml");
-                }
-            }
         }
-
         return true;
     }
 
@@ -236,12 +277,22 @@ public class Money implements CommandExecutor, Listener {
         if (e.getCurrentItem() == null) {
             return;
         }
+        if (!(BoostEconomy.getInstance().isLegacy())) {
 
-        if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"))) {
-            e.setCancelled(true);
-        }
-        if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.BalTop.Title").replaceAll("&", "§"))) {
-            e.setCancelled(true);
+            if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"))) {
+                e.setCancelled(true);
+            }
+            if (e.getView().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.BalTop.Title").replaceAll("&", "§"))) {
+                e.setCancelled(true);
+            }
+        } else {
+            if (e.getClickedInventory().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.Money.Title").replaceAll("&", "§"))) {
+                e.setCancelled(true);
+            }
+            if (e.getClickedInventory().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.BalTop.Title").replaceAll("&", "§"))) {
+                e.setCancelled(true);
+            }
+
         }
     }
 }

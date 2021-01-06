@@ -30,50 +30,96 @@ public class Banknotes implements Listener {
         if (!plugin.getConfig().getBoolean("Banknotes.Allow-Right-Click-To-Deposit-Notes", true)) {
             return;
         }
+        if (!(BoostEconomy.getInstance().isLegacy())) {
+            // Check the action
+            if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                return;
+            }
 
-        // Check the action
-        if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
-            return;
-        }
+            // Check if the player is allowed to deposit bank notes
+            if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit")) {
+                return;
+            }
 
-        // Check if the player is allowed to deposit bank notes
-        if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit")) {
-            return;
-        }
+            Player player = event.getPlayer();
+            ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
 
-        Player player = event.getPlayer();
-        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+            // Verify that this is a real banknote
+            if (item == null || !plugin.isBanknote(item)) {
+                return;
+            }
 
-        // Verify that this is a real banknote
-        if (item == null || !plugin.isBanknote(item)) {
-            return;
-        }
+            double amount = 0;
+            amount = plugin.getBanknoteAmount(item);
 
-        double amount = 0;
-        amount = plugin.getBanknoteAmount(item);
+            // Negative banknotes are not allowed
+            if (Double.compare(amount, 0) < 0) {
+                return;
+            }
 
-        // Negative banknotes are not allowed
-        if (Double.compare(amount, 0) < 0) {
-            return;
-        }
+            // Double check the response
+            Economy eco = new Economy(player, amount);
+            double x = eco.getBalance();
+            double y = amount;
+            double res = x + y;
+            Economy money = new Economy(player, res);
+            money.setBalance();
 
-        // Double check the response
-        Economy eco = new Economy(player, amount);
-        double x = eco.getBalance();
-        double y = amount;
-        double res = x + y;
-        Economy money = new Economy(player, res);
-        money.setBalance();
+            // Deposit the money
+            player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
+            BoostEconomy.playSuccessSound(player);
 
-        // Deposit the money
-        player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
-        BoostEconomy.playSuccessSound(player);
-
-        // Remove the slip
-        if (item.getAmount() <= 1) {
-            event.getPlayer().getInventory().removeItem(item);
+            // Remove the slip
+            if (item.getAmount() <= 1) {
+                event.getPlayer().getInventory().removeItem(item);
+            } else {
+                item.setAmount(item.getAmount() - 1);
+            }
         } else {
-            item.setAmount(item.getAmount() - 1);
+            // Check the action
+            if (event.getAction() != Action.RIGHT_CLICK_AIR && event.getAction() != Action.RIGHT_CLICK_BLOCK) {
+                return;
+            }
+
+            // Check if the player is allowed to deposit bank notes
+            if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit")) {
+                return;
+            }
+
+            Player player = event.getPlayer();
+            ItemStack item = event.getPlayer().getInventory().getItemInHand();
+
+            // Verify that this is a real banknote
+            if (item == null || !plugin.isBanknote(item)) {
+                return;
+            }
+
+            double amount = 0;
+            amount = plugin.getBanknoteAmount(item);
+
+            // Negative banknotes are not allowed
+            if (Double.compare(amount, 0) < 0) {
+                return;
+            }
+
+            // Double check the response
+            Economy eco = new Economy(player, amount);
+            double x = eco.getBalance();
+            double y = amount;
+            double res = x + y;
+            Economy money = new Economy(player, res);
+            money.setBalance();
+
+            // Deposit the money
+            player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
+            BoostEconomy.playSuccessSound(player);
+
+            // Remove the slip
+            if (item.getAmount() <= 1) {
+                event.getPlayer().getInventory().removeItem(item);
+            } else {
+                item.setAmount(item.getAmount() - 1);
+            }
         }
     }
 }

@@ -1,17 +1,19 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.1.4
+# Ver 1.1.5
 # -
 # Local placeholders:
 # %money% = The player's money
 # %target% = Target player name
 # %player% = The player who have done the action
 # -
-# The GUI.UseGUI can only use in 1.14+ (If true the plugin reset the GUI.UseGUI option)
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
+# Note that this sounds work only from 1.9+
+# If you want you can change this or disable
 # -
 # ConsoleSaveMessage: When a player join the console send the message of saving data
 # StartMoney: Default money on join for the first time
 # PlayerCheckForUpdates: Need to have the "boosteconomy.checkforupdates" permission
+# UseSounds: You can disable this if you don't want to hear sounds of the commands
 
 Messages:
   General:
@@ -19,7 +21,7 @@ Messages:
     NoConsole: "&b&lBoostEconomy &8--> &cYou can't do this from console"
     NoPlayer: "&b&lBoostEconomy &8--> &cYou can't do this from player!"
     Reload: "&b&lBoostEconomy &8--> &aThe plugin has been reloaded with success!"
-    InvalidArgs: "&b&lBoostEconomy &8--> &7Invalid args! /be <reload/help>"
+    InvalidArgs: "&b&lBoostEconomy &8--> &7Invalid args! /be <reload/help/checkforupdates/depug>"
   Money:
     Chat: "&b&lMoney &8--> &7You have &a%money%$"
     Done: "&b&lMoney &8--> &aDone!"
@@ -52,7 +54,6 @@ Config:
     Error: "ENTITY_SPIDER_DEATH"
 
 GUI:
-  InvalidVersion: "&b&lBoostEconomy &8--> &cYou can't use GUI in this version"
   Money:
     UseGUI: false
     Title: "&9&lMoney"

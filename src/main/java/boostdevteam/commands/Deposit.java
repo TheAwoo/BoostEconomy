@@ -30,39 +30,76 @@ public class Deposit implements CommandExecutor {
             sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
             BoostEconomy.playErrorSound((Player) sender);
         } else {
-            Player player = (Player) sender;
-            ItemStack item = player.getInventory().getItemInMainHand();
+            if (!(BoostEconomy.getInstance().isLegacy())) {
+                Player player = (Player) sender;
+                ItemStack item = player.getInventory().getItemInMainHand();
 
-            if (item != null && plugin.isBanknote(item)) {
-                double amount = plugin.getBanknoteAmount(item);
+                if (item != null && plugin.isBanknote(item)) {
+                    double amount = plugin.getBanknoteAmount(item);
 
-                if (amount >= 0) {
-                    // Double check the response
-                    Economy eco = new Economy(player, amount);
-                    double x = eco.getBalance();
-                    double y = amount;
-                    double res = x + y;
-                    Economy money = new Economy(player, res);
-                    money.setBalance();
+                    if (amount >= 0) {
+                        // Double check the response
+                        Economy eco = new Economy(player, amount);
+                        double x = eco.getBalance();
+                        double y = amount;
+                        double res = x + y;
+                        Economy money = new Economy(player, res);
+                        money.setBalance();
 
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                    } else {
+                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));
+                        BoostEconomy.playErrorSound((Player) sender);
+                    }
+
+                    // Remove the slip
+                    if (item.getAmount() <= 1) {
+                        player.getInventory().removeItem(item);
+                    } else {
+                        item.setAmount(item.getAmount() - 1);
+                    }
+
+                    BoostEconomy.playSuccessSound((Player) sender);
+
                 } else {
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));
+                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Nothing-In-Hand"));
                     BoostEconomy.playErrorSound((Player) sender);
                 }
-
-                // Remove the slip
-                if (item.getAmount() <= 1) {
-                    player.getInventory().removeItem(item);
-                } else {
-                    item.setAmount(item.getAmount() - 1);
-                }
-
-                BoostEconomy.playSuccessSound((Player) sender);
-
             } else {
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Nothing-In-Hand"));
-                BoostEconomy.playErrorSound((Player) sender);
+                Player player = (Player) sender;
+                ItemStack item = player.getInventory().getItemInHand();
+
+                if (item != null && plugin.isBanknote(item)) {
+                    double amount = plugin.getBanknoteAmount(item);
+
+                    if (amount >= 0) {
+                        // Double check the response
+                        Economy eco = new Economy(player, amount);
+                        double x = eco.getBalance();
+                        double y = amount;
+                        double res = x + y;
+                        Economy money = new Economy(player, res);
+                        money.setBalance();
+
+                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                    } else {
+                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));
+                        BoostEconomy.playErrorSound((Player) sender);
+                    }
+
+                    // Remove the slip
+                    if (item.getAmount() <= 1) {
+                        player.getInventory().removeItem(item);
+                    } else {
+                        item.setAmount(item.getAmount() - 1);
+                    }
+
+                    BoostEconomy.playSuccessSound((Player) sender);
+
+                } else {
+                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Nothing-In-Hand"));
+                    BoostEconomy.playErrorSound((Player) sender);
+                }
             }
         }
         return true;

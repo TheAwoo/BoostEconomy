@@ -51,6 +51,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/eco <player> <set/give/take> <money> §7Commands for admin");
                             sender.sendMessage("§b§l/ecoreset <player> §7Resets the money of a player");
                             sender.sendMessage("§b§l/baltop §7Show the top balances of the server");
+                            sender.sendMessage("§b§l/banknotes <give> <player> <money> §7Main command for the banknotes");
                             sender.sendMessage("§8§l§m+---------------------------+");
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
@@ -68,6 +69,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§8§l§m+---------------------------+");
                             sender.sendMessage("§7Version of the server: §c" + Bukkit.getBukkitVersion());
                             sender.sendMessage("§7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
+                            sender.sendMessage("§7Legacy: §a" + BoostEconomy.getInstance().isLegacy());
                             sender.sendMessage("§8§l§m+---------------------------+");
                         }else {
                             if (sender instanceof Player) {
@@ -78,25 +80,35 @@ public class BE implements CommandExecutor {
                     }else if (args[0].equalsIgnoreCase("checkforupdates")) {
                         if (sender.hasPermission("boosteconomy.checkforupdates")) {
                             if (sender instanceof ConsoleCommandSender) {
-                                new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
-                                    if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
-                                    } else {
-                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
-                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
-                                        Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
-                                    }
-                                });
+                                if (!(BoostEconomy.getInstance().isLegacy())) {
+                                    new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
+                                        if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
+                                        } else {
+                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
+                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
+                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
+                                        }
+                                    });
+                                } else {
+                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You can't use the updater in this version! §c(Works with 1.12+)");
+                                }
                             } else {
-                                new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
-                                    if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                        sender.sendMessage("§b§lBoostEconomy §8--> §aNo new version available!");
-                                    } else {
-                                        sender.sendMessage("§b§lBoostEconomy §8--> §7New version available! §av" + version);
-                                        sender.sendMessage("§b§lBoostEconomy §8--> §7You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
-                                        sender.sendMessage("§b§lBoostEconomy §8--> §eDownload it at https://www.spigotmc.org/resources/86591");
-                                    }
-                                });
+                                if (!(BoostEconomy.getInstance().isLegacy())) {
+                                    new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
+                                        if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                            sender.sendMessage("§b§lBoostEconomy §8--> §aNo new version available!");
+                                        } else {
+                                            sender.sendMessage("§b§lBoostEconomy §8--> §7New version available! §av" + version);
+                                            sender.sendMessage("§b§lBoostEconomy §8--> §7You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
+                                            sender.sendMessage("§b§lBoostEconomy §8--> §eDownload it at https://www.spigotmc.org/resources/86591");
+                                        }
+                                    });
+
+                                    BoostEconomy.playSuccessSound((Player) sender);
+                                } else {
+                                    sender.sendMessage("§b§lBoostEconomy §8--> §7You can't use the updater in this version! §c(Works with 1.12+)");
+                                }
                             }
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;

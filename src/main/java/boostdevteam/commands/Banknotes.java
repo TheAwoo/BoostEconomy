@@ -28,9 +28,9 @@ public class Banknotes implements CommandExecutor {
         if (args.length == 0) {
             return false;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {
-            Player player = (Player) sender;
             if (!sender.hasPermission("boosteconomy.banknotes.give")) {
                 sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
+                Player player = (Player) sender;
                 BoostEconomy.playErrorSound(player);
             } else {
                 // give player amount
@@ -38,6 +38,7 @@ public class Banknotes implements CommandExecutor {
                 if (target == null) {
                     sender.sendMessage(plugin.getMessage("Banknotes.Messages.Player-Not-Found"));
                     if (sender instanceof Player) {
+                        Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
                     }
                     return true;
@@ -49,6 +50,7 @@ public class Banknotes implements CommandExecutor {
                 } catch (NumberFormatException ex) {
                     sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
                     if (sender instanceof Player) {
+                        Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
                     }
                     return true;
@@ -57,6 +59,7 @@ public class Banknotes implements CommandExecutor {
                 if (Double.isNaN(amount) || Double.isInfinite(amount) || amount <= 0) {
                     sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
                     if (sender instanceof Player) {
+                        Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
                     }
                 } else {
@@ -73,6 +76,7 @@ public class Banknotes implements CommandExecutor {
                             .replace("%player%", target.getName()));
 
                     if (sender instanceof Player) {
+                        Player player = (Player) sender;
                         BoostEconomy.playSuccessSound(player);
                     }
                 }
