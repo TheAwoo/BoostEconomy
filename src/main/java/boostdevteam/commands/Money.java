@@ -172,7 +172,6 @@ public class Money implements CommandExecutor, Listener {
                                                         .replaceAll("%money%", "" + ecoTarget.getBalance()));
                                                 skullItem.setItemMeta(Meta);
 
-
                                                 moneyTarget.setItem(13, skullItem);
                                             }
 
@@ -292,7 +291,6 @@ public class Money implements CommandExecutor, Listener {
             if (e.getClickedInventory().getTitle().equals(BoostEconomy.getInstance().getConfig().getString("GUI.BalTop.Title").replaceAll("&", "§"))) {
                 e.setCancelled(true);
             }
-
         }
     }
 }

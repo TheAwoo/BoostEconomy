@@ -76,7 +76,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
             player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
-
         }
 
     }

@@ -4,7 +4,7 @@ import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.vaultapi.VEconomy;
 import org.bukkit.entity.Player;
 
-public class Economy extends VEconomy{
+public class Economy extends VEconomy {
 
     private Player p;
     private double money;
