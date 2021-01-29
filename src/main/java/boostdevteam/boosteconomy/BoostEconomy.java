@@ -74,16 +74,25 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static void playErrorSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
-            Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
-            player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            try {
+                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
+                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            } catch (Exception e) {
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Error on the §cplayErrorSound§7! Check your config!");
+                e.printStackTrace();
+            }
         }
-
     }
 
     public static void playSuccessSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
-            Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success"));
-            player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            try {
+                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success"));
+                player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
+            } catch (Exception e) {
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Error on the §cplaySuccessSound§7! Check your config!");
+                e.printStackTrace();
+            }
         }
     }
 
