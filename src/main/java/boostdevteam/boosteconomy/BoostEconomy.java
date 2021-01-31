@@ -6,17 +6,23 @@ import boostdevteam.events.PluginListener;
 import boostdevteam.tabcompleter.*;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
+import com.google.common.io.Files;
 import net.milkbowl.vault.economy.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -104,6 +110,30 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         saveDefaultConfig();
 
+        YamlConfiguration config = new YamlConfiguration();
+        File file = new File(getDataFolder () + File.separator + "config.yml");
+        try {
+            config.loadFromString (Files.toString (file, Charset.forName ("UTF-8")));
+        } catch (IOException | InvalidConfigurationException e) {
+            e.printStackTrace ();
+        }
+    }
+
+    public static void useSounds () {
+        if (Bukkit.getVersion().contains("1.9")
+                || Bukkit.getVersion().contains("1.10")
+                || Bukkit.getVersion().contains("1.11")
+                || Bukkit.getVersion().contains("1.12")
+                || Bukkit.getVersion().contains("1.13")
+                || Bukkit.getVersion().contains("1.14")
+                || Bukkit.getVersion().contains("1.15")
+                || Bukkit.getVersion().contains("1.16")) {
+            getInstance().getConfig().set("Config.UseSounds", true);
+        } else {
+            getInstance().getConfig().set("Config.UseSounds", false);
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eThe sounds has been disabled to prevent errors, " +
+                    "if you want to use the sounds you need to change that to true and set the sounds for your version!");
+        }
     }
 
     @Override
@@ -167,6 +197,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 BoostEconomy.getInstance().getConfig().options().header(
                         "BoostEconomy"
                 ).copyDefaults(true);
+
+                useSounds();
 
                 loadEvents();
                 loadCommands();
@@ -281,7 +313,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public void loadItem () {
-        base = new ItemStack(Material.getMaterial(getConfig().getString("Banknotes.Material", "PAPER")), 1, (short) getConfig().getInt("Banknotes.Data"));
+        base = new ItemStack(Material.PAPER, 1, (short) getConfig().getInt("Banknotes.Data"));
         ItemMeta meta = base.getItemMeta();
         meta.setDisplayName(colorMessage(getConfig().getString("Banknotes.Name", "&9Banknote")));
         base.setItemMeta(meta);
@@ -318,15 +350,21 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
      * @return True if the item represents a note, false otherwise
      */
     public boolean isBanknote(ItemStack itemstack) {
-        if (itemstack.getType() == base.getType() && itemstack.getDurability() == base.getDurability()
-                && itemstack.getItemMeta().hasDisplayName() && itemstack.getItemMeta().hasLore()) {
-            String display = itemstack.getItemMeta().getDisplayName();
-            List<String> lore = itemstack.getItemMeta().getLore();
-
-            // The size thing for the lore is a bit ghetto
-            return display.equals(this.getMessage("Banknotes.Name")) && lore.size() == getConfig().getStringList("Banknotes.Lore").size();
+        if (itemstack == null) {
+            return false;
+        } else if (itemstack.getType() == Material.AIR) {
+            return false;
+        } else if (!(itemstack.getItemMeta().hasDisplayName())) {
+            return false;
+        } else if (!(itemstack.getItemMeta().hasLore())) {
+            return false;
+        } else if (!(itemstack.getItemMeta().getDisplayName().equals(getConfig().getString("Banknotes.Name").replaceAll("&", "§")))) {
+            return false;
+        } else if (!(itemstack.getType().equals(Material.PAPER))) {
+            return false;
         }
-        return false;
+
+        return true;
     }
 
     /**

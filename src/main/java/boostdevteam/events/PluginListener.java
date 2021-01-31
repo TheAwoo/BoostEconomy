@@ -32,6 +32,10 @@ public class PluginListener implements Listener{
 
         Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Saving data for §c" + p.getName() + "§a (" + data.getValue(p) + "$)");
 
-        data.saveData(p, Double.parseDouble(data.getValue(p)));
+        try {
+            data.saveData(p, Double.parseDouble(data.getValue(p)));
+        } catch (Exception exception) {
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Could not save data for §c" + p.getName() + " §7because the data.yml does not contains the player data!");
+        }
     }
 }

@@ -52,6 +52,8 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/ecoreset <player> §7Resets the money of a player");
                             sender.sendMessage("§b§l/baltop §7Show the top balances of the server");
                             sender.sendMessage("§b§l/banknotes <give> <player> <money> §7Main command for the banknotes");
+                            sender.sendMessage("§b§l/deposit §7Deposit the banknote in your hand in your bank");
+                            sender.sendMessage("§b§l/withdraw <monbey> §7Create a banknote");
                             sender.sendMessage("§8§l§m+---------------------------+");
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
