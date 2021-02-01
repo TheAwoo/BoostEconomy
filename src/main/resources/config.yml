@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.1.8
+# Ver 1.1.9
 # -
 # Local placeholders:
 # %money% = The player's money
@@ -43,6 +43,7 @@ Messages:
     PlayerFormat: "&6%number%) &f&l%player%: &c%money%$"
 
 Config:
+  Placeholders: true
   CheckForUpdates:
     Console: true
     Player: true

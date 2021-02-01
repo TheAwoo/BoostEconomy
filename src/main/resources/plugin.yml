@@ -1,11 +1,13 @@
 name: BoostEconomy
-version: 1.1.8
+version: 1.1.9
 api-version: 1.13
 main: boostdevteam.boosteconomy.BoostEconomy
 load: STARTUP
 author: _ItsWagPvP
 description: An economy plugin based with Vault
 website: www.boostdevteam.eu
+softdepend:
+  - PlaceholderAPI
 commands:
   money:
     description: Show your's money
