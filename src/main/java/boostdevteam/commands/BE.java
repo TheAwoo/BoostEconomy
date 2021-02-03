@@ -1,6 +1,7 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
+import boostdevteam.boosteconomy.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -68,11 +69,25 @@ public class BE implements CommandExecutor {
                         }
                     } else if (args[0].equalsIgnoreCase("debug")) {
                         if (sender instanceof ConsoleCommandSender) {
-                            sender.sendMessage("§8§l§m+---------------------------+");
-                            sender.sendMessage("§7Version of the server: §c" + Bukkit.getBukkitVersion());
-                            sender.sendMessage("§7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
-                            sender.sendMessage("§7Legacy: §a" + BoostEconomy.getInstance().isLegacy());
-                            sender.sendMessage("§8§l§m+---------------------------+");
+                            Data data = new Data();
+                            sender.sendMessage("§8+------------------------------------+");
+                            sender.sendMessage("             §bBoostEconomy");
+                            sender.sendMessage("                §4Debug");
+                            sender.sendMessage("§a");
+                            sender.sendMessage("§f-> §7MC-Version of the server: §c" + Bukkit.getBukkitVersion());
+                            sender.sendMessage("§f-> §7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
+                            sender.sendMessage("§f-> §7Legacy: §a" + BoostEconomy.getInstance().isLegacy());
+                            sender.sendMessage("§a");
+                            sender.sendMessage("§f-> §7Server software: §6" + Bukkit.getName());
+                            sender.sendMessage("§f-> §7Software version: §6" + Bukkit.getVersion());
+                            sender.sendMessage("§a");
+                            sender.sendMessage("§f-> §7Online players: §3" + Bukkit.getServer().getOnlinePlayers().size());
+                            sender.sendMessage("§f-> §7Players (data.yml): §3" + data.getBalTop().size());
+                            if (BoostEconomy.getInstance().getConfig().getBoolean("Config.AdvancedDebug", false)) {
+                                sender.sendMessage("§a");
+                                sender.sendMessage("§f-> §7PlaceholderAPI: §a" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"));
+                            }
+                            sender.sendMessage("§8+------------------------------------+");
                         }else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;

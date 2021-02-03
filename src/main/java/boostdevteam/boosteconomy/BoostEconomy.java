@@ -146,7 +146,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         if (!setupEconomy() ) {
             getServer().getPluginManager().disablePlugin(this);
         }else {
-            Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("              §aEnabling");
             Bukkit.getConsoleSender().sendMessage("§8");
@@ -171,21 +171,21 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                         if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
                             new UpdateChecker(plugin, 86591).getVersion(version -> {
                                 if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                    Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                                     Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
                                     Bukkit.getConsoleSender().sendMessage("               §eUpdater");
                                     Bukkit.getConsoleSender().sendMessage("§8");
                                     Bukkit.getConsoleSender().sendMessage("§f-> §aNo new version available!");
-                                    Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                                 } else {
-                                    Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                                     Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
                                     Bukkit.getConsoleSender().sendMessage("              §eUpdater");
                                     Bukkit.getConsoleSender().sendMessage("§8");
                                     Bukkit.getConsoleSender().sendMessage("§f-> New version available! §av" + version);
                                     Bukkit.getConsoleSender().sendMessage("§f-> You have §cv" + plugin.getDescription().getVersion());
                                     Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
-                                    Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                                 }
                             });
                         }
@@ -236,7 +236,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 e.printStackTrace();
             }finally {
                 Bukkit.getConsoleSender().sendMessage("§f-> §aPlugin loaded with success!");
-                Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             }
         }
     }
@@ -299,31 +299,31 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public void onDisable() {
         // Plugin shutdown logic
         if (!setupEconomy()) {
-            Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("             §cDisabling");
             Bukkit.getConsoleSender().sendMessage("§8");
             Bukkit.getConsoleSender().sendMessage("§f-> §cDisabled due to no Vault dependency found!");
-            Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         } else {
             try {
                 hook.offHook();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                 Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
                 Bukkit.getConsoleSender().sendMessage("             §cDisabling");
                 Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError on unhooking from Vault!");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
-                Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             } finally {
-                Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                 Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
                 Bukkit.getConsoleSender().sendMessage("            §cDisabling");
                 Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§f-> §7UnHooked from §aVault§7!");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cPlugin disabled with success!");
-                Bukkit.getConsoleSender().sendMessage("§8--------------------------------------");
+                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             }
         }
     }
