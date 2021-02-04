@@ -7,7 +7,6 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +14,7 @@ public class EcoReset implements CommandExecutor {
     @Override
     public boolean onCommand(@NotNull CommandSender sender, @NotNull Command cmd, @NotNull String label, @NotNull String[] args) {
         if (cmd.getName().equalsIgnoreCase("ecoreset")) {
-            if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
+            if (sender instanceof Player) {
                 Player player = (Player) sender;
                 if (sender.hasPermission("boosteconomy.ecoreset")) {
                     if (args.length == 0) {
@@ -74,6 +73,8 @@ public class EcoReset implements CommandExecutor {
                         BoostEconomy.playErrorSound(player);
                     }
                 }
+            } else {
+                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
             }
         }
         return false;

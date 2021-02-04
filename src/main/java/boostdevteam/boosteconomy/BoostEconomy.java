@@ -132,7 +132,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             getInstance().getConfig().set("Config.UseSounds", true);
         } else {
             getInstance().getConfig().set("Config.UseSounds", false);
-            Bukkit.getConsoleSender().sendMessage("§f-> §eThe sounds has been disabled to prevent errors, " +
+            Bukkit.getLogger().warning("§f-> §eThe sounds has been disabled to prevent errors, " +
                     "if you want to use the sounds you need to change that to true and set the sounds for your version!");
         }
     }
@@ -154,45 +154,16 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 if (getConfig().getBoolean("Config.Placeholders")) {
                     try {
                         new Placeholders(this).register();
-                    } catch (Exception e) {
-                        Bukkit.getConsoleSender().sendMessage("§f-> §cError on hooking with PlaceholderAPI");
+                    } catch (NoClassDefFoundError e) {
+                        Bukkit.getLogger().severe("§f-> §cError on hooking with PlaceholderAPI");
                     } finally {
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aPlaceholderAPI§7!");
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_money% §7placeholder!");
+                        Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_servertotal% §7placeholder!");
                     }
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("§f-> §7Could not find §cPlaceholderAPI§7 for placeholders, no placeholders will be added!");
-            }
-
-            if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
-                Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
-                    public void run() {
-                        if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
-                            new UpdateChecker(plugin, 86591).getVersion(version -> {
-                                if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                    Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
-                                    Bukkit.getConsoleSender().sendMessage("               §eUpdater");
-                                    Bukkit.getConsoleSender().sendMessage("§8");
-                                    Bukkit.getConsoleSender().sendMessage("§f-> §aNo new version available!");
-                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                } else {
-                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                    Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
-                                    Bukkit.getConsoleSender().sendMessage("              §eUpdater");
-                                    Bukkit.getConsoleSender().sendMessage("§8");
-                                    Bukkit.getConsoleSender().sendMessage("§f-> New version available! §av" + version);
-                                    Bukkit.getConsoleSender().sendMessage("§f-> You have §cv" + plugin.getDescription().getVersion());
-                                    Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
-                                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                }
-                            });
-                        }
-                    }
-                }, 20);
-            }else {
-                Bukkit.getConsoleSender().sendMessage("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
             }
 
             try {
@@ -200,7 +171,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 @SuppressWarnings("unused")
                 MetricsLite metrics = new MetricsLite(this, pluginId);
             }catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§f-> §cError with metrics!");
+                Bukkit.getLogger().severe("§f-> §cError with metrics!");
                 e.printStackTrace();
             }
             //
@@ -216,8 +187,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
                     hook.onHook();
                 }catch (Exception e) {
-                    Bukkit.getConsoleSender().sendMessage("§f-> §cError hooking with Vault!");
-                    Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
+                    Bukkit.getLogger().severe("§f-> §cError hooking with Vault!");
+                    Bukkit.getLogger().severe("§f-> §cIs Vault loaded?");
                 } finally {
                     Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aVault§7!");
                 }
@@ -231,13 +202,57 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 loadEvents();
                 loadCommands();
 
+                ConsoleUpdater();
+
             }catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("§f-> §cUnexpected error!");
                 e.printStackTrace();
             }finally {
-                Bukkit.getConsoleSender().sendMessage("§f-> §aPlugin loaded with success!");
+                Bukkit.getConsoleSender().sendMessage("§7");
+                Bukkit.getConsoleSender().sendMessage("§aPlugin loaded with success!");
+                Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             }
+        }
+    }
+
+    public static void ConsoleUpdater () {
+        if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
+                public void run() {
+                    if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
+                        new UpdateChecker(plugin, 86591).getVersion(version -> {
+                            if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                                Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+                                Bukkit.getConsoleSender().sendMessage("               §eUpdater");
+                                Bukkit.getConsoleSender().sendMessage("§8");
+                                Bukkit.getConsoleSender().sendMessage("§f-> §aNo new version available!");
+                                Bukkit.getConsoleSender().sendMessage("§8");
+                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                            } else {
+                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                                Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+                                Bukkit.getConsoleSender().sendMessage("              §eUpdater");
+                                Bukkit.getConsoleSender().sendMessage("§8");
+                                Bukkit.getLogger().severe("§f-> New version available! §av" + version);
+                                Bukkit.getLogger().severe("§f-> You have §cv" + plugin.getDescription().getVersion());
+                                Bukkit.getLogger().severe("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
+                                Bukkit.getConsoleSender().sendMessage("§8");
+                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                            }
+                        });
+                    }
+                }
+            }, 40);
+        }else {
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+            Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+            Bukkit.getConsoleSender().sendMessage("               §eUpdater");
+            Bukkit.getConsoleSender().sendMessage("§8");
+            Bukkit.getLogger().severe("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
+            Bukkit.getConsoleSender().sendMessage("§8");
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         }
     }
 
@@ -303,28 +318,27 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("             §cDisabling");
             Bukkit.getConsoleSender().sendMessage("§8");
-            Bukkit.getConsoleSender().sendMessage("§f-> §cDisabled due to no Vault dependency found!");
+            Bukkit.getLogger().severe("§f-> §cDisabled due to no Vault dependency found!");
+            Bukkit.getConsoleSender().sendMessage("§8");
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         } else {
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+            Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
+            Bukkit.getConsoleSender().sendMessage("             §cDisabling");
+            Bukkit.getConsoleSender().sendMessage("§8");
+
             try {
                 hook.offHook();
             } catch (Exception e) {
-                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
-                Bukkit.getConsoleSender().sendMessage("             §cDisabling");
-                Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError on unhooking from Vault!");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
-                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-            } finally {
-                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
-                Bukkit.getConsoleSender().sendMessage("            §cDisabling");
                 Bukkit.getConsoleSender().sendMessage("§8");
+            } finally {
                 Bukkit.getConsoleSender().sendMessage("§f-> §7UnHooked from §aVault§7!");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cPlugin disabled with success!");
-                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                Bukkit.getConsoleSender().sendMessage("§8");
             }
+            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         }
     }
 
@@ -344,9 +358,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     private boolean setupEconomy() {
         if (getServer().getPluginManager().getPlugin("Vault") == null) {
             return false;
+        } else {
+           return true;
         }
-        return true;
     }
+
 
     public static String getVersion() {
         return Bukkit.getBukkitVersion();

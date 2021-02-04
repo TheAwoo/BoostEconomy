@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
 
 public class Eco implements CommandExecutor {
 
@@ -17,7 +18,7 @@ public class Eco implements CommandExecutor {
     }
 
     @Override
-    public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
+    public boolean onCommand(@NotNull CommandSender sender, Command cmd, @NotNull String commandlabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("eco")) {
             if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
                 if (args.length == 3) {
@@ -37,16 +38,14 @@ public class Eco implements CommandExecutor {
                                         BoostEconomy.playSuccessSound(p);
                                     }
 
-                                    return true;
-
                                 } else {
 
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                                     if (sender instanceof Player) {
                                         BoostEconomy.playErrorSound((Player) sender);
                                     }
-                                    return true;
                                 }
+                                return true;
                             } else if (args[1].equalsIgnoreCase("give")) {
                                 if (sender.hasPermission("boosteconomy.money.give")) {
 
@@ -58,8 +57,6 @@ public class Eco implements CommandExecutor {
                                         BoostEconomy.playSuccessSound(p);
                                         BoostEconomy.playSuccessSound((Player) sender);
                                     }
-
-                                    return true;
 
                                 } else {
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));

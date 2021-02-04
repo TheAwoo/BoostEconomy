@@ -91,6 +91,7 @@ public class BE implements CommandExecutor {
                         }else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
+                                p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPlayer").replaceAll("&", "§"));
                                 BoostEconomy.playErrorSound(p);
                             }
                         }

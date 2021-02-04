@@ -1,6 +1,7 @@
 package boostdevteam.placeholderapi;
 
 import boostdevteam.boosteconomy.BoostEconomy;
+import boostdevteam.boosteconomy.Data;
 import boostdevteam.misc.Economy;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
@@ -110,6 +111,19 @@ public class Placeholders extends PlaceholderExpansion {
         if(identifier.equals("money")){
             Economy eco = new Economy(player, 0);
             return "" + eco.getBalance();
+        }
+
+        //%boosteconomy_servertotal%
+        if(identifier.equals("servertotal")){
+            Data data = new Data();
+            double total[] = new double [data.getBalTop().size()];
+            double sum = 0;
+            for(int i=0; i< data.getBalTop().size(); i++){
+                Data.BoostPlayerData pData = data.getBalTop().get(i);
+                total[i] = pData.getMoney();
+                sum = sum + total[i];
+            }
+            return "" + sum;
         }
 
         // We return null if an invalid placeholder (f.e. %boosteconomy_invalidplaceholder%)
