@@ -9,8 +9,7 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
-public class Data
-{
+public class Data {
     public static final File FileData = new File(BoostEconomy.getInstance().getDataFolder() + "/data.yml");
     public FileConfiguration data;
 

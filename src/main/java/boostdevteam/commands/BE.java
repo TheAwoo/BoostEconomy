@@ -82,7 +82,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§f-> §7Software version: §6" + Bukkit.getVersion());
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7Online players: §3" + Bukkit.getServer().getOnlinePlayers().size());
-                            sender.sendMessage("§f-> §7Players (data.yml): §3" + data.getBalTop().size());
+                            sender.sendMessage("§f-> §7Players saved (data.yml): §3" + data.getBalTop().size());
                             if (BoostEconomy.getInstance().getConfig().getBoolean("Config.AdvancedDebug", false)) {
                                 sender.sendMessage("§a");
                                 sender.sendMessage("§f-> §7PlaceholderAPI: §a" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"));

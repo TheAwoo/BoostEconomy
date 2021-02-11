@@ -1,10 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.1
-# -
-# Local placeholders:
-# %money% = The player's money
-# %target% = Target player name
-# %player% = The player who have done the action
+# Ver 1.2.2
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -14,6 +9,9 @@
 # StartMoney: Default money on join for the first time
 # PlayerCheckForUpdates: Need to have the "boosteconomy.checkforupdates" permission
 # UseSounds: You can disable this if you don't want to hear sounds of the commands
+# -
+# For the entity kill rewards watch the bottom of this file
+# and then go and look mobs.yml file to disable some entities
 
 Messages:
   General:
@@ -93,3 +91,8 @@ Banknotes:
     Note-Given: "&b&lBanknote &8--> &7You have given a banknotes of &c%money%$&7 to &a%player%"
     Invalid-Note: "&b&lBanknote &8--> &cThe banknote is invalid"
     Nothing-In-Hand: "&b&lBanknote &8--> &cYou don't have nothing in your hand!"
+
+# For more options go in the mobs.yml file
+Entity:
+  Enable: true
+  KillMessage: "&b&lKill &8--> &7You have killed &c%mob% &7and you have earned &a%money%$"

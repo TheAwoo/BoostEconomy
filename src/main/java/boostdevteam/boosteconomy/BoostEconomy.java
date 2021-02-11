@@ -1,6 +1,7 @@
 package boostdevteam.boosteconomy;
 
 import boostdevteam.commands.*;
+import boostdevteam.events.MobKillEvent;
 import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
 import boostdevteam.placeholderapi.Placeholders;
@@ -35,6 +36,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static BoostEconomy plugin;
     public static Data data;
+    public static MobFile mob;
 
     public static VEconomy veco;
     public static VHook hook;
@@ -178,8 +180,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             try {
 
                 data = new Data();
+                mob = new MobFile();
 
                 new Data();
+                new MobFile();
 
                 try {
                     veco = new VEconomy(plugin);
@@ -274,8 +278,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
         // InventoryClick Event
         Bukkit.getPluginManager().registerEvents(new Money(), this);
+        // Banknotes claim event
+        Bukkit.getPluginManager().registerEvents(new boostdevteam.events.Banknotes(this), this);
+        // Entity kill reward
+        this.getServer().getPluginManager().registerEvents(new MobKillEvent(this), this);
 
-        getServer().getPluginManager().registerEvents(new boostdevteam.events.Banknotes(this), this);
     }
 
     public void loadCommands() {
