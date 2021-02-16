@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.2
+# Ver 1.2.3
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -95,4 +95,5 @@ Banknotes:
 # For more options go in the mobs.yml file
 Entity:
   Enable: true
+  SendMessage: true
   KillMessage: "&b&lKill &8--> &7You have killed &c%mob% &7and you have earned &a%money%$"

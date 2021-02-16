@@ -24,6 +24,7 @@ public class Data {
             try {
                 FileData.createNewFile();
                 this.data = YamlConfiguration.loadConfiguration(FileData);
+                this.data.options().header("You can change the money of a player, do not change the rest!\nYou will bug the plugin!");
                 this.data.createSection("Data");
                 this.data.save(FileData);
             }catch (IOException e) {
@@ -42,6 +43,8 @@ public class Data {
         try {
 
             this.data.set("Data." + p.getName() + ".Money", money);
+            this.data.set("Data." + p.getName() + ".UUID", p.getUniqueId().toString());
+            this.data.set("Data." + p.getName() + ".Last-IP", p.getAddress().toString());
 
             this.data.save(FileData);
 

@@ -3,7 +3,6 @@ package boostdevteam.events;
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.misc.Economy;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.entity.Mob;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -38,17 +37,14 @@ public class MobKillEvent implements Listener {
                 return;
             }
 
-            if (event.getEntity() instanceof Mob) {
-                Player p = event.getEntity().getKiller();
+            if (killer == null) {
+                return;
+            }
 
-                if (p == null) {
-                    return;
-                }
-
-                Economy eco = new Economy(p, BoostEconomy.mob.data.getDouble("Mobs." + section + ".Reward"));
-                eco.addBalance();
-
-                p.sendMessage(plugin.getConfig().getString("Entity.KillMessage").replaceAll("&", "§")
+            Economy eco = new Economy(killer, BoostEconomy.mob.data.getDouble("Mobs." + section + ".Reward"));
+            eco.addBalance();
+            if (BoostEconomy.getInstance().getConfig().getBoolean("Entity.SendMessage")) {
+                killer.sendMessage(plugin.getConfig().getString("Entity.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
                         .replaceAll("%money%", "" + BoostEconomy.mob.data.getDouble("Mobs." + section + ".Reward")));
             }

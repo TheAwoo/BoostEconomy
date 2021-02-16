@@ -43,7 +43,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     private final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
 
-    //The base item
+    //The base banknote item
     private ItemStack base;
 
     // Economy instance
@@ -81,10 +81,14 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    /**
+     * Methods called when a player do something
+     *
+     */
     public static void playErrorSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             try {
-                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error"));
+                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Error", "ENTITY_VILLAGER_NO"));
                 player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Error on the §cplayErrorSound§7! Check your config!");
@@ -96,7 +100,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static void playSuccessSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             try {
-                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success"));
+                Sound x = Sound.valueOf(getInstance().getConfig().getString("Config.Sounds.Success", "ENTITY_PLAYER_LEVELUP"));
                 player.playSound(player.getPlayer().getLocation(), x, 1.0f, 1.0f);
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Error on the §cplaySuccessSound§7! Check your config!");
@@ -134,7 +138,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             getInstance().getConfig().set("Config.UseSounds", true);
         } else {
             getInstance().getConfig().set("Config.UseSounds", false);
-            Bukkit.getLogger().warning("§f-> §eThe sounds has been disabled to prevent errors, " +
+            Bukkit.getConsoleSender().sendMessage("§f-> §eThe sounds has been disabled to prevent errors, " +
                     "if you want to use the sounds you need to change that to true and set the sounds for your version!");
         }
     }
@@ -157,7 +161,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     try {
                         new Placeholders(this).register();
                     } catch (NoClassDefFoundError e) {
-                        Bukkit.getLogger().severe("§f-> §cError on hooking with PlaceholderAPI");
+                        Bukkit.getConsoleSender().sendMessage("§f-> §cError on hooking with PlaceholderAPI");
                     } finally {
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aPlaceholderAPI§7!");
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_money% §7placeholder!");
@@ -173,7 +177,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 @SuppressWarnings("unused")
                 MetricsLite metrics = new MetricsLite(this, pluginId);
             }catch (Exception e) {
-                Bukkit.getLogger().severe("§f-> §cError with metrics!");
+                Bukkit.getConsoleSender().sendMessage("§f-> §cError with metrics!");
                 e.printStackTrace();
             }
             //
@@ -191,8 +195,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
                     hook.onHook();
                 }catch (Exception e) {
-                    Bukkit.getLogger().severe("§f-> §cError hooking with Vault!");
-                    Bukkit.getLogger().severe("§f-> §cIs Vault loaded?");
+                    Bukkit.getConsoleSender().sendMessage("§f-> §cError hooking with Vault!");
+                    Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
                 } finally {
                     Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aVault§7!");
                 }
@@ -239,9 +243,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                                 Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
                                 Bukkit.getConsoleSender().sendMessage("              §eUpdater");
                                 Bukkit.getConsoleSender().sendMessage("§8");
-                                Bukkit.getLogger().severe("§f-> New version available! §av" + version);
-                                Bukkit.getLogger().severe("§f-> You have §cv" + plugin.getDescription().getVersion());
-                                Bukkit.getLogger().severe("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
+                                Bukkit.getConsoleSender().sendMessage("§f-> New version available! §av" + version);
+                                Bukkit.getConsoleSender().sendMessage("§f-> You have §cv" + plugin.getDescription().getVersion());
+                                Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
                                 Bukkit.getConsoleSender().sendMessage("§8");
                                 Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
                             }
@@ -254,7 +258,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("               §eUpdater");
             Bukkit.getConsoleSender().sendMessage("§8");
-            Bukkit.getLogger().severe("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
+            Bukkit.getConsoleSender().sendMessage("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
             Bukkit.getConsoleSender().sendMessage("§8");
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         }
@@ -304,17 +308,15 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         getCommand("baltop").setExecutor(new BalTop());
         getCommand("baltop").setTabCompleter(new BalTopTabCompleter());
 
-        if (getConfig().getBoolean("Banknotes.UseBanknotes")) {
+        getCommand("withdraw").setExecutor(new Withdraw(this));
+        getCommand("withdraw").setTabCompleter(new WithdrawTabCompleter());
 
-            getCommand("withdraw").setExecutor(new Withdraw(this));
-            getCommand("withdraw").setTabCompleter(new WithdrawTabCompleter());
+        getCommand("deposit").setExecutor(new Deposit(this));
+        getCommand("deposit").setTabCompleter(new DepositTabCompleter());
 
-            getCommand("deposit").setExecutor(new Deposit(this));
-            getCommand("deposit").setTabCompleter(new DepositTabCompleter());
+        getCommand("banknotes").setExecutor(new Banknotes(this));
+        getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
 
-            getCommand("banknotes").setExecutor(new Banknotes(this));
-            getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
-        }
     }
 
     @Override
@@ -325,7 +327,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("             §cDisabling");
             Bukkit.getConsoleSender().sendMessage("§8");
-            Bukkit.getLogger().severe("§f-> §cDisabled due to no Vault dependency found!");
+            Bukkit.getConsoleSender().sendMessage("§f-> §cDisabled due to no Vault dependency found!");
             Bukkit.getConsoleSender().sendMessage("§8");
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         } else {
