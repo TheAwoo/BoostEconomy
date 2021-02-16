@@ -382,7 +382,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public void loadItem () {
-        base = new ItemStack(Material.PAPER, 1, (short) getConfig().getInt("Banknotes.Data"));
+        base = new ItemStack(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material")), 1, (short) getConfig().getInt("Banknotes.Data"));
         ItemMeta meta = base.getItemMeta();
         meta.setDisplayName(colorMessage(getConfig().getString("Banknotes.Name", "&9Banknote")));
         base.setItemMeta(meta);
@@ -429,7 +429,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             return false;
         } else if (!(itemstack.getItemMeta().getDisplayName().equals(getConfig().getString("Banknotes.Name").replaceAll("&", "§")))) {
             return false;
-        } else if (!(itemstack.getType().equals(Material.PAPER))) {
+        } else if (!(itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material"))))) {
             return false;
         }
 

@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.3
+# Ver 1.2.4
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -67,8 +67,9 @@ GUI:
 
 Banknotes:
   UseBanknotes: true
-  Name: "&9Banknotes"
+  Material: PAPER
   Data: 0
+  Name: "&9Banknotes"
   Maximun-Float-Amount: 2
   Minimum-Float-Amount: 0
   Maximum-Withdraw-Amount: 100000000
