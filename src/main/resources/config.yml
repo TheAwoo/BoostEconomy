@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.4
+# Ver 1.2.5
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -18,7 +18,7 @@ Messages:
     NoPerms: "&b&lBoostEconomy &8--> &cYou do not have enough permissions"
     NoConsole: "&b&lBoostEconomy &8--> &cYou can't do this from console"
     NoPlayer: "&b&lBoostEconomy &8--> &cYou can't do this from player!"
-    Reload: "&b&lBoostEconomy &8--> &aThe plugin has been reloaded with success!"
+    Reload: "&b&lBoostEconomy &8--> &aThe plugin has been reloaded with success! (%time%ms)"
     InvalidArgs: "&b&lBoostEconomy &8--> &7Invalid args! /be <reload/help/checkforupdates/depug>"
   Money:
     Chat: "&b&lMoney &8--> &7You have &a%money%$"

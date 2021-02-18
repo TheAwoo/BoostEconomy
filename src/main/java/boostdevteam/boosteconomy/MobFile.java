@@ -11,8 +11,8 @@ import java.io.IOException;
 import static org.bukkit.entity.EntityType.*;
 
 public class MobFile {
-    public static final File FileData = new File(BoostEconomy.getInstance().getDataFolder() + "/mobs.yml");
-    public FileConfiguration data;
+    public static final File MobFileData = new File(BoostEconomy.getInstance().getDataFolder() + "/mobs.yml");
+    public FileConfiguration mobData;
 
     public void saveMob() throws IOException {
 
@@ -21,7 +21,7 @@ public class MobFile {
         || BoostEconomy.getVersion().contains("1.15")
         || BoostEconomy.getVersion().contains("1.16")) {
 
-            this.data.options().header("Because you are in 1.13+ version there's a pre-made list of entity:");
+            this.mobData.options().header("Because you are in 1.13+ version there's a pre-made list of entity:");
 
             for (EntityType e : EntityType.values()) {
                 if (e.equals(DROPPED_ITEM)) {
@@ -57,8 +57,8 @@ public class MobFile {
                 } else if (e.equals(EGG)) {
                 } else if (e.equals(DROPPED_ITEM)) {
                 } else {
-                    this.data.set("Mobs." + e + ".Enabled", true);
-                    this.data.set("Mobs." + e + ".Reward", 100.0);
+                    this.mobData.set("Mobs." + e + ".Enabled", true);
+                    this.mobData.set("Mobs." + e + ".Reward", 100.0);
                 }
             }
         }
@@ -68,7 +68,7 @@ public class MobFile {
                 || BoostEconomy.getVersion().contains("1.15")
                 || BoostEconomy.getVersion().contains("1.16")) {
 
-            this.data.options().header("Because you are in 1.13+ version there's a pre-made list of all available entities:");
+            this.mobData.options().header("Because you are in 1.13+ version there's a pre-made list of all available entities:");
 
             for (EntityType e : EntityType.values()) {
                 if (e.equals(DROPPED_ITEM)) {
@@ -104,36 +104,36 @@ public class MobFile {
                 } else if (e.equals(EGG)) {
                 } else if (e.equals(DROPPED_ITEM)) {
                 } else {
-                    this.data.set("Mobs." + e + ".Enabled", true);
-                    this.data.set("Mobs." + e + ".Reward", 100.0);
+                    this.mobData.set("Mobs." + e + ".Enabled", true);
+                    this.mobData.set("Mobs." + e + ".Reward", 100.0);
                 }
             }
         } else {
-            this.data.options().header("Because you are not in 1.13+ version not all entities are available\n" +
+            this.mobData.options().header("Because you are not in 1.13+ version not all entities are available\n" +
                     "There's a pre-made layout that you can copy to use more mobs!");
 
-            this.data.set("Mobs." + "ZOMBIE" + ".Enabled", true);
-            this.data.set("Mobs." + "ZOMBIE" + ".Reward", 100.0);
+            this.mobData.set("Mobs." + "ZOMBIE" + ".Enabled", true);
+            this.mobData.set("Mobs." + "ZOMBIE" + ".Reward", 100.0);
         }
 
     }
 
     public MobFile() {
-        if (!FileData.exists()) {
+        if (!MobFileData.exists()) {
             try {
-                FileData.createNewFile();
-                this.data = YamlConfiguration.loadConfiguration(FileData);
-                this.data.createSection("Mobs");
+                MobFileData.createNewFile();
+                this.mobData = YamlConfiguration.loadConfiguration(MobFileData);
+                this.mobData.createSection("Mobs");
 
                 saveMob();
 
-                this.data.save(FileData);
+                this.mobData.save(MobFileData);
             }catch (IOException e) {
                 Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError on creating the file mobs.yml!");
                 e.printStackTrace();
             }
             return;
         }
-        this.data = YamlConfiguration.loadConfiguration(FileData);
+        this.mobData = YamlConfiguration.loadConfiguration(MobFileData);
     }
 }

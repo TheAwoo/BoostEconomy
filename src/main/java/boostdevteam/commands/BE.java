@@ -24,18 +24,7 @@ public class BE implements CommandExecutor {
                 } else if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
                         if(sender.hasPermission("boosteconomy.reload")) {
-                            try {
-                                BoostEconomy.onReload();
-                            }catch (Exception e) {
-                                Bukkit.getLogger().severe("[BoostEconomy] §cError while reloading the plugin!");
-                                e.printStackTrace();
-                            }finally {
-                                if (sender instanceof Player) {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.Reload").replaceAll("&", "§"));
-                                    Player p = (Player) sender;
-                                    BoostEconomy.playSuccessSound(p);
-                                }
-                            }
+                            BoostEconomy.onReload(sender);
                         }else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                             if (sender instanceof Player) {

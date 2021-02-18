@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
@@ -21,16 +22,18 @@ import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -66,18 +69,37 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(path));
     }
 
-    public static void onReload() {
+    public static void onReload(CommandSender sender) {
+        long before = System.currentTimeMillis();
         try {
-            plugin.getServer().getPluginManager().disablePlugin(plugin);
-            plugin.getServer().getPluginManager().enablePlugin(plugin);
+            plugin.saveDefaultConfig();
             plugin.reloadConfig();
             plugin.saveConfig();
-            plugin.saveDefaultConfig();
+
+            data = new Data();
+            mob = new MobFile();
+
+            new Data();
+            new MobFile();
         }catch (Exception e){
+            if (sender instanceof Player) {
+                sender.sendMessage("§b§lBoostEconomy §8--> §cError while reloading the plugin!");
+                e.printStackTrace();
+            }
+
             Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError while reloading the plugin!");
             e.printStackTrace();
+
         }finally {
-            Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy§7] §aPlugin reloaded with success!");
+            if (sender instanceof Player) {
+                sender.sendMessage(getInstance().getConfig().getString("Messages.General.Reload")
+                        .replaceAll("&", "§")
+                        .replaceAll("%time%", "" + (System.currentTimeMillis() - before)));
+                playSuccessSound((Player) sender);
+            }
+
+            Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy§7] §aPlugin reloaded with success! (" + (System.currentTimeMillis() - before) + "ms)");
+
         }
     }
 
@@ -85,6 +107,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
      * Methods called when a player do something
      *
      */
+
     public static void playErrorSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             try {
@@ -120,7 +143,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         YamlConfiguration config = new YamlConfiguration();
         File file = new File(getDataFolder () + File.separator + "config.yml");
         try {
-            config.loadFromString (Files.toString (file, Charset.forName ("UTF-8")));
+            config.loadFromString (Files.toString (file, StandardCharsets.UTF_8));
         } catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace ();
         }
@@ -150,8 +173,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         plugin = this;
 
         if (!setupEconomy() ) {
-            getServer().getPluginManager().disablePlugin(this);
+            onDisable();
         }else {
+            long before = System.currentTimeMillis();
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("              §aEnabling");
@@ -217,7 +241,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 e.printStackTrace();
             }finally {
                 Bukkit.getConsoleSender().sendMessage("§7");
-                Bukkit.getConsoleSender().sendMessage("§aPlugin loaded with success!");
+                Bukkit.getConsoleSender().sendMessage("§aPlugin loaded with success! (" + (System.currentTimeMillis() - before) + "ms)");
                 Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             }
@@ -226,31 +250,30 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static void ConsoleUpdater () {
         if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
-            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, new Runnable() {
-                public void run() {
-                    if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
-                        new UpdateChecker(plugin, 86591).getVersion(version -> {
-                            if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
-                                Bukkit.getConsoleSender().sendMessage("               §eUpdater");
-                                Bukkit.getConsoleSender().sendMessage("§8");
-                                Bukkit.getConsoleSender().sendMessage("§f-> §aNo new version available!");
-                                Bukkit.getConsoleSender().sendMessage("§8");
-                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                            } else {
-                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                                Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
-                                Bukkit.getConsoleSender().sendMessage("              §eUpdater");
-                                Bukkit.getConsoleSender().sendMessage("§8");
-                                Bukkit.getConsoleSender().sendMessage("§f-> New version available! §av" + version);
-                                Bukkit.getConsoleSender().sendMessage("§f-> You have §cv" + plugin.getDescription().getVersion());
-                                Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
-                                Bukkit.getConsoleSender().sendMessage("§8");
-                                Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                            }
-                        });
-                    }
+            Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, () -> {
+                long before = System.currentTimeMillis();
+                if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
+                    new UpdateChecker(plugin, 86591).getVersion(version -> {
+                        if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
+                            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                            Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+                            Bukkit.getConsoleSender().sendMessage("            §eUpdater (" + (System.currentTimeMillis() - before) + "ms)");
+                            Bukkit.getConsoleSender().sendMessage("§8");
+                            Bukkit.getConsoleSender().sendMessage("§f-> §aNo new version available!");
+                            Bukkit.getConsoleSender().sendMessage("§8");
+                            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                        } else {
+                            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                            Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+                            Bukkit.getConsoleSender().sendMessage("            §eUpdater (" + (System.currentTimeMillis() - before) + "ms)");
+                            Bukkit.getConsoleSender().sendMessage("§8");
+                            Bukkit.getConsoleSender().sendMessage("§f-> New version available! §av" + version);
+                            Bukkit.getConsoleSender().sendMessage("§f-> You have §cv" + plugin.getDescription().getVersion());
+                            Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
+                            Bukkit.getConsoleSender().sendMessage("§8");
+                            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                        }
+                    });
                 }
             }, 40);
         }else {
@@ -276,7 +299,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public void loadEvents() {
-        // OnJoin data saves
+        // OnJoin and OnQuit data saves
         Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
         // CheckForUpdates event
         Bukkit.getPluginManager().registerEvents(new PlayerJoinEvent(), this);
@@ -289,6 +312,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     }
 
+    @NotNull
+    @SuppressWarnings("all")
     public void loadCommands() {
         getCommand("money").setExecutor(new Money());
         getCommand("money").setTabCompleter(new MoneyTabCompleter());
@@ -316,7 +341,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         getCommand("banknotes").setExecutor(new Banknotes(this));
         getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
-
     }
 
     @Override
@@ -365,11 +389,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        } else {
-           return true;
-        }
+        return getServer().getPluginManager().getPlugin("Vault") != null;
     }
 
 
@@ -429,11 +449,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             return false;
         } else if (!(itemstack.getItemMeta().getDisplayName().equals(getConfig().getString("Banknotes.Name").replaceAll("&", "§")))) {
             return false;
-        } else if (!(itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material"))))) {
-            return false;
-        }
-
-        return true;
+        } else return itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material")));
     }
 
     /**

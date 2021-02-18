@@ -10,7 +10,7 @@ import org.bukkit.inventory.ItemStack;
 
 public class Withdraw implements CommandExecutor {
 
-    /*
+    /**
      * The plugin instance
      */
     private BoostEconomy plugin;
@@ -33,6 +33,9 @@ public class Withdraw implements CommandExecutor {
             sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
             BoostEconomy.playErrorSound((Player) sender);
         } else {
+
+            if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) return false;
+
             Player player = (Player) sender;
             double amount;
 

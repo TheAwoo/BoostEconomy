@@ -28,7 +28,7 @@ public class Data {
                 this.data.createSection("Data");
                 this.data.save(FileData);
             }catch (IOException e) {
-                Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError on creating the file data.yml!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError on using the file data.yml! Is it missing?");
                 e.printStackTrace();
             }
             return;

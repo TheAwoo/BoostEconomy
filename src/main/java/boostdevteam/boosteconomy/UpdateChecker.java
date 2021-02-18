@@ -26,7 +26,7 @@ public class UpdateChecker {
                     consumer.accept(scanner.next());
                 }
             } catch (IOException exception) {
-                this.plugin.getLogger().info("§7[BoostEconomy§7] §cCannot look for updates: " + exception.getMessage());
+                Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy§7] §cCannot look for updates: " + exception.getMessage());
             }
         });
     }

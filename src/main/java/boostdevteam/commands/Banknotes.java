@@ -25,6 +25,7 @@ public class Banknotes implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+        if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) return false;
         if (args.length == 0) {
             return false;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {

@@ -33,7 +33,7 @@ public class MobKillEvent implements Listener {
                 return;
             }
 
-            if (!(BoostEconomy.mob.data.getBoolean("Mobs." + section + ".Enabled"))) {
+            if (!(BoostEconomy.mob.mobData.getBoolean("Mobs." + section + ".Enabled"))) {
                 return;
             }
 
@@ -41,12 +41,12 @@ public class MobKillEvent implements Listener {
                 return;
             }
 
-            Economy eco = new Economy(killer, BoostEconomy.mob.data.getDouble("Mobs." + section + ".Reward"));
+            Economy eco = new Economy(killer, BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
             eco.addBalance();
             if (BoostEconomy.getInstance().getConfig().getBoolean("Entity.SendMessage")) {
                 killer.sendMessage(plugin.getConfig().getString("Entity.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
-                        .replaceAll("%money%", "" + BoostEconomy.mob.data.getDouble("Mobs." + section + ".Reward")));
+                        .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward")));
             }
         }
     }
