@@ -3,4 +3,4 @@ https://www.spigotmc.org/resources/86591/
 
 To do list:
 
-- Clean code
+- Add an event to prevent the block-placing of the banknote
