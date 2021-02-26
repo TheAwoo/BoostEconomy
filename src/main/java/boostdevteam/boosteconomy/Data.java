@@ -12,6 +12,7 @@ import java.util.*;
 public class Data {
     public static final File FileData = new File(BoostEconomy.getInstance().getDataFolder() + "/data.yml");
     public FileConfiguration data;
+    private int pointer = 0;
 
     public List<BoostPlayerData> balTop;
     public Map<String,BoostPlayerData> balTopName;
@@ -63,7 +64,7 @@ public class Data {
             Collections.sort( getBalTop(), new BoostPlayerComparator() );
 
         } catch (IOException e) {
-            Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §cError on saving the data for " + p.getName());
+            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError on saving the data for " + p.getName());
             e.printStackTrace();
         }
     }
@@ -80,6 +81,10 @@ public class Data {
         getBalTop().clear();
 
         ConfigurationSection sec = this.data.getConfigurationSection( "Data" );
+
+        if (sec == null) {
+            return;
+        }
 
         Set<String> playerNames = sec.getKeys( false );
 

@@ -42,7 +42,7 @@ public class BalTop implements CommandExecutor {
                     .replaceAll("%player%", "" + name)
                     .replaceAll("%money%", "" + money)
                     .replaceAll("\\[", "")
-                    .replaceAll("\\]", "")
+                    .replaceAll("]", "")
                     .replaceAll(", ", ""));
 
             Meta.setLore(lore);

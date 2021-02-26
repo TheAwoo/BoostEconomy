@@ -25,6 +25,7 @@ public class BE implements CommandExecutor {
                     if (args[0].equalsIgnoreCase("reload")) {
                         if(sender.hasPermission("boosteconomy.reload")) {
                             BoostEconomy.onReload(sender);
+                            return true;
                         }else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                             if (sender instanceof Player) {
@@ -65,18 +66,17 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7MC-Version of the server: §c" + Bukkit.getBukkitVersion());
                             sender.sendMessage("§f-> §7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
-                            sender.sendMessage("§f-> §7Legacy: §a" + BoostEconomy.getInstance().isLegacy());
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7Server software: §6" + Bukkit.getName());
                             sender.sendMessage("§f-> §7Software version: §6" + Bukkit.getVersion());
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7Online players: §3" + Bukkit.getServer().getOnlinePlayers().size());
                             sender.sendMessage("§f-> §7Players saved (data.yml): §3" + data.getBalTop().size());
-                            if (BoostEconomy.getInstance().getConfig().getBoolean("Config.AdvancedDebug", false)) {
-                                sender.sendMessage("§a");
-                                sender.sendMessage("§f-> §7PlaceholderAPI: §a" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"));
-                            }
+                            sender.sendMessage("§a");
+                            sender.sendMessage("§f-> §7PlaceholderAPI: §a" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"));
                             sender.sendMessage("§8+------------------------------------+");
+
+                            return true;
                         }else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
@@ -87,19 +87,7 @@ public class BE implements CommandExecutor {
                     }else if (args[0].equalsIgnoreCase("checkforupdates")) {
                         if (sender.hasPermission("boosteconomy.checkforupdates")) {
                             if (sender instanceof ConsoleCommandSender) {
-                                if (!(BoostEconomy.getInstance().isLegacy())) {
-                                    new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
-                                        if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §aNo new version available!");
-                                        } else {
-                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] New version available! §av" + version);
-                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
-                                            Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §eDownload it at https://www.spigotmc.org/resources/86591");
-                                        }
-                                    });
-                                } else {
-                                    Bukkit.getConsoleSender().sendMessage("[BoostEconomy] You can't use the updater in this version! §c(Works with 1.12+)");
-                                }
+                                BoostEconomy.ConsoleUpdater();
                             } else {
                                 if (!(BoostEconomy.getInstance().isLegacy())) {
                                     new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
@@ -138,6 +126,6 @@ public class BE implements CommandExecutor {
                 }
             }
         }
-        return false;
+        return true;
     }
 }

@@ -27,6 +27,11 @@ public class Banknotes implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) return false;
         if (args.length == 0) {
+            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                BoostEconomy.playErrorSound(p);
+            }
             return false;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {
             if (!sender.hasPermission("boosteconomy.banknotes.give")) {
@@ -83,7 +88,14 @@ public class Banknotes implements CommandExecutor {
                 }
             }
             return true;
+        } else {
+            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+            if (sender instanceof Player) {
+                Player p = (Player) sender;
+                BoostEconomy.playErrorSound(p);
+            }
         }
+
         return false;
     }
 }

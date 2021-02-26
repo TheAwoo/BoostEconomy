@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.5
+# Ver 1.2.6
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -41,7 +41,7 @@ Messages:
     PlayerFormat: "&6%number%) &f&l%player%: &c%money%$"
 
 Config:
-  AdvancedDebug: false
+  Disable-Essentials-Economy: true
   Placeholders: true
   CheckForUpdates:
     Console: true

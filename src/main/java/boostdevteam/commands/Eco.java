@@ -115,6 +115,6 @@ public class Eco implements CommandExecutor {
                 }
             }
         }
-        return false;
+        return true;
     }
 }

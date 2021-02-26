@@ -43,6 +43,12 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     public static VEconomy veco;
     public static VHook hook;
+    private static Economy econ = null;
+    
+    // Startup variables
+    private static int errors = 0;
+    private static int warning = 0;
+    private static boolean sounds, placeholderapi;
 
     private final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
 
@@ -53,6 +59,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     private Economy economy;
      //The base lore for the item
     private List<String> baseLore;
+    private Economy VEconomy;
 
     public String colorMessage(String message) {
         if (message == null) {
@@ -145,10 +152,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         try {
             config.loadFromString (Files.toString (file, StandardCharsets.UTF_8));
         } catch (IOException | InvalidConfigurationException e) {
+            errors++;
             e.printStackTrace ();
         }
     }
-
+    
     public static void useSounds () {
         if (Bukkit.getVersion().contains("1.9")
                 || Bukkit.getVersion().contains("1.10")
@@ -159,7 +167,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 || Bukkit.getVersion().contains("1.15")
                 || Bukkit.getVersion().contains("1.16")) {
             getInstance().getConfig().set("Config.UseSounds", true);
+            sounds = false;
         } else {
+            warning++;
+            sounds = true;
             getInstance().getConfig().set("Config.UseSounds", false);
             Bukkit.getConsoleSender().sendMessage("§f-> §eThe sounds has been disabled to prevent errors, " +
                     "if you want to use the sounds you need to change that to true and set the sounds for your version!");
@@ -186,6 +197,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                         new Placeholders(this).register();
                     } catch (NoClassDefFoundError e) {
                         Bukkit.getConsoleSender().sendMessage("§f-> §cError on hooking with PlaceholderAPI");
+                        errors++;
                     } finally {
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aPlaceholderAPI§7!");
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_money% §7placeholder!");
@@ -194,6 +206,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 }
             } else {
                 Bukkit.getConsoleSender().sendMessage("§f-> §7Could not find §cPlaceholderAPI§7 for placeholders, no placeholders will be added!");
+                warning++;
+                placeholderapi = true;
             }
 
             try {
@@ -201,6 +215,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 @SuppressWarnings("unused")
                 MetricsLite metrics = new MetricsLite(this, pluginId);
             }catch (Exception e) {
+                errors++;
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError with metrics!");
                 e.printStackTrace();
             }
@@ -214,11 +229,14 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 new MobFile();
 
                 try {
+
                     veco = new VEconomy(plugin);
                     hook = new VHook();
 
                     hook.onHook();
+
                 }catch (Exception e) {
+                    errors++;
                     Bukkit.getConsoleSender().sendMessage("§f-> §cError hooking with Vault!");
                     Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
                 } finally {
@@ -237,11 +255,28 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 ConsoleUpdater();
 
             }catch (Exception e) {
+                errors++;
                 Bukkit.getConsoleSender().sendMessage("§f-> §cUnexpected error!");
                 e.printStackTrace();
             }finally {
                 Bukkit.getConsoleSender().sendMessage("§7");
-                Bukkit.getConsoleSender().sendMessage("§aPlugin loaded with success! (" + (System.currentTimeMillis() - before) + "ms)");
+
+                if (errors != 0) {
+                    Bukkit.getConsoleSender().sendMessage("§cThe plugin is loaded with " + errors + " errors. (" + (System.currentTimeMillis() - before) + "ms)");
+                } else {
+                    Bukkit.getConsoleSender().sendMessage("§aThe plugin is loaded with no errors (" + (System.currentTimeMillis() - before) + "ms)");
+                }
+
+                if (warning != 0) {
+                    Bukkit.getConsoleSender().sendMessage("§eYou have " + warning + " warnings!");
+                    if (sounds) {
+                        Bukkit.getConsoleSender().sendMessage("§e- Sounds disabled (Incompatible version)");
+                    }
+                    if (placeholderapi) {
+                        Bukkit.getConsoleSender().sendMessage("§e- PlaceholderAPI not found");
+                    }
+                }
+
                 Bukkit.getConsoleSender().sendMessage("§8");
                 Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             }
@@ -249,9 +284,14 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public static void ConsoleUpdater () {
-        if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {
+
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, () -> {
                 long before = System.currentTimeMillis();
+                if (Bukkit.getVersion().contains("1.12")
+                        || Bukkit.getVersion().contains("1.13")
+                        || Bukkit.getVersion().contains("1.14")
+                        || Bukkit.getVersion().contains("1.15")
+                        || Bukkit.getVersion().contains("1.16")) {
                 if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Console")) {
                     new UpdateChecker(plugin, 86591).getVersion(version -> {
                         if (plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
@@ -272,19 +312,20 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                             Bukkit.getConsoleSender().sendMessage("§f-> §eDownload it at https://www.spigotmc.org/resources/86591");
                             Bukkit.getConsoleSender().sendMessage("§8");
                             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-                        }
-                    });
+                            }
+                        });
+                    }
+                }else {
+                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                    Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
+                    Bukkit.getConsoleSender().sendMessage("               §eUpdater");
+                    Bukkit.getConsoleSender().sendMessage("§8");
+                    Bukkit.getConsoleSender().sendMessage("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
+                    Bukkit.getConsoleSender().sendMessage("§8");
+                    Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
+                    errors++;
                 }
             }, 40);
-        }else {
-            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-            Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
-            Bukkit.getConsoleSender().sendMessage("               §eUpdater");
-            Bukkit.getConsoleSender().sendMessage("§8");
-            Bukkit.getConsoleSender().sendMessage("§f-> You are using a server version not compatible with the updater! §c(Works with 1.12+)");
-            Bukkit.getConsoleSender().sendMessage("§8");
-            Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
-        }
     }
 
     public String formatDouble(double value) {
@@ -389,16 +430,21 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     private boolean setupEconomy() {
-        return getServer().getPluginManager().getPlugin("Vault") != null;
+        if (getServer().getPluginManager().getPlugin("Vault") == null) {
+            return false;
+        }
+
+        return true;
     }
 
+    public static Economy getEconomy() {
+        if (econ == null) {
+        }
+        return econ;
+    }
 
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
-    }
-
-    public Economy getEconomy() {
-        return economy;
     }
 
     public void loadItem () {
