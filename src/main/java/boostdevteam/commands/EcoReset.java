@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
@@ -16,7 +17,7 @@ public class EcoReset implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("ecoreset")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (sender.hasPermission("boosteconomy.ecoreset")) {
+                if (sender.hasPermission("boosteconomy.ecoreset") || sender.hasPermission("boosteconomy.*")) {
                     if (args.length == 0) {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
 
@@ -25,7 +26,7 @@ public class EcoReset implements CommandExecutor {
                         }
 
                     } else if (args.length == 1) {
-                        if (sender.hasPermission("boosteconomy.ecoreset")) {
+                        if (sender.hasPermission("boosteconomy.ecoreset") || sender.hasPermission("boosteconomy.*")) {
                             Player p = Bukkit.getServer().getPlayer(args[0]);
                             if (p != null) {
                                 Data data = BoostEconomy.getData();
@@ -36,6 +37,9 @@ public class EcoReset implements CommandExecutor {
 
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
                                 p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));
+
+                                String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                                BoostEconomy.saveLog(senderName + " have reset the balance of " + p.getName());
 
                                 if (sender instanceof Player) {
                                     BoostEconomy.playSuccessSound(player);

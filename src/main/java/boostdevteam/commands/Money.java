@@ -39,13 +39,13 @@ public class Money implements CommandExecutor, Listener {
         if (!(BoostEconomy.getInstance().getConfig().getBoolean("GUI.Money.UseGUI"))) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (sender.hasPermission("boosteconomy.money")) {
+                if (sender.hasPermission("boosteconomy.money") || sender.hasPermission("boosteconomy.*")) {
                     if (cmd.getName().equalsIgnoreCase("money")) {
                         if (args.length == 0) {
                             Economy money = new Economy(player, 0);
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
                         } else if (args.length == 1) {
-                            if (sender.hasPermission("boosteconomy.money.others")) {
+                            if (sender.hasPermission("boosteconomy.money.others") || sender.hasPermission("boosteconomy.*")) {
                                 Player p = Bukkit.getServer().getPlayer(args[0]);
                                 if (p != null) {
                                     if (!(p == sender)) {
@@ -93,7 +93,7 @@ public class Money implements CommandExecutor, Listener {
         if (BoostEconomy.getInstance().getConfig().getBoolean("GUI.Money.UseGUI")) {
                 if (sender instanceof Player) {
                     Player player = (Player) sender;
-                    if (sender.hasPermission("boosteconomy.money")) {
+                    if (sender.hasPermission("boosteconomy.money") || sender.hasPermission("boosteconomy.*")) {
                         if (cmd.getName().equalsIgnoreCase("money")) {
                             if (args.length == 0) {
 
@@ -140,7 +140,7 @@ public class Money implements CommandExecutor, Listener {
                                 player.openInventory(money);
 
                             } else if (args.length == 1) {
-                                if (sender.hasPermission("boosteconomy.money.others")) {
+                                if (sender.hasPermission("boosteconomy.money.others") || sender.hasPermission("boosteconomy.*")) {
                                     Player p = Bukkit.getServer().getPlayer(args[0]);
                                     if (p != null) {
                                         if (!(p == sender)) {
@@ -251,7 +251,7 @@ public class Money implements CommandExecutor, Listener {
                         BoostEconomy.playErrorSound(player);
                     }
                 } else {
-                    if (cmd.getName().equalsIgnoreCase("money")) {
+                    if (cmd.getName().equalsIgnoreCase("money") || sender.hasPermission("boosteconomy.*")) {
                         if (args.length == 0) {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
                         } else if (args.length == 1) {

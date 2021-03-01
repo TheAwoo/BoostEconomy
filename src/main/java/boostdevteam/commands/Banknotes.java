@@ -34,7 +34,7 @@ public class Banknotes implements CommandExecutor {
             }
             return false;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {
-            if (!sender.hasPermission("boosteconomy.banknotes.give")) {
+            if (!sender.hasPermission("boosteconomy.banknotes.give") || !sender.hasPermission("boosteconomy.*")) {
                 sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
                 Player player = (Player) sender;
                 BoostEconomy.playErrorSound(player);
@@ -80,6 +80,8 @@ public class Banknotes implements CommandExecutor {
                     sender.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Given")
                             .replace("%money%", "" + amount)
                             .replace("%player%", target.getName()));
+
+                    BoostEconomy.saveLog(senderName + " gave to " + target.getName() + " a banknote of " + amount + "$");
 
                     if (sender instanceof Player) {
                         Player player = (Player) sender;

@@ -12,7 +12,7 @@ import org.bukkit.entity.Player;
  */
 public class Placeholders extends PlaceholderExpansion {
 
-    private BoostEconomy plugin;
+    public BoostEconomy plugin;
 
     /**
      * Since we register the expansion inside our own plugin, we

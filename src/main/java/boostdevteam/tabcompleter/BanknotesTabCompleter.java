@@ -19,7 +19,7 @@ public class BanknotesTabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                List<String> listUse = Arrays.asList("give", "toggle");
+                List<String> listUse = Arrays.asList("give");
                 return listUse;
             }
             case 2: {

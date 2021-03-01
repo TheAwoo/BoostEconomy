@@ -10,8 +10,8 @@ import java.util.List;
 
 public class VEconomy implements Economy {
 
-    private BoostEconomy plugin;
-    private final String name = "BoostEconomy";
+    public BoostEconomy plugin;
+    public final String name = "BoostEconomy";
 
     public VEconomy (BoostEconomy plugin) {
         this.plugin = plugin;

@@ -23,8 +23,9 @@ public class BE implements CommandExecutor {
                     }
                 } else if (args.length == 1) {
                     if (args[0].equalsIgnoreCase("reload")) {
-                        if(sender.hasPermission("boosteconomy.reload")) {
+                        if(sender.hasPermission("boosteconomy.reload") || sender.hasPermission("boosteconomy.*")) {
                             BoostEconomy.onReload(sender);
+                            BoostEconomy.saveLog("Plugin reloaded");
                             return true;
                         }else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
@@ -34,7 +35,7 @@ public class BE implements CommandExecutor {
                             }
                         }
                     }else if (args[0].equalsIgnoreCase("help")) {
-                        if (sender.hasPermission("boosteconomy.help")) {
+                        if (sender.hasPermission("boosteconomy.help") || sender.hasPermission("boosteconomy.*")) {
                             sender.sendMessage("§8§l§m+---------------------------+");
                             sender.sendMessage("§b§l/be <reload/help/debug/checkforupdates> §7The main command");
                             sender.sendMessage("§b§l/pay <player> <money> §7Send money to a player");
@@ -85,7 +86,7 @@ public class BE implements CommandExecutor {
                             }
                         }
                     }else if (args[0].equalsIgnoreCase("checkforupdates")) {
-                        if (sender.hasPermission("boosteconomy.checkforupdates")) {
+                        if (sender.hasPermission("boosteconomy.checkforupdates") || sender.hasPermission("boosteconomy.*")) {
                             if (sender instanceof ConsoleCommandSender) {
                                 BoostEconomy.ConsoleUpdater();
                             } else {

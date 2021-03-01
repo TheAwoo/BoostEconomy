@@ -1,5 +1,5 @@
 # BoostEconomy made by ItsWagPvP for BoostDevTeam
-# Ver 1.2.6
+# Do not change the version!
 # -
 # The updater didn't works under 1.12 !! (If you enable the plugin function don't change)
 # Note that this sounds work only from 1.9+
@@ -12,6 +12,8 @@
 # -
 # For the entity kill rewards watch the bottom of this file
 # and then go and look mobs.yml file to disable some entities
+
+Version: 1.2.7
 
 Messages:
   General:
@@ -41,7 +43,7 @@ Messages:
     PlayerFormat: "&6%number%) &f&l%player%: &c%money%$"
 
 Config:
-  Disable-Essentials-Economy: true
+  Logs: true
   Placeholders: true
   CheckForUpdates:
     Console: true

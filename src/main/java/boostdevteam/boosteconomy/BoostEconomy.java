@@ -27,40 +27,49 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.text.DateFormat;
 import java.text.NumberFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static boostdevteam.boosteconomy.LogFile.LogFileData;
+
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
+    // Files
     public static BoostEconomy plugin;
     public static Data data;
     public static MobFile mob;
-
-    public static VEconomy veco;
-    public static VHook hook;
-    private static Economy econ = null;
+    public static LogFile log;
     
     // Startup variables
     private static int errors = 0;
     private static int warning = 0;
-    private static boolean sounds, placeholderapi;
+    private static boolean sounds, placeholderapi, configOutDated, essentials;
 
+    // Banknotes value finder
     private final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
 
     //The base banknote item
     private ItemStack base;
 
     // Economy instance
-    private Economy economy;
+    public Economy economy;
+    public Economy VEconomy;
+    public static VEconomy veco;
+    public static VHook hook;
+    private static final Economy econ = null;
+
      //The base lore for the item
     private List<String> baseLore;
-    private Economy VEconomy;
 
+    // Banknotes custom color
     public String colorMessage(String message) {
         if (message == null) {
             return "null";
@@ -68,6 +77,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return ChatColor.translateAlternateColorCodes('&', message);
     }
 
+    // Banknotes custom messages
     public String getMessage(String path) {
         if (!getConfig().isString(path)) {
             return path;
@@ -76,6 +86,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return ChatColor.translateAlternateColorCodes('&', getConfig().getString(path));
     }
 
+    // Reload method
     public static void onReload(CommandSender sender) {
         long before = System.currentTimeMillis();
         try {
@@ -85,10 +96,13 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
             data = new Data();
             mob = new MobFile();
+            log = new LogFile();
 
+            new LogFile();
             new Data();
             new MobFile();
-        }catch (Exception e){
+
+        }catch (Exception e) {
             if (sender instanceof Player) {
                 sender.sendMessage("§b§lBoostEconomy §8--> §cError while reloading the plugin!");
                 e.printStackTrace();
@@ -110,11 +124,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
-    /**
-     * Methods called when a player do something
-     *
-     */
-
+    // Error sound played to player
     public static void playErrorSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             try {
@@ -127,6 +137,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    // Success sound played to player
     public static void playSuccessSound (Player player) {
         if (getInstance().getConfig().getBoolean("Config.UseSounds")) {
             try {
@@ -139,9 +150,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    // First config creation
     @Override
     public void onLoad() {
-        // Plugin load logic
 
         Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy] §eLoading!");
 
@@ -156,7 +167,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             e.printStackTrace ();
         }
     }
-    
+
+    // Controls if the version of the server is compatible with the sounds in config.yml
     public static void useSounds () {
         if (Bukkit.getVersion().contains("1.9")
                 || Bukkit.getVersion().contains("1.10")
@@ -177,9 +189,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
+    // Plugin startup logic
     @Override
     public void onEnable() {
-        // Plugin startup logic
 
         plugin = this;
 
@@ -210,6 +222,13 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 placeholderapi = true;
             }
 
+            if (Bukkit.getPluginManager().getPlugin("Essentials") != null){
+                Bukkit.getConsoleSender().sendMessage("§f");
+                Bukkit.getConsoleSender().sendMessage("§f-> §7Essentials economy can cause some conflicts with BoostEconomy!");
+                warning++;
+                essentials = true;
+            }
+
             try {
                 int pluginId = 9572;
                 @SuppressWarnings("unused")
@@ -219,14 +238,16 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError with metrics!");
                 e.printStackTrace();
             }
-            //
+
             try {
 
                 data = new Data();
                 mob = new MobFile();
+                log = new LogFile();
 
                 new Data();
                 new MobFile();
+                new LogFile();
 
                 try {
 
@@ -252,7 +273,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 loadEvents();
                 loadCommands();
 
+                checkConfigVersion();
+
                 ConsoleUpdater();
+
+                saveLog("Plugin loaded");
 
             }catch (Exception e) {
                 errors++;
@@ -268,12 +293,18 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 }
 
                 if (warning != 0) {
-                    Bukkit.getConsoleSender().sendMessage("§eYou have " + warning + " warnings!");
+                    Bukkit.getConsoleSender().sendMessage("§eYou have " + warning + " startup warnings!");
                     if (sounds) {
                         Bukkit.getConsoleSender().sendMessage("§e- Sounds disabled (Incompatible version)");
                     }
                     if (placeholderapi) {
                         Bukkit.getConsoleSender().sendMessage("§e- PlaceholderAPI not found");
+                    }
+                    if (configOutDated) {
+                        Bukkit.getConsoleSender().sendMessage("§e- Outdated config.yml");
+                    }
+                    if (essentials) {
+                        Bukkit.getConsoleSender().sendMessage("§e- Essentials economy loaded");
                     }
                 }
 
@@ -283,8 +314,32 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         }
     }
 
-    public static void ConsoleUpdater () {
+    // Will check if the config.yml is outdated
+    public static void checkConfigVersion () {
+        if (getInstance().getConfig().getString("Version").equals(BoostEconomy.plugin.getDescription().getVersion())) {
+            Bukkit.getConsoleSender().sendMessage("§7");
+            Bukkit.getConsoleSender().sendMessage("§f-> §eLook that your config.yml is outdated!");
+            warning++;
+            configOutDated = true;
+        }
+    }
 
+    // log.txt log creation
+    public static void saveLog(String text) {
+        if (getInstance().getConfig().getBoolean("Config.Logs", true)) {
+            DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss-dd/MM");
+            Date date = new Date();
+            log.logData.set("(" + dateFormat.format(date) + ")", text);
+            try {
+                log.logData.save(LogFileData);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    // Updater logic
+    public static void ConsoleUpdater () {
             Bukkit.getServer().getScheduler().scheduleSyncDelayedTask(BoostEconomy.plugin, () -> {
                 long before = System.currentTimeMillis();
                 if (Bukkit.getVersion().contains("1.12")
@@ -328,6 +383,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             }, 40);
     }
 
+    // Format the 0,00 double in the banknotes
     public String formatDouble(double value) {
         NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
 
@@ -339,6 +395,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return nf.format(value);
     }
 
+    // Simply load the events
     public void loadEvents() {
         // OnJoin and OnQuit data saves
         Bukkit.getPluginManager().registerEvents(new PluginListener(), this);
@@ -353,6 +410,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     }
 
+    // Simply load the commands
     @NotNull
     @SuppressWarnings("all")
     public void loadCommands() {
@@ -384,9 +442,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
     }
 
+    // Plugin shutdown logic
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
         if (!setupEconomy()) {
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
@@ -414,12 +472,17 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             }
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         }
+
+        saveLog("Plugin unloaded");
+
     }
 
+    // Main instance of this class
     public static BoostEconomy getInstance() {
         return plugin;
     }
 
+    // Data for players and baltop
     public static Data getData() {
 
         if (data == null) {
@@ -429,24 +492,25 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return data;
     }
 
+    // Control if Vault is installed
     private boolean setupEconomy() {
-        if (getServer().getPluginManager().getPlugin("Vault") == null) {
-            return false;
-        }
-
-        return true;
+        return getServer().getPluginManager().getPlugin("Vault") != null;
     }
 
+    // Vault economy instance
     public static Economy getEconomy() {
         if (econ == null) {
+            return null;
         }
         return econ;
     }
 
+    // Just renamed a method
     public static String getVersion() {
         return Bukkit.getBukkitVersion();
     }
 
+    // Load base item for banknotes
     public void loadItem () {
         base = new ItemStack(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material")), 1, (short) getConfig().getInt("Banknotes.Data"));
         ItemMeta meta = base.getItemMeta();
@@ -457,6 +521,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         baseLore = getConfig().getStringList("Banknotes.Lore");
     }
 
+    // Create a banknotes with all custom entries
     public ItemStack createBanknote(String creatorName, double amount) {
         loadItem();
         if (creatorName.equals("CONSOLE")) {
@@ -478,12 +543,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return ret;
     }
 
-    /**
-     * Returns whether an ItemStack is a banknote
-     *
-     * @param itemstack The item that may or may not be a note
-     * @return True if the item represents a note, false otherwise
-     */
+    // Return if an item is a banknote
     public boolean isBanknote(ItemStack itemstack) {
         if (itemstack == null) {
             return false;
@@ -498,14 +558,8 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         } else return itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material")));
     }
 
-    /**
-     * Returns the amount of money that the banknote holds
-     *
-     * @param itemstack The banknote
-     * @return The amount of money that the note holds, 0 if the
-     * item isn't a note
-     */
 
+    // Get the value of a banknote
     public double getBanknoteAmount(ItemStack itemstack) {
         if (itemstack.getItemMeta().hasDisplayName()) {
             String display = itemstack.getItemMeta().getDisplayName();
@@ -525,6 +579,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         return 0;
     }
 
+    // Is the server legacy? (Under 1.13)
     public boolean isLegacy () {
         if (BoostEconomy.getVersion().contains("1.13")
                 || BoostEconomy.getVersion().contains("1.14")

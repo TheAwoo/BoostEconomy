@@ -26,7 +26,7 @@ public class Deposit implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("Only players can deposit bank notes");
-        } else if (!sender.hasPermission("boosteconomy.banknotes.deposit")) {
+        } else if (!sender.hasPermission("boosteconomy.banknotes.deposit") || !sender.hasPermission("boosteconomy.*")) {
             sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
             BoostEconomy.playErrorSound((Player) sender);
         } else {
@@ -46,6 +46,7 @@ public class Deposit implements CommandExecutor {
                         Economy money = new Economy(player, res);
                         money.setBalance();
 
+                        BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
                         player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
                     } else {
                         player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));

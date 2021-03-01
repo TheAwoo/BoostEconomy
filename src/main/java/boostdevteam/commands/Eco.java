@@ -27,12 +27,14 @@ public class Eco implements CommandExecutor {
                         if (NumberUtils.isNumber(args[2])) {
                             Economy money = new Economy(p, Double.parseDouble(args[2]));
                             if (args[1].equalsIgnoreCase("set")) {
-                                if (sender.hasPermission("boosteconomy.money.set")) {
+                                if (sender.hasPermission("boosteconomy.money.set") || sender.hasPermission("boosteconomy.*")) {
 
                                     money.setBalance();
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
+                                    String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                                    BoostEconomy.saveLog(senderName + " have changed the money of " + p.getName());
                                     if (sender instanceof Player) {
                                         BoostEconomy.playErrorSound((Player) sender);
                                         BoostEconomy.playSuccessSound(p);
@@ -47,12 +49,14 @@ public class Eco implements CommandExecutor {
                                 }
                                 return true;
                             } else if (args[1].equalsIgnoreCase("give")) {
-                                if (sender.hasPermission("boosteconomy.money.give")) {
+                                if (sender.hasPermission("boosteconomy.money.give") || sender.hasPermission("boosteconomy.*")) {
 
                                     money.addBalance();
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
+                                    String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                                    BoostEconomy.saveLog(senderName + " gived " + args[(2)] + "$ to " + p.getName());
                                     if (sender instanceof Player) {
                                         BoostEconomy.playSuccessSound(p);
                                         BoostEconomy.playSuccessSound((Player) sender);
@@ -67,11 +71,14 @@ public class Eco implements CommandExecutor {
                                     return true;
                                 }
                             } else if (args[1].equalsIgnoreCase("take")) {
-                                if (sender.hasPermission("boosteconomy.money.take")) {
+                                if (sender.hasPermission("boosteconomy.money.take") || sender.hasPermission("boosteconomy.*")) {
 
                                     money.takeBalance();
                                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+
+                                    String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                                    BoostEconomy.saveLog(senderName + " removed " + args[(2)] + "$ from " + p.getName());
 
                                     if (sender instanceof Player) {
                                         BoostEconomy.playSuccessSound(p);

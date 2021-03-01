@@ -7,6 +7,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 
 public class Pay implements CommandExecutor {
@@ -16,7 +17,7 @@ public class Pay implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("pay")) {
             if (sender instanceof Player) {
                 Player player = (Player) sender;
-                if (sender.hasPermission("boosteconomy.pay")) {
+                if (sender.hasPermission("boosteconomy.pay") || sender.hasPermission("boosteconomy.*")) {
                     if (args.length == 2) {
                         Player p = Bukkit.getServer().getPlayer(args[0]);
                         if (p != null) {
@@ -40,6 +41,10 @@ public class Pay implements CommandExecutor {
 
                                         BoostEconomy.playSuccessSound(p);
                                         BoostEconomy.playSuccessSound(player);
+
+                                        String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                                        BoostEconomy.saveLog(senderName + " has sent " + Double.parseDouble(args[1]) + "$ to " + p.getName());
+                                        BoostEconomy.saveLog(p.getName() + " received " + Double.parseDouble(args[1]) + "$ from " + senderName);
 
                                         return true;
 

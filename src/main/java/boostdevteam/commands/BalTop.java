@@ -79,7 +79,7 @@ public class BalTop implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("baltop")) {
             if (sender instanceof Player) {
                 Player p = (Player) sender;
-                if (p.hasPermission("boosteconomy.baltop")) {
+                if (p.hasPermission("boosteconomy.baltop") || p.hasPermission("boosteconomy.*")) {
                     if (!(BoostEconomy.getInstance().getConfig().getBoolean("GUI.BalTop.UseGUI"))) {
                         p.sendMessage("§8§m§l+------------------------+");
                         p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.BalTop.Header").replaceAll("&", "§"));

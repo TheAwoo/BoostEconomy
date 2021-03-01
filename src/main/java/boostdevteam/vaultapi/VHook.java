@@ -6,8 +6,8 @@ import org.bukkit.plugin.ServicePriority;
 
 public class VHook {
 
-    private BoostEconomy plugin = BoostEconomy.getInstance();
-    private Economy veco;
+    public BoostEconomy plugin = BoostEconomy.getInstance();
+    public Economy veco;
 
     public void onHook() {
         veco = new VEconomy(plugin);

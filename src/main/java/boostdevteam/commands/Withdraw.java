@@ -5,6 +5,7 @@ import boostdevteam.misc.Economy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
+import org.bukkit.command.ConsoleCommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
@@ -26,7 +27,7 @@ public class Withdraw implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage("[BoostEconomy] §cOnly players can withdraw bank notes");
-        } else if (!sender.hasPermission("boosteconomy.banknotes.withdraw")) {
+        } else if (!sender.hasPermission("boosteconomy.banknotes.withdraw") || !sender.hasPermission("boosteconomy.*")) {
             sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
             BoostEconomy.playErrorSound((Player) sender);
         } else if (args.length == 0) {
@@ -83,6 +84,9 @@ public class Withdraw implements CommandExecutor {
                 player.getInventory().addItem(banknote);
                 player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Created").replace("%money%", plugin.formatDouble(amount)));
                 BoostEconomy.playSuccessSound(player);
+
+                String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
+                BoostEconomy.saveLog(senderName + " have withdrawn a banknote of " + amount + "$");
             }
         }
 

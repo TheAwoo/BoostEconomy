@@ -42,7 +42,7 @@ public class Banknotes implements Listener {
                 }
 
                 // Check if the player is allowed to deposit bank notes
-                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit")) {
+                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit") || !event.getPlayer().hasPermission("boosteconomy.*")) {
                     return;
                 }
 
@@ -75,6 +75,8 @@ public class Banknotes implements Listener {
                 player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
                 BoostEconomy.playSuccessSound(player);
 
+                BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
+
                 // Remove the slip
                 if (item.getAmount() <= 1) {
                     event.getPlayer().getInventory().removeItem(item);
@@ -96,7 +98,7 @@ public class Banknotes implements Listener {
                 }
 
                 // Check if the player is allowed to deposit bank notes
-                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit")) {
+                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit") || !event.getPlayer().hasPermission("boosteconomy.*")) {
                     return;
                 }
 
@@ -124,6 +126,8 @@ public class Banknotes implements Listener {
                 double res = x + y;
                 Economy money = new Economy(player, res);
                 money.setBalance();
+
+                BoostEconomy.saveLog(player.getName() + " redeemed a note of " + plugin.formatDouble(amount) + "$");
 
                 // Deposit the money
                 player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
