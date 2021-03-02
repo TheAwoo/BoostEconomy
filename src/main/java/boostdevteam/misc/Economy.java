@@ -15,12 +15,16 @@ public class Economy extends VEconomy {
         this.money = money;
     }
 
-    public double getBalance() {
-        return super.getBalance(this.p.getName());
+    private String toLong(double amt) {
+        return String.valueOf((long) amt);
+    }
+
+    public long getBalance() {
+        return (long) super.getBalance(this.p.getName());
     }
 
     public void setBalance() {
-        BoostEconomy.getData().saveData(this.p, this.money);
+        BoostEconomy.getData().saveData(this.p, Long.parseLong(toLong(this.money)));
     }
 
     public void addBalance() {

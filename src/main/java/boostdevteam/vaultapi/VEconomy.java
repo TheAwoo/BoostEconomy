@@ -75,7 +75,7 @@ public class VEconomy implements Economy {
     @Override
     public double getBalance(String p) {
         if (BoostEconomy.getData().hasBalance(Bukkit.getPlayer(p))) {
-            return Double.parseDouble(BoostEconomy.getData().getValue(Bukkit.getPlayer(p)));
+            return Double.parseDouble(String.valueOf(BoostEconomy.getData().getValue(Bukkit.getPlayer(p))));
         }
         return 0;
     }
@@ -118,7 +118,7 @@ public class VEconomy implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String arg0, double arg1) {
         if(getBalance(arg0)-arg1 >= 0 ) {
-            BoostEconomy.getData().saveData(Bukkit.getPlayer(arg0), getBalance(arg0) - arg1);
+            BoostEconomy.getData().saveData(Bukkit.getPlayer(arg0), (long) (getBalance(arg0) - arg1));
         } else {
             BoostEconomy.getData().saveData(Bukkit.getPlayer(arg0), 0);
         }
@@ -142,7 +142,7 @@ public class VEconomy implements Economy {
 
     @Override
     public EconomyResponse depositPlayer(String p, double money) {
-        BoostEconomy.getData().saveData(Bukkit.getPlayer(p), money + getBalance(p));
+        BoostEconomy.getData().saveData(Bukkit.getPlayer(p), (long) (money + getBalance(p)));
         return new EconomyResponse(money, getBalance(p), EconomyResponse.ResponseType.SUCCESS, "bank not yet supported");
     }
 

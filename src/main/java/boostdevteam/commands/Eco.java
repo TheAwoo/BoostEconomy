@@ -34,7 +34,7 @@ public class Eco implements CommandExecutor {
                                     p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
 
                                     String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
-                                    BoostEconomy.saveLog(senderName + " have changed the money of " + p.getName());
+                                    BoostEconomy.saveLog(senderName + " have changed the money of " + p.getName() + " to " + money.getBalance() + "$");
                                     if (sender instanceof Player) {
                                         BoostEconomy.playErrorSound((Player) sender);
                                         BoostEconomy.playSuccessSound(p);

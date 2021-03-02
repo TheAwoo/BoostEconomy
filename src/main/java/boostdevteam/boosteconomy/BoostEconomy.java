@@ -53,7 +53,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     private static boolean sounds, placeholderapi, configOutDated, essentials;
 
     // Banknotes value finder
-    private final Pattern MONEY_PATTERN = Pattern.compile("([1-9]\\d{0,2}(,\\d{3})*)");
+    private final Pattern MONEY_PATTERN = Pattern.compile("\\$[\\d,.]*");
 
     // The base banknote item
     private ItemStack base;
@@ -210,8 +210,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                         errors++;
                     } finally {
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aPlaceholderAPI§7!");
-                        Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_money% §7placeholder!");
-                        Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded §e%boosteconomy_servertotal% §7placeholder!");
+                        Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded placeholders!");
                     }
                 }
             } else {
@@ -529,7 +528,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         // Format the base lore
         for (String baseLore : this.baseLore) {
-            formatLore.add(colorMessage(baseLore.replace("%money%", "" + amount).replace("%player%", creatorName)));
+            formatLore.add(colorMessage(baseLore.replace("%money%", "$" + amount).replace("%player%", creatorName)));
         }
 
         // Add the base lore to the item
@@ -568,8 +567,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     Matcher matcher = MONEY_PATTERN.matcher(money);
 
                     if (matcher.find()) {
-                        String amount = matcher.group(1);
-                        return Double.parseDouble(amount.replaceAll(",", ""));
+                        String amount = matcher.group();
+                        String value = amount.replaceAll("\\$", "");
+                        return Double.parseDouble(value);
                     }
                 }
             }

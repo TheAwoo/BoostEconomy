@@ -17,7 +17,7 @@ public class PluginListener implements Listener{
         Data data = BoostEconomy.getData();
 
         if (!data.hasBalance(p)) {
-            data.saveData(p, BoostEconomy.getInstance().getConfig().getDouble("Config.StartMoney"));
+            data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
             if (BoostEconomy.getInstance().getConfig().getBoolean("Config.ConsoleSaveMessage")) {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Saving data for §c" + e.getPlayer().getName());
             }
@@ -33,7 +33,7 @@ public class PluginListener implements Listener{
         Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Saving data for §c" + p.getName() + "§a (" + data.getValue(p) + "$)");
 
         try {
-            data.saveData(p, Double.parseDouble(data.getValue(p)));
+            data.saveData(p, data.getValue(p));
         } catch (Exception exception) {
             Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Could not save data for §c" + p.getName() + " §7because the data.yml does not contains the player data!");
         }

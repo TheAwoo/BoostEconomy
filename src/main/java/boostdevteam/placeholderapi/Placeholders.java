@@ -6,6 +6,9 @@ import boostdevteam.misc.Economy;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
+import java.text.NumberFormat;
+import java.util.Locale;
+
 /**
  * This class will be registered through the register-method in the
  * plugins onEnable-method.
@@ -110,7 +113,7 @@ public class Placeholders extends PlaceholderExpansion {
         // %boosteconomy_money%
         if(identifier.equals("money")){
             Economy eco = new Economy(player, 0);
-            return "" + eco.getBalance();
+            return toLong(eco.getBalance());
         }
 
         //%boosteconomy_servertotal%
@@ -126,8 +129,50 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + sum;
         }
 
+        //%boosteconomy_money_formatted%
+        if (identifier.equals("money_formatted")) {
+            Economy eco = new Economy(player, 0);
+            return fixMoney(eco.getBalance());
+        }
+
         // We return null if an invalid placeholder (f.e. %boosteconomy_invalidplaceholder%)
         // was provided
         return "Invalid placeholder!";
     }
+
+    private String toLong(double amt) {
+        return String.valueOf((long) amt);
+    }
+
+    private String format(double d) {
+        NumberFormat format = NumberFormat.getInstance(Locale.ENGLISH);
+        format.setMaximumFractionDigits(2);
+        format.setMinimumFractionDigits(0);
+        return format.format(d);
+    }
+
+    private String fixMoney(double d) {
+
+        if (d < 1000L) {
+            return format(d);
+        }
+        if (d < 1000000L) {
+            return format(d / 1000L) + BoostEconomy.getInstance().getConfig().getString("Config.Format.k");
+        }
+        if (d < 1000000000L) {
+            return format(d / 1000000L) + BoostEconomy.getInstance().getConfig().getString("Config.Format.M");
+        }
+        if (d < 1000000000000L) {
+            return format(d / 1000000000L) + BoostEconomy.getInstance().getConfig().getString("Config.Format.B");
+        }
+        if (d < 1000000000000000L) {
+            return format(d / 1000000000000L) + BoostEconomy.getInstance().getConfig().getString("Config.Format.T");
+        }
+        if (d < 1000000000000000000L) {
+            return format(d / 1000000000000000L) + BoostEconomy.getInstance().getConfig().getString("Config.Format.Q");
+        }
+
+        return toLong(d);
+    }
+
 }

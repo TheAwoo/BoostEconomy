@@ -33,7 +33,7 @@ public class EcoReset implements CommandExecutor {
 
                                 Economy eco = new Economy(p, 0);
 
-                                data.saveData(p, BoostEconomy.getInstance().getConfig().getDouble("Config.StartMoney"));
+                                data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
                                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
                                 p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));

@@ -13,7 +13,7 @@
 # For the entity kill rewards watch the bottom of this file
 # and then go and look mobs.yml file to disable some entities
 
-Version: 1.2.8
+Version: 1.2.9
 
 Messages:
   General:
@@ -43,6 +43,12 @@ Messages:
     PlayerFormat: "&6%number%) &f&l%player%: &c%money%$"
 
 Config:
+  Format:
+      k: "k"
+      M: "M"
+      B: "B"
+      T: "T"
+      Q: "Q"
   Logs: true
   Placeholders: true
   CheckForUpdates:
@@ -78,7 +84,7 @@ Banknotes:
   Minimun-Withdraw-Amount: 0
   Console-Name: "Console"
   Lore:
-    - "&7Value: &a$%money%"
+    - "&7Value: &a%money%"
     - "&7Withdrawn by &a%player%"
   Allow-Right-Click-To-Deposit-Notes: true
   Messages:

@@ -40,7 +40,7 @@ public class Data {
     }
 
     // Save data and save data for the baltop
-    public void saveData(Player p, double money) {
+    public void saveData(Player p, long money) {
         try {
 
             this.data.set("Data." + p.getName() + ".Money", money);
@@ -73,8 +73,8 @@ public class Data {
         return this.data.getString("Data." + p.getName() + ".Money") != null;
     }
 
-    public String getValue(Player p) {
-        return this.data.getString("Data." + p.getName() + ".Money");
+    public long getValue(Player p) {
+        return this.data.getLong("Data." + p.getName() + ".Money");
     }
 
     private void loadFromData() {
