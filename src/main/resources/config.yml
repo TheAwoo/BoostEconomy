@@ -13,7 +13,7 @@
 # For the entity kill rewards watch the bottom of this file
 # and then go and look mobs.yml file to disable some entities
 
-Version: 1.2.7
+Version: 1.2.8
 
 Messages:
   General:

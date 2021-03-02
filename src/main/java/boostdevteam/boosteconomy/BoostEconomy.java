@@ -39,7 +39,6 @@ import java.util.regex.Pattern;
 
 import static boostdevteam.boosteconomy.LogFile.LogFileData;
 
-
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
     // Files
@@ -54,14 +53,13 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     private static boolean sounds, placeholderapi, configOutDated, essentials;
 
     // Banknotes value finder
-    private final Pattern MONEY_PATTERN = Pattern.compile("((([1-9]\\d{0,2}(,\\d{3})*)|(([1-9]\\d*)?\\d))(\\.?\\d?\\d?)?$)");
+    private final Pattern MONEY_PATTERN = Pattern.compile("([1-9]\\d{0,2}(,\\d{3})*)");
 
-    //The base banknote item
+    // The base banknote item
     private ItemStack base;
 
     // Economy instance
     public Economy economy;
-    public Economy VEconomy;
     public static VEconomy veco;
     public static VHook hook;
     private static final Economy econ = null;
