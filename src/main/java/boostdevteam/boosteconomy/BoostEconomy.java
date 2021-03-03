@@ -62,7 +62,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public Economy economy;
     public static VEconomy veco;
     public static VHook hook;
-    private static final Economy econ = null;
+    private static Economy econ = null;
 
      //The base lore for the item
     private List<String> baseLore;
@@ -403,7 +403,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         // Banknotes claim event
         Bukkit.getPluginManager().registerEvents(new boostdevteam.events.Banknotes(this), this);
         // Entity kill reward
-        this.getServer().getPluginManager().registerEvents(new MobKillEvent(this), this);
+        Bukkit.getPluginManager().registerEvents(new MobKillEvent(this), this);
 
     }
 

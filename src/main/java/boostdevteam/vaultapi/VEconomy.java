@@ -19,12 +19,12 @@ public class VEconomy implements Economy {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return BoostEconomy.getInstance() != null;
     }
 
     @Override
     public String getName() {
-        return null;
+        return name;
     }
 
     @Override
@@ -44,12 +44,12 @@ public class VEconomy implements Economy {
 
     @Override
     public String currencyNamePlural() {
-        return null;
+        return "dollars";
     }
 
     @Override
     public String currencyNameSingular() {
-        return null;
+        return "dollar";
     }
 
     @Override
