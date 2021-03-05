@@ -25,6 +25,8 @@ public class EcoReset implements CommandExecutor {
                             BoostEconomy.playErrorSound(player);
                         }
 
+                        return true;
+
                     } else if (args.length == 1) {
                         if (sender.hasPermission("boosteconomy.ecoreset") || sender.hasPermission("boosteconomy.*")) {
                             Player p = Bukkit.getServer().getPlayer(args[0]);
@@ -55,6 +57,8 @@ public class EcoReset implements CommandExecutor {
                                 if (sender instanceof Player) {
                                     BoostEconomy.playErrorSound(player);
                                 }
+
+                                return true;
                             }
                         } else {
                             sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
@@ -62,6 +66,8 @@ public class EcoReset implements CommandExecutor {
                             if (sender instanceof Player) {
                                 BoostEconomy.playErrorSound(player);
                             }
+
+                            return true;
                         }
                     } else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
@@ -69,6 +75,8 @@ public class EcoReset implements CommandExecutor {
                         if (sender instanceof Player) {
                             BoostEconomy.playErrorSound(player);
                         }
+
+                        return true;
                     }
                 } else {
                     sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
@@ -76,11 +84,14 @@ public class EcoReset implements CommandExecutor {
                     if (sender instanceof Player) {
                         BoostEconomy.playErrorSound(player);
                     }
+
+                    return true;
                 }
             } else {
                 sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                return true;
             }
         }
-        return false;
+        return true;
     }
 }

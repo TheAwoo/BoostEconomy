@@ -32,7 +32,7 @@ public class Banknotes implements CommandExecutor {
                 Player p = (Player) sender;
                 BoostEconomy.playErrorSound(p);
             }
-            return false;
+            return true;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {
             if (!sender.hasPermission("boosteconomy.banknotes.give") || !sender.hasPermission("boosteconomy.*")) {
                 sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
@@ -50,9 +50,9 @@ public class Banknotes implements CommandExecutor {
                     return true;
                 }
 
-                double amount;
+                long amount;
                 try {
-                    amount = Double.parseDouble(args[2]);
+                    amount = Long.parseLong(args[2]);
                 } catch (NumberFormatException ex) {
                     sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
                     if (sender instanceof Player) {

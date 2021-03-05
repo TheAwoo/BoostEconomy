@@ -18,10 +18,6 @@ public class LogFile {
                 this.logData = YamlConfiguration.loadConfiguration(LogFileData);
                 this.logData.options().header("In this file you can view the log of the plugin commands made by players.");
 
-                //DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss-dd/MM");
-                //Date date = new Date();
-                //this.logData.set("(" + dateFormat.format(date) + ")", "log");
-
                 this.logData.save(LogFileData);
 
             }catch (IOException e) {

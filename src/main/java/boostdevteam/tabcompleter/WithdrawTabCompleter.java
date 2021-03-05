@@ -16,7 +16,7 @@ public class WithdrawTabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                List<String> list1 = Arrays.asList("0", "100", "1000");
+                List<String> list1 = Arrays.asList("ALL", "100", "1000");
                 return list1;
             }
             default:

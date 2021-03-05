@@ -28,12 +28,10 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
-import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -48,8 +46,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     public static LogFile log;
     
     // Startup variables
-    private static int errors = 0;
-    private static int warning = 0;
+    private static int errors, warning = 0;
     private static boolean sounds, placeholderapi, configOutDated, essentials;
 
     // Banknotes value finder
@@ -90,7 +87,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         try {
             plugin.saveDefaultConfig();
             plugin.reloadConfig();
-            plugin.saveConfig();
 
             data = new Data();
             mob = new MobFile();
@@ -313,7 +309,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     // Will check if the config.yml is outdated
     public static void checkConfigVersion () {
-        if (getInstance().getConfig().getString("Version").equals(BoostEconomy.plugin.getDescription().getVersion())) {
+        if (!getInstance().getConfig().getString("Version").equals(BoostEconomy.plugin.getDescription().getVersion())) {
             Bukkit.getConsoleSender().sendMessage("§7");
             Bukkit.getConsoleSender().sendMessage("§f-> §eLook that your config.yml is outdated!");
             warning++;
@@ -380,18 +376,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             }, 40);
     }
 
-    // Format the 0,00 double in the banknotes
-    public String formatDouble(double value) {
-        NumberFormat nf = NumberFormat.getInstance(Locale.ENGLISH);
-
-        int max = getConfig().getInt("Banknotes.Maximum-Float-Amount");
-        int min = getConfig().getInt("Banknotes.Minimum-Float-Amount");
-
-        nf.setMaximumFractionDigits(max);
-        nf.setMinimumFractionDigits(min);
-        return nf.format(value);
-    }
-
     // Simply load the events
     public void loadEvents() {
         // OnJoin and OnQuit data saves
@@ -401,10 +385,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         // InventoryClick Event
         Bukkit.getPluginManager().registerEvents(new Money(), this);
         // Banknotes claim event
-        Bukkit.getPluginManager().registerEvents(new boostdevteam.events.Banknotes(this), this);
+        Bukkit.getPluginManager().registerEvents(new boostdevteam.events.Banknotes(plugin), this);
         // Entity kill reward
-        Bukkit.getPluginManager().registerEvents(new MobKillEvent(this), this);
-
+        Bukkit.getPluginManager().registerEvents(new MobKillEvent(plugin), this);
     }
 
     // Simply load the commands
@@ -519,7 +502,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     // Create a banknotes with all custom entries
-    public ItemStack createBanknote(String creatorName, double amount) {
+    public ItemStack createBanknote(String creatorName, long amount) {
         loadItem();
         if (creatorName.equals("CONSOLE")) {
             creatorName = getConfig().getString("Banknotes.Console-Name");

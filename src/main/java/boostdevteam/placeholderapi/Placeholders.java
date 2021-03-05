@@ -116,6 +116,12 @@ public class Placeholders extends PlaceholderExpansion {
             return toLong(eco.getBalance());
         }
 
+        //%boosteconomy_money_formatted%
+        if (identifier.equals("money_formatted")) {
+            Economy eco = new Economy(player, 0);
+            return fixMoney(eco.getBalance());
+        }
+
         //%boosteconomy_servertotal%
         if(identifier.equals("servertotal")){
             Data data = new Data();
@@ -126,13 +132,20 @@ public class Placeholders extends PlaceholderExpansion {
                 total[i] = pData.getMoney();
                 sum = sum + total[i];
             }
-            return "" + sum;
+            return "" + toLong(sum);
         }
 
-        //%boosteconomy_money_formatted%
-        if (identifier.equals("money_formatted")) {
-            Economy eco = new Economy(player, 0);
-            return fixMoney(eco.getBalance());
+        //%boosteconomy_servertotal_formatted%
+        if(identifier.equals("servertotal_formatted")){
+            Data data = new Data();
+            double total[] = new double [data.getBalTop().size()];
+            double sum = 0;
+            for(int i=0; i< data.getBalTop().size(); i++){
+                Data.BoostPlayerData pData = data.getBalTop().get(i);
+                total[i] = pData.getMoney();
+                sum = sum + total[i];
+            }
+            return "" + fixMoney(sum);
         }
 
         // We return null if an invalid placeholder (f.e. %boosteconomy_invalidplaceholder%)

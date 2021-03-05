@@ -63,6 +63,10 @@
             <id>placeholderapi</id>
             <url>http://repo.extendedclip.com/content/repositories/placeholderapi/</url>
         </repository>
+        <repository>
+            <id>savagelabs</id>
+            <url>https://nexus.savagelabs.net/repository/maven-releases/</url>
+        </repository>
     </repositories>
 
     <dependencies>

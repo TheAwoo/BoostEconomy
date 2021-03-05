@@ -18,14 +18,12 @@ public class Banknotes implements Listener {
      */
     private BoostEconomy plugin;
 
-    /**
-     * Creates the note listener
-     */
     public Banknotes(BoostEconomy plugin) {
         this.plugin = plugin;
     }
 
-    @EventHandler(priority = EventPriority.MONITOR)
+
+    @EventHandler(priority = EventPriority.LOW)
     public void onPlayerClaimNote(PlayerInteractEvent event) {
         if (!(plugin.getConfig().getBoolean("Banknotes.UseBanknotes", true))) {
             return;
@@ -34,6 +32,7 @@ public class Banknotes implements Listener {
         if (!plugin.getConfig().getBoolean("Banknotes.Allow-Right-Click-To-Deposit-Notes", true)) {
             return;
         }
+
         if (!(BoostEconomy.getInstance().isLegacy())) {
             try {
                 // Check the action
@@ -55,8 +54,8 @@ public class Banknotes implements Listener {
                     return;
                 }
 
-                double amount = 0;
-                amount = plugin.getBanknoteAmount(item);
+                long amount = 0;
+                amount = (long) plugin.getBanknoteAmount(item);
 
                 // Negative banknotes are not allowed
                 if (Double.compare(amount, 0) < 0) {
@@ -72,7 +71,7 @@ public class Banknotes implements Listener {
                 money.setBalance();
 
                 // Deposit the money
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
+                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
                 BoostEconomy.playSuccessSound(player);
 
                 BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
@@ -83,10 +82,16 @@ public class Banknotes implements Listener {
                 } else {
                     item.setAmount(item.getAmount() - 1);
                 }
+
+                if(event.hasBlock()) {
+                    event.setCancelled(true);
+                }
+
             } catch (Exception e) {
                 event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note!");
-                event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cReport it to and administrator!");
+                event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cReport it to an administrator!");
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §c" + event.getPlayer().getName() + " failed to claim the note!");
+                BoostEconomy.saveLog(event.getPlayer().getName() + " failed to claim the note!");
                 e.printStackTrace();
                 BoostEconomy.playErrorSound(event.getPlayer());
             }
@@ -127,10 +132,10 @@ public class Banknotes implements Listener {
                 Economy money = new Economy(player, res);
                 money.setBalance();
 
-                BoostEconomy.saveLog(player.getName() + " redeemed a note of " + plugin.formatDouble(amount) + "$");
+                BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
 
                 // Deposit the money
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", plugin.formatDouble(amount)));
+                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
                 BoostEconomy.playSuccessSound(player);
 
                 // Remove the slip
@@ -139,6 +144,11 @@ public class Banknotes implements Listener {
                 } else {
                     item.setAmount(item.getAmount() - 1);
                 }
+
+                if(event.hasBlock()) {
+                    event.setCancelled(true);
+                }
+
             } catch (Exception e) {
                 event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note!");
                 event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cReport it to and administrator!");
