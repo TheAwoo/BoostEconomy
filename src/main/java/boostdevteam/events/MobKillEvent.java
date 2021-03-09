@@ -29,6 +29,7 @@ public class MobKillEvent implements Listener {
 
             final LivingEntity victim = event.getEntity();
             String section = victim.getType().toString();
+
             if (!killer.hasPermission("boosteconomy.earn") || !killer.hasPermission("boosteconomy.*")) {
                 return;
             }

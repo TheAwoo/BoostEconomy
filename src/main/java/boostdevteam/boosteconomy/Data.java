@@ -44,8 +44,11 @@ public class Data {
         try {
 
             this.data.set("Data." + p.getName() + ".Money", money);
-            this.data.set("Data." + p.getName() + ".UUID", p.getUniqueId().toString());
-            this.data.set("Data." + p.getName() + ".Last-IP", p.getAddress().toString());
+
+            if (p.isOnline() && p != null) {
+                this.data.set("Data." + p.getName() + ".UUID", p.getUniqueId().toString());
+                this.data.set("Data." + p.getName() + ".Last-IP", p.getAddress().toString());
+            }
 
             this.data.save(FileData);
 

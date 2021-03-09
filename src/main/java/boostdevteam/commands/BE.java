@@ -67,6 +67,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7MC-Version of the server: §c" + Bukkit.getBukkitVersion());
                             sender.sendMessage("§f-> §7Version of the plugin: §e" + BoostEconomy.plugin.getDescription().getVersion());
+                            sender.sendMessage("§f-> §7Version of the config: §e" + BoostEconomy.getInstance().getConfig().getString("Version"));
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7Server software: §6" + Bukkit.getName());
                             sender.sendMessage("§f-> §7Software version: §6" + Bukkit.getVersion());
