@@ -45,11 +45,6 @@ public class Data {
 
             this.data.set("Data." + p.getName() + ".Money", money);
 
-            if (p.isOnline() && p != null) {
-                this.data.set("Data." + p.getName() + ".UUID", p.getUniqueId().toString());
-                this.data.set("Data." + p.getName() + ".Last-IP", p.getAddress().toString());
-            }
-
             this.data.save(FileData);
 
             if ( getBalTopName().containsKey( p.getName() ) ) {
