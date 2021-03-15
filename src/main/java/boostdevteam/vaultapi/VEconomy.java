@@ -39,7 +39,7 @@ public class VEconomy implements Economy {
 
     @Override
     public String format(double v) {
-        return null;
+        return String.format("%,.0f", v);
     }
 
     @Override
