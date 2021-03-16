@@ -23,22 +23,16 @@ public class MobKillEvent implements Listener {
             if (killer == null) {
                 return;
             }
-            if (!(killer instanceof Player)) {
-                return;
-            }
 
             final LivingEntity victim = event.getEntity();
             String section = victim.getType().toString();
 
-            if (!killer.hasPermission("boosteconomy.earn") || !killer.hasPermission("boosteconomy.*")) {
+            // killer has no perms
+            if (!(killer.hasPermission("boosteconomy.earn") || killer.hasPermission("boosteconomy.*"))) {
                 return;
             }
-
+            // is disabled
             if (!(BoostEconomy.mob.mobData.getBoolean("Mobs." + section + ".Enabled"))) {
-                return;
-            }
-
-            if (killer == null) {
                 return;
             }
 
