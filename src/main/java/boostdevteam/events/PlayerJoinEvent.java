@@ -12,8 +12,6 @@ public class PlayerJoinEvent implements Listener {
     public void onJoin(org.bukkit.event.player.PlayerJoinEvent e) {
         Player p = e.getPlayer();
 
-        BoostEconomy.data.data.set("Data." + p.getName() + ".Last-IP", p.getAddress());
-
         if (BoostEconomy.getInstance().getConfig().getBoolean("Config.CheckForUpdates.Player")) {
             if (p.hasPermission("boosteconomy.checkforupdates") || p.hasPermission("boosteconomy.*")) {
                 if (Bukkit.getVersion().contains("1.12") || Bukkit.getVersion().contains("1.13") || Bukkit.getVersion().contains("1.14") || Bukkit.getVersion().contains("1.15") || Bukkit.getVersion().contains("1.16")) {

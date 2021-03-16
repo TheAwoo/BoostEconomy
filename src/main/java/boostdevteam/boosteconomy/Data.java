@@ -25,7 +25,7 @@ public class Data {
             try {
                 FileData.createNewFile();
                 this.data = YamlConfiguration.loadConfiguration(FileData);
-                this.data.options().header("You can change the money of a player, do not change the rest!\nYou will bug the plugin!");
+                this.data.options().header("You can change the money of a player");
                 this.data.createSection("Data");
                 this.data.save(FileData);
             }catch (IOException e) {
@@ -69,6 +69,10 @@ public class Data {
 
     public boolean hasBalance(Player p) {
         return this.data.getString("Data." + p.getName() + ".Money") != null;
+    }
+
+    public boolean hasBalance(String s) {
+        return this.data.getString("Data." + s + ".Money") != null;
     }
 
     public long getValue(Player p) {
@@ -121,14 +125,18 @@ public class Data {
     }
 
     public class BoostPlayerData {
+
         private String name;
         private double money;
-        public BoostPlayerData( String name, double money ) {
+
+        public BoostPlayerData(String name, double money) {
             super();
 
             this.name = name;
             this.money = money;
+
         }
+
         public String getName() {
             return name;
         }
@@ -136,7 +144,8 @@ public class Data {
         public double getMoney() {
             return money;
         }
-        public void setMoney( double money ) {
+
+        public void setMoney(double money) {
             this.money = money;
         }
 

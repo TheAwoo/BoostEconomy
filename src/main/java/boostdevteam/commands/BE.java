@@ -94,17 +94,17 @@ public class BE implements CommandExecutor {
                                 if (!(BoostEconomy.getInstance().isLegacy())) {
                                     new boostdevteam.boosteconomy.UpdateChecker(BoostEconomy.plugin, 86591).getVersion(version -> {
                                         if (BoostEconomy.plugin.getDescription().getVersion().equalsIgnoreCase(version)) {
-                                            sender.sendMessage("§b§lBoostEconomy §8--> §aNo new version available!");
+                                            sender.sendMessage("§b§lBoostEconomy §8» §aNo new version available!");
                                         } else {
-                                            sender.sendMessage("§b§lBoostEconomy §8--> §7New version available! §av" + version);
-                                            sender.sendMessage("§b§lBoostEconomy §8--> §7You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
-                                            sender.sendMessage("§b§lBoostEconomy §8--> §eDownload it at https://www.spigotmc.org/resources/86591");
+                                            sender.sendMessage("§b§lBoostEconomy §8» §7New version available! §av" + version);
+                                            sender.sendMessage("§b§lBoostEconomy §8» §7You have §cv" + BoostEconomy.plugin.getDescription().getVersion());
+                                            sender.sendMessage("§b§lBoostEconomy §8» §eDownload it at https://www.spigotmc.org/resources/86591");
                                         }
                                     });
 
                                     BoostEconomy.playSuccessSound((Player) sender);
                                 } else {
-                                    sender.sendMessage("§b§lBoostEconomy §8--> §7You can't use the updater in this version! §c(Works with 1.12+)");
+                                    sender.sendMessage("§b§lBoostEconomy §8» §7You can't use the updater in this version! §c(Works with 1.12+)");
                                 }
                             }
                             if (sender instanceof Player) {
@@ -118,7 +118,18 @@ public class BE implements CommandExecutor {
                                 BoostEconomy.playErrorSound(p);
                             }
                         }
-                    }else {
+                    } else if (args[0].equalsIgnoreCase("discord")) {
+                        if (sender instanceof ConsoleCommandSender || sender instanceof Player) {
+                            sender.sendMessage("§9§lDiscord §8» §7https://discord.gg/x4mdfwWs8P");
+                            if (sender instanceof Player) {
+                                Player p = (Player) sender;
+                                BoostEconomy.playSuccessSound(p);
+                            }
+                            return true;
+                        }
+
+
+                    } else {
                         sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
                         if (sender instanceof Player) {
                             Player p = (Player) sender;

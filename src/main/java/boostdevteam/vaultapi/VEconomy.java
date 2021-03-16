@@ -1,10 +1,12 @@
 package boostdevteam.vaultapi;
 
 import boostdevteam.boosteconomy.BoostEconomy;
+import boostdevteam.boosteconomy.Data;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -39,7 +41,7 @@ public class VEconomy implements Economy {
 
     @Override
     public String format(double v) {
-        return null;
+        return String.format("%,.0f", v);
     }
 
     @Override
@@ -54,22 +56,26 @@ public class VEconomy implements Economy {
 
     @Override
     public boolean hasAccount(String s) {
-        return false;
+        Data data = new Data();
+        return data.hasBalance(s);
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
-        return false;
+        Data data = new Data();
+        return data.hasBalance((Player) offlinePlayer);
     }
 
     @Override
     public boolean hasAccount(String s, String s1) {
-        return false;
+        Data data = new Data();
+        return data.hasBalance(s);
     }
 
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer, String s) {
-        return false;
+        Data data = new Data();
+        return data.hasBalance((Player) offlinePlayer);
     }
 
     @Override
@@ -97,22 +103,38 @@ public class VEconomy implements Economy {
 
     @Override
     public boolean has(String s, double v) {
-        return false;
+        if( (getBalance(s) - v) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        return false;
+        if( (getBalance(offlinePlayer) - v) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean has(String s, String s1, double v) {
-        return false;
+        if( (getBalance(s) - v) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        return false;
+        if( (getBalance(offlinePlayer) - v) >= 0) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override
@@ -222,9 +244,7 @@ public class VEconomy implements Economy {
     }
 
     @Override
-    public boolean createPlayerAccount(String s) {
-        return false;
-    }
+    public boolean createPlayerAccount(String s) {return false;}
 
     @Override
     public boolean createPlayerAccount(OfflinePlayer offlinePlayer) {

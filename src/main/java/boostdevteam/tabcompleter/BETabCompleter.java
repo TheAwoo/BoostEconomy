@@ -6,7 +6,8 @@ import org.bukkit.command.TabCompleter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 public class BETabCompleter implements TabCompleter {
     @Nullable
@@ -15,7 +16,7 @@ public class BETabCompleter implements TabCompleter {
         int i = (args.length);
         switch (i) {
             case 1: {
-                List<String> list = Arrays.asList("reload", "help", "checkforupdates", "debug");
+                List<String> list = Arrays.asList("reload", "help", "checkforupdates", "debug", "discord");
                 return list;
                 }
             default: {
