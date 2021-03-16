@@ -37,7 +37,7 @@ public class MobKillEvent implements Listener {
             }
 
             Economy eco = new Economy(killer, BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
-            eco.depositPlayer(killer, BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
+            eco.addBalance();
             if (BoostEconomy.getInstance().getConfig().getBoolean("Entity.SendMessage")) {
                 killer.sendMessage(plugin.getConfig().getString("Entity.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
