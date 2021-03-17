@@ -1,0 +1,54 @@
+name: BoostEconomy
+version: 1.3.5
+main: boostdevteam.boosteconomy.BoostEconomy
+author: _ItsWagPvP
+load: STARTUP
+depend: [ Vault ]
+softdepend: [ PlaceholderAPI ]
+api-version: 1.13
+website: www.boostdevteam.eu
+commands:
+  money:
+    usage: /<command>
+    description: Show your's money
+    aliases:
+      - bal
+      - balance
+  eco:
+    usage: /<command>
+    description: Admin command
+    aliases:
+      - economy
+  pay:
+    usage: /<command>
+    description: Send money to a player
+  be:
+    usage: /<command>
+    description: Main command
+    aliases:
+      - boosteconomy
+      - boosteco
+  ecoreset:
+    usage: /<command>
+    description: Resets the money of a player
+    aliases:
+      - moneyreset
+      - economyreset
+      - boosteconomyreset
+      - boosteconomyresetmoney
+  baltop:
+    usage: /<command>
+    description:
+    aliases:
+      - balancetop
+  banknotes:
+    usage: /<command>
+    description: Central command of the banknotes
+  withdraw:
+    usage: /<command>
+    description: Create a banknotes
+  deposit:
+    usage: /<command>
+    aliases:
+      - claimnote
+    description: If you have a banknote in your hand it will be taken
