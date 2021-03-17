@@ -9,7 +9,9 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.io.IOException;
 import java.util.*;
+
 public class Data {
+
     public static final File FileData = new File(BoostEconomy.getInstance().getDataFolder() + "/data.yml");
     public FileConfiguration data;
     private int pointer = 0;
@@ -24,6 +26,7 @@ public class Data {
         if (!FileData.exists()) {
             try {
                 FileData.createNewFile();
+
                 this.data = YamlConfiguration.loadConfiguration(FileData);
                 this.data.options().header("You can change the money of a player");
                 this.data.createSection("Data");

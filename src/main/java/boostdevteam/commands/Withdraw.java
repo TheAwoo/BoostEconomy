@@ -26,12 +26,12 @@ public class Withdraw implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("[BoostEconomy] §cOnly players can withdraw bank notes");
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
         } else if (!sender.hasPermission("boosteconomy.banknotes.withdraw") || !sender.hasPermission("boosteconomy.*")) {
-            sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
             BoostEconomy.playErrorSound((Player) sender);
         } else if (args.length == 0) {
-            sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Banknotes.Messages.Invalid-Number").replaceAll("&", "§"));
             BoostEconomy.playErrorSound((Player) sender);
         } else {
 
@@ -44,7 +44,7 @@ public class Withdraw implements CommandExecutor {
                 Economy eco = new Economy(player, 0);
                 amount = args[0].equalsIgnoreCase("all") ? eco.getBalance() : Long.parseLong(args[0]);
             } catch (NumberFormatException invalidNumber) {
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Number").replaceAll("&", "§"));
                 BoostEconomy.playErrorSound(player);
                 return true;
             }
@@ -54,27 +54,29 @@ public class Withdraw implements CommandExecutor {
             long max = plugin.getConfig().getLong("Banknotes.Maximum-Withdraw-Amount");
 
             if (Double.isNaN(amount) || Double.isInfinite(amount) || amount <= 0) {
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Number").replaceAll("&", "§"));
                 BoostEconomy.playErrorSound(player);
             } else if (BoostEconomy.getInstance().getConfig().getBoolean("Banknotes.Enable-Maximum")) {
                 if (amount > max) {
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.More-than-Maximum")
-                            .replace("%max%", "" + max));
+                    player.sendMessage(BoostEconomy.getLanguage().getString("Banknotes.Messages.More-Than-Maximum")
+                            .replace("%max%", "" + max)
+                    .replaceAll("&", "§"));
 
                     BoostEconomy.playErrorSound(player);
                 }
             } else if (BoostEconomy.getInstance().getConfig().getBoolean("Banknotes.Enable-Minimum")) {
                 if (amount < min) {
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Less-Than-Minimum")
-                            .replace("%min%", "" + min));
+                    player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Less-Than-Minimum")
+                            .replace("%min%", "" + min)
+                    .replaceAll("&", "§"));
 
                     BoostEconomy.playErrorSound(player);
                 }
             } else if (eco.getBalance() < amount) {
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Insufficient-Funds"));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Insufficient-Funds").replaceAll("&", "§"));
                 BoostEconomy.playErrorSound(player);
             } else if (player.getInventory().firstEmpty() == -1) {
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Inventory-Full"));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Inventory-Full").replaceAll("&", "§"));
                 BoostEconomy.playErrorSound(player);
             } else {
                 ItemStack banknote = plugin.createBanknote(player.getName(), amount);
@@ -86,7 +88,9 @@ public class Withdraw implements CommandExecutor {
                 money.setBalance();
 
                 player.getInventory().addItem(banknote);
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Created").replace("%money%", "" + amount));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Created")
+                        .replace("%money%", "" + amount)
+                        .replaceAll("&", "§"));
                 BoostEconomy.playSuccessSound(player);
 
                 String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();

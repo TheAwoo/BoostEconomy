@@ -25,9 +25,9 @@ public class Deposit implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
-            sender.sendMessage("Only players can deposit bank notes");
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
         } else if (!sender.hasPermission("boosteconomy.banknotes.deposit") || !sender.hasPermission("boosteconomy.*")) {
-            sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
             BoostEconomy.playErrorSound((Player) sender);
         } else {
             if (!(BoostEconomy.getInstance().isLegacy())) {
@@ -47,9 +47,12 @@ public class Deposit implements CommandExecutor {
                         money.setBalance();
 
                         BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
-                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                        player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Redeemed")
+                                .replace("%money%", "" + amount)
+                                .replaceAll("&", "§")
+                        );
                     } else {
-                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));
+                        player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Note").replaceAll("&", "§"));
                         BoostEconomy.playErrorSound((Player) sender);
                     }
 
@@ -63,7 +66,7 @@ public class Deposit implements CommandExecutor {
                     BoostEconomy.playSuccessSound((Player) sender);
 
                 } else {
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Nothing-In-Hand"));
+                    player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Nothing-In-Hand").replaceAll("&", "§"));
                     BoostEconomy.playErrorSound((Player) sender);
                 }
             } else {
@@ -82,9 +85,10 @@ public class Deposit implements CommandExecutor {
                         Economy money = new Economy(player, res);
                         money.setBalance();
 
-                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                        player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Redeemed").replace("%money%", "" + amount)
+                                .replaceAll("&", "§"));
                     } else {
-                        player.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Note"));
+                        player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Note").replaceAll("&", "§"));
                         BoostEconomy.playErrorSound((Player) sender);
                     }
 
@@ -98,7 +102,7 @@ public class Deposit implements CommandExecutor {
                     BoostEconomy.playSuccessSound((Player) sender);
 
                 } else {
-                    player.sendMessage(plugin.getMessage("Banknotes.Messages.Nothing-In-Hand"));
+                    player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Nothing-In-Hand").replaceAll("&", "§"));
                     BoostEconomy.playErrorSound((Player) sender);
                 }
             }

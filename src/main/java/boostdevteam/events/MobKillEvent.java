@@ -23,14 +23,11 @@ public class MobKillEvent implements Listener {
             if (killer == null) {
                 return;
             }
-            if (!(killer instanceof Player)) {
-                return;
-            }
 
             final LivingEntity victim = event.getEntity();
             String section = victim.getType().toString();
 
-            if (!killer.hasPermission("boosteconomy.earn") || !killer.hasPermission("boosteconomy.*")) {
+            if (!(killer.hasPermission("boosteconomy.earn") || killer.hasPermission("boosteconomy.*"))) {
                 return;
             }
 
@@ -38,16 +35,13 @@ public class MobKillEvent implements Listener {
                 return;
             }
 
-            if (killer == null) {
-                return;
-            }
-
             Economy eco = new Economy(killer, BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
             eco.addBalance();
             if (BoostEconomy.getInstance().getConfig().getBoolean("Entity.SendMessage")) {
-                killer.sendMessage(plugin.getConfig().getString("Entity.KillMessage").replaceAll("&", "§")
+                killer.sendMessage(BoostEconomy.getLanguage().getString("Messages.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
-                        .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward")));
+                        .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"))
+                .replaceAll("&", "§"));
             }
         }
     }

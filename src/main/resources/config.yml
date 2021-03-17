@@ -15,35 +15,10 @@
 # www.boostdevteam.eu
 
 # Do not change the version
-Version: 1.3.4
+Version: 1.3.5
 
-# Fully customizable messages
-Messages:
-  General:
-    NoPerms: "&b&lBoostEconomy &8» &cYou do not have enough permissions"
-    NoConsole: "&b&lBoostEconomy &8» &cYou can't do this from console"
-    NoPlayer: "&b&lBoostEconomy &8» &cYou can't do this from player!"
-    Reload: "&b&lBoostEconomy &8» &aThe plugin has been reloaded with success! (%time%ms)"
-    InvalidArgs: "&b&lBoostEconomy &8» &7Invalid args! /be <reload/help/checkforupdates/debug/discord>"
-  Money:
-    Chat: "&b&lMoney &8» &7You have &a%money%$"
-    Done: "&b&lMoney &8» &aDone!"
-    Refreshed: "&b&lMoney &8» &7Your money has been changed, now you have &a%money%$"
-    Pay:
-      Send: "&b&lMoney &8» &7You have sent &c%money%$ &7to &c%target%"
-      Received: "&b&lMoney &8» &7You have received &c%money%$ &7from &c%player%"
-    InvalidArgs:
-      Pay: "&b&lMoney &8» &7Invalid args! /pay <player> <money>"
-      Eco: "&b&lMoney &8» &7Invalid args! /eco <player> <set/take/give> <money>"
-      Reset: "&b&lMoney &8» &7Invalid args! /ecoreset <player>"
-    PlayerNotFound: "&b&lMoney &8» &cPlayer not found!"
-    NoMoney: "&b&lMoney &8» &cYou do not have enough money!"
-    Others: "&b&lMoney &8» &a%target% &7has &a%money%$"
-    PayYourself: "&b&lMoney &8» &cYou can't pay yourself!"
-    Resetted: "&b&lMoney &8» &7Your money has been restored to &c%money%$"
-  BalTop:
-    Header: "&c&lTop 10 balances"
-    PlayerFormat: "&6%number%) &f&l%player%: &c%money%$"
+# You can find a list in the BoostEconomy/Messages folder and you can change that!
+Language: en_US
 
 # Settings
 Config:
@@ -150,21 +125,6 @@ Banknotes:
   # Right-Click on air or to a block will deposit the banknote
   Allow-Right-Click-To-Deposit-Notes: true
 
-  # Customizable messages
-  Messages:
-    Note-Redeemed: "&b&lBanknote &8» &7Banknote for &a%money%$ &7has been redeemed"
-    Invalid-Number: "&b&lBanknote &8» &cThe number that you have inserted is invalid!"
-    Less-Than-Minimum: "&b&lBanknote &8» &cThe number that you have inserted is lower than the minimum! (%min%)"
-    More-than-Maximum: "&b&lBanknote &8» &cThe number that you have inserted is bigger than the maximum! (%max%)"
-    Insufficient-Funds: "&b&lBanknote &8» &eYou don't have enough money!"
-    Inventory-Full: "&b&lBanknote &8» &cYour inventory is full!"
-    Note-Created: "&b&lBanknote &8» &7You have successfully created a banknotes of &a%money%$!"
-    Player-Not-Found: "&b&lBanknote &8» &cPlayer not found!"
-    Note-Received: "&b&lBanknote &8» &7You have received a banknote of &a%money%$&7 by &c%player%"
-    Note-Given: "&b&lBanknote &8» &7You have given a banknotes of &c%money%$&7 to &a%player%"
-    Invalid-Note: "&b&lBanknote &8» &cThe banknote is invalid"
-    Nothing-In-Hand: "&b&lBanknote &8» &cYou don't have nothing in your hand!"
-
 # For more options go in the mobs.yml file
 Entity:
 
@@ -174,11 +134,3 @@ Entity:
   # Send message to the player when he kills an entity?
   SendMessage: true
 
-  # KillMessage:
-  KillMessage: "&b&lKill &8» &7You have killed &c%mob% &7and you have earned &a%money%$"
-  
-  # Enable ActionBar?
-  ActionBar:
-
-    # ActionBar message
-    Message: "&fKilling &c%mob% &fyou've earned &e%money%€"

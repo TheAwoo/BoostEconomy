@@ -43,47 +43,47 @@ public class Money implements CommandExecutor, Listener {
                     if (cmd.getName().equalsIgnoreCase("money")) {
                         if (args.length == 0) {
                             Economy money = new Economy(player, 0);
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
                         } else if (args.length == 1) {
                             if (sender.hasPermission("boosteconomy.money.others") || sender.hasPermission("boosteconomy.*")) {
                                 Player p = Bukkit.getServer().getPlayer(args[0]);
                                 if (p != null) {
                                     if (!(p == sender)) {
                                         Economy ecoTarget = new Economy(p, 0);
-                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
 
                                         BoostEconomy.playSuccessSound(player);
                                     } else {
                                         Economy money = new Economy((Player) sender, 0);
 
-                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Chat").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
                                         BoostEconomy.playSuccessSound(player);
                                     }
                                 } else {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                                     BoostEconomy.playErrorSound(player);
                                 }
                             } else {
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                                 BoostEconomy.playErrorSound(player);
                             }
                         }
                     }
                 } else {
-                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                     BoostEconomy.playErrorSound(player);
                 }
             } else {
                 if (cmd.getName().equalsIgnoreCase("money")) {
                     if (args.length == 0) {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
                     } else if (args.length == 1) {
                         Player p = Bukkit.getServer().getPlayer(args[0]);
                         if (p != null) {
                             Economy ecoTarget = new Economy(p, 0);
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
                         } else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                         }
                     }
                 }
@@ -237,30 +237,30 @@ public class Money implements CommandExecutor, Listener {
                                             player.openInventory(money);
                                         }
                                     } else {
-                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                                         BoostEconomy.playErrorSound(player);
                                     }
                                 } else {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                                     BoostEconomy.playErrorSound(player);
                                 }
                             }
                         }
                     } else {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                         BoostEconomy.playErrorSound(player);
                     }
                 } else {
                     if (cmd.getName().equalsIgnoreCase("money") || sender.hasPermission("boosteconomy.*")) {
                         if (args.length == 0) {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
                         } else if (args.length == 1) {
                             Player p = Bukkit.getServer().getPlayer(args[0]);
                             if (p != null) {
                                 Economy ecoTarget = new Economy(p, 0);
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Others").replaceAll("&", "§").replaceAll("%target%", "" + p.getName()).replaceAll("%money%", "" + ecoTarget.getBalance()));
                             } else {
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                             }
                         }
                     }

@@ -1,5 +1,6 @@
-package boostdevteam.boosteconomy;
+package boostdevteam.boosteconomy.files;
 
+import boostdevteam.boosteconomy.BoostEconomy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -17,9 +18,9 @@ public class MobFile {
     public void saveMob() throws IOException {
 
         if (BoostEconomy.getVersion().contains("1.13")
-        || BoostEconomy.getVersion().contains("1.14")
-        || BoostEconomy.getVersion().contains("1.15")
-        || BoostEconomy.getVersion().contains("1.16")) {
+                || BoostEconomy.getVersion().contains("1.14")
+                || BoostEconomy.getVersion().contains("1.15")
+                || BoostEconomy.getVersion().contains("1.16")) {
 
             this.mobData.options().header("Because you are in 1.13+ version there's a pre-made list of entity:");
 
@@ -128,7 +129,7 @@ public class MobFile {
                 saveMob();
 
                 this.mobData.save(MobFileData);
-            }catch (IOException e) {
+            } catch (IOException e) {
                 Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError on creating the file mobs.yml!");
                 e.printStackTrace();
             }

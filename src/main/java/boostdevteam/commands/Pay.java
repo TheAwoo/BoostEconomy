@@ -30,11 +30,11 @@ public class Pay implements CommandExecutor {
                                         money.takeBalance();
                                         ecoTarget.addBalance();
 
-                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Pay.Send")
+                                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Pay.Send")
                                                 .replaceAll("&", "§")
                                                 .replaceAll("%money%", "" + Double.parseDouble(args[1]))
                                                 .replaceAll("%target%", "" + p.getName()));
-                                        p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Pay.Received")
+                                        p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Pay.Received")
                                                 .replaceAll("&", "§")
                                                 .replaceAll("%money%", "" + Double.parseDouble(args[1]))
                                                 .replaceAll("%player%", "" + sender.getName()));
@@ -49,37 +49,39 @@ public class Pay implements CommandExecutor {
                                         return true;
 
                                     } else {
-                                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.NoMoney").replaceAll("&", "§"));
+                                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.NoMoney").replaceAll("&", "§"));
                                         BoostEconomy.playErrorSound(player);
+                                        return true;
                                     }
                                 } else {
-                                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
+                                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
                                     BoostEconomy.playErrorSound(player);
                                     return true;
                                 }
                             }else {
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PayYourself").replaceAll("&", "§"));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PayYourself").replaceAll("&", "§"));
                                 BoostEconomy.playErrorSound(player);
                             }
 
                         } else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
                             BoostEconomy.playErrorSound(player);
                             return true;
                         }
                     } else {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.InvalidArgs.Pay").replaceAll("&", "§"));
                         BoostEconomy.playErrorSound(player);
                         return true;
                     }
                 } else {
-                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                     BoostEconomy.playErrorSound(player);
                     return true;
                 }
                 return true;
             } else {
-                Bukkit.getConsoleSender().sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                Bukkit.getConsoleSender().sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                return true;
             }
         }
         return false;

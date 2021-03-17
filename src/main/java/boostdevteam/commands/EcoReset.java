@@ -37,8 +37,8 @@ public class EcoReset implements CommandExecutor {
 
                                 data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Done").replaceAll("&", "§"));
-                                p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done").replaceAll("&", "§"));
+                                p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));
 
                                 String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
                                 BoostEconomy.saveLog(senderName + " have reset the balance of " + p.getName());
@@ -52,7 +52,7 @@ public class EcoReset implements CommandExecutor {
 
                             } else {
 
-                                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
 
                                 if (sender instanceof Player) {
                                     BoostEconomy.playErrorSound(player);
@@ -61,7 +61,7 @@ public class EcoReset implements CommandExecutor {
                                 return true;
                             }
                         } else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
                             if (sender instanceof Player) {
                                 BoostEconomy.playErrorSound(player);
@@ -70,7 +70,7 @@ public class EcoReset implements CommandExecutor {
                             return true;
                         }
                     } else {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
 
                         if (sender instanceof Player) {
                             BoostEconomy.playErrorSound(player);
@@ -79,7 +79,7 @@ public class EcoReset implements CommandExecutor {
                         return true;
                     }
                 } else {
-                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
                     if (sender instanceof Player) {
                         BoostEconomy.playErrorSound(player);
@@ -88,7 +88,7 @@ public class EcoReset implements CommandExecutor {
                     return true;
                 }
             } else {
-                sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
                 return true;
             }
         }

@@ -82,7 +82,7 @@ public class BalTop implements CommandExecutor {
                 if (p.hasPermission("boosteconomy.baltop") || p.hasPermission("boosteconomy.*")) {
                     if (!(BoostEconomy.getInstance().getConfig().getBoolean("GUI.BalTop.UseGUI"))) {
                         p.sendMessage("§8§m§l+------------------------+");
-                        p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.BalTop.Header").replaceAll("&", "§"));
+                        p.sendMessage(BoostEconomy.getLanguage().getString("Messages.BalTop.Header").replaceAll("&", "§"));
                         p.sendMessage("§8§m§l+------------------------+");
 
                         Data data = BoostEconomy.getData();
@@ -99,7 +99,7 @@ public class BalTop implements CommandExecutor {
                             String name = pData.getName();
                             double money = pData.getMoney();
 
-                            p.sendMessage(config.getString("Messages.BalTop.PlayerFormat")
+                            p.sendMessage(BoostEconomy.getLanguage().getString("Messages.BalTop.PlayerFormat")
                                     .replaceAll("&", "§")
                                     .replaceAll("%number%", "" + (i + 1))
                                     .replaceAll("%player%", "" + name)
@@ -167,12 +167,12 @@ public class BalTop implements CommandExecutor {
                     }
                 }else {
                         Player player = (Player) sender;
-                        player.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                        player.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                         BoostEconomy.playErrorSound(player);
                 }
                 return true;
             }else {
-                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoConsole").replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
                 }
             }
         return false;

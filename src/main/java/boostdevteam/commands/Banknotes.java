@@ -27,7 +27,7 @@ public class Banknotes implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) return false;
         if (args.length == 0) {
-            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 BoostEconomy.playErrorSound(p);
@@ -35,14 +35,14 @@ public class Banknotes implements CommandExecutor {
             return true;
         } else if (args[0].equalsIgnoreCase("give") && args.length >= 3) {
             if (!sender.hasPermission("boosteconomy.banknotes.give") || !sender.hasPermission("boosteconomy.*")) {
-                sender.sendMessage(plugin.getMessage("Messages.General.NoPerms"));
+                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                 Player player = (Player) sender;
                 BoostEconomy.playErrorSound(player);
             } else {
                 // give player amount
                 Player target = Bukkit.getPlayer(args[1]);
                 if (target == null) {
-                    sender.sendMessage(plugin.getMessage("Banknotes.Messages.Player-Not-Found"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Player-Not-Found").replaceAll("&", "§"));
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
@@ -54,7 +54,7 @@ public class Banknotes implements CommandExecutor {
                 try {
                     amount = Long.parseLong(args[2]);
                 } catch (NumberFormatException ex) {
-                    sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Number").replaceAll("&", "§"));
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
@@ -63,7 +63,7 @@ public class Banknotes implements CommandExecutor {
                 }
 
                 if (Double.isNaN(amount) || Double.isInfinite(amount) || amount <= 0) {
-                    sender.sendMessage(plugin.getMessage("Banknotes.Messages.Invalid-Number"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Invalid-Number").replaceAll("&", "§"));
                     if (sender instanceof Player) {
                         Player player = (Player) sender;
                         BoostEconomy.playErrorSound(player);
@@ -74,12 +74,14 @@ public class Banknotes implements CommandExecutor {
 
                     //Use console-name if the note is given by a console command
                     String senderName = sender instanceof ConsoleCommandSender ? plugin.getMessage("Banknotes.Console-Name") : sender.getName();
-                    target.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Received")
+                    target.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Received")
                             .replace("%money%", "" + amount)
-                            .replace("%player%", senderName));
-                    sender.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Given")
+                            .replace("%player%", senderName)
+                    .replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Given")
                             .replace("%money%", "" + amount)
-                            .replace("%player%", target.getName()));
+                            .replace("%player%", target.getName())
+                    .replaceAll("&", "§"));
 
                     BoostEconomy.saveLog(senderName + " gave to " + target.getName() + " a banknote of " + amount + "$");
 
@@ -91,7 +93,7 @@ public class Banknotes implements CommandExecutor {
             }
             return true;
         } else {
-            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
             if (sender instanceof Player) {
                 Player p = (Player) sender;
                 BoostEconomy.playErrorSound(p);

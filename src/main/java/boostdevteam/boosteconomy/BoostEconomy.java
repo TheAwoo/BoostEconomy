@@ -1,5 +1,13 @@
 package boostdevteam.boosteconomy;
 
+import boostdevteam.boosteconomy.files.LogFile;
+import boostdevteam.boosteconomy.files.MetricsLite;
+import boostdevteam.boosteconomy.files.MobFile;
+import boostdevteam.boosteconomy.messages.Messages;
+import boostdevteam.boosteconomy.messages.lang.en_US;
+import boostdevteam.boosteconomy.messages.lang.es_ES;
+import boostdevteam.boosteconomy.messages.lang.fr_FR;
+import boostdevteam.boosteconomy.messages.lang.it_IT;
 import boostdevteam.commands.*;
 import boostdevteam.events.MobKillEvent;
 import boostdevteam.events.PlayerJoinEvent;
@@ -16,6 +24,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -35,7 +44,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static boostdevteam.boosteconomy.LogFile.LogFileData;
+import static boostdevteam.boosteconomy.files.LogFile.LogFileData;
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -92,6 +101,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             mob = new MobFile();
             log = new LogFile();
 
+            Messages messages = new Messages();
+            messages.createFolder();
+
             new LogFile();
             new Data();
             new MobFile();
@@ -106,15 +118,18 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             e.printStackTrace();
 
         }finally {
-            if (sender instanceof Player) {
-                sender.sendMessage(getInstance().getConfig().getString("Messages.General.Reload")
+            try {
+                sender.sendMessage(getLanguage().getString("Messages.General.Reload")
                         .replaceAll("&", "§")
                         .replaceAll("%time%", "" + (System.currentTimeMillis() - before)));
-                playSuccessSound((Player) sender);
+
+                if (sender instanceof Player) {
+                    playSuccessSound((Player) sender);
+                }
+            }catch (NullPointerException e) {
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cYour locale option " +
+                        "("+ getInstance().getConfig().getString("Language") + ") is invalid!");
             }
-
-            Bukkit.getConsoleSender().sendMessage("§7[BoostEconomy§7] §aPlugin reloaded with success! (" + (System.currentTimeMillis() - before) + "ms)");
-
         }
     }
 
@@ -241,6 +256,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 new Data();
                 new MobFile();
                 new LogFile();
+
+                Messages messages = new Messages();
+                messages.createFolder();
 
                 try {
 
@@ -460,6 +478,19 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     // Main instance of this class
     public static BoostEconomy getInstance() {
         return plugin;
+    }
+
+    public static FileConfiguration getLanguage() {
+        if (getInstance().getConfig().getString("Language").equals("en_US")) {
+            return en_US.file;
+        } else if (getInstance().getConfig().getString("Language").equals("it_IT")) {
+            return it_IT.file;
+        } else if (getInstance().getConfig().getString("Language").equals("es_ES")) {
+            return es_ES.file;
+        } else if (getInstance().getConfig().getString("Language").equals("fr_FR")) {
+            return fr_FR.file;
+        }
+        return null;
     }
 
     // Data for players and baltop

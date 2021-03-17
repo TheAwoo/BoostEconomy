@@ -16,7 +16,7 @@ public class BE implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("be")) {
             if (sender instanceof Player || sender instanceof ConsoleCommandSender) {
                 if (args.length == 0) {
-                    sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+                    sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
                     if (sender instanceof Player) {
                         Player p = (Player) sender;
                         BoostEconomy.playErrorSound(p);
@@ -28,7 +28,7 @@ public class BE implements CommandExecutor {
                             BoostEconomy.saveLog("Plugin reloaded");
                             return true;
                         }else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 BoostEconomy.playErrorSound(p);
@@ -52,7 +52,7 @@ public class BE implements CommandExecutor {
                                 BoostEconomy.playSuccessSound(p);
                             }
                         }else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 BoostEconomy.playErrorSound(p);
@@ -82,7 +82,7 @@ public class BE implements CommandExecutor {
                         }else {
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
-                                p.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPlayer").replaceAll("&", "§"));
+                                p.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPlayer").replaceAll("&", "§"));
                                 BoostEconomy.playErrorSound(p);
                             }
                         }
@@ -112,7 +112,7 @@ public class BE implements CommandExecutor {
                                 BoostEconomy.playSuccessSound(p);
                             }
                         }else {
-                            sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+                            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
                                 BoostEconomy.playErrorSound(p);
@@ -130,7 +130,7 @@ public class BE implements CommandExecutor {
 
 
                     } else {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
                         if (sender instanceof Player) {
                             Player p = (Player) sender;
                             BoostEconomy.playErrorSound(p);

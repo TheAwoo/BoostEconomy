@@ -1,5 +1,6 @@
-package boostdevteam.boosteconomy;
+package boostdevteam.boosteconomy.files;
 
+import boostdevteam.boosteconomy.BoostEconomy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -20,7 +21,7 @@ public class LogFile {
 
                 this.logData.save(LogFileData);
 
-            }catch (IOException e) {
+            } catch (IOException e) {
                 Bukkit.getConsoleSender().sendMessage("§7[§bBoostEconomy§7] §cError on creating the file logs.txt!");
                 e.printStackTrace();
             }
@@ -29,4 +30,3 @@ public class LogFile {
         this.logData = YamlConfiguration.loadConfiguration(LogFileData);
     }
 }
-

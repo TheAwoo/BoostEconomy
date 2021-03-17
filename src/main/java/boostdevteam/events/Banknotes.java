@@ -71,7 +71,9 @@ public class Banknotes implements Listener {
                 money.setBalance();
 
                 // Deposit the money
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Redeemed")
+                        .replace("%money%", "" + amount)
+                .replaceAll("&", "§"));
                 BoostEconomy.playSuccessSound(player);
 
                 BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
@@ -135,7 +137,9 @@ public class Banknotes implements Listener {
                 BoostEconomy.saveLog(player.getName() + " redeemed a note of " + amount + "$");
 
                 // Deposit the money
-                player.sendMessage(plugin.getMessage("Banknotes.Messages.Note-Redeemed").replace("%money%", "" + amount));
+                player.sendMessage(BoostEconomy.getLanguage().getString("Messages.Banknotes.Note-Redeemed")
+                        .replace("%money%", "" + amount)
+                        .replaceAll("&", "§"));
                 BoostEconomy.playSuccessSound(player);
 
                 // Remove the slip
