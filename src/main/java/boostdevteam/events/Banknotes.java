@@ -154,8 +154,7 @@ public class Banknotes implements Listener {
                 }
 
             } catch (Exception e) {
-                event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note!");
-                event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cReport it to and administrator!");
+                event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note! Report it to an admin!");
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §c" + event.getPlayer().getName() + " failed to claim the note!");
                 e.printStackTrace();
                 BoostEconomy.playErrorSound(event.getPlayer());

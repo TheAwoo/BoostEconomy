@@ -26,15 +26,12 @@ public class Deposit implements CommandExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if (!(sender instanceof Player)) {
             sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoConsole").replaceAll("&", "§"));
-        } else if (!sender.hasPermission("boosteconomy.banknotes.deposit") || !sender.hasPermission("boosteconomy.*")) {
-            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
-            BoostEconomy.playErrorSound((Player) sender);
-        } else {
+        } else if (sender.hasPermission("boosteconomy.banknotes.deposit") || sender.hasPermission("boosteconomy.*")) {
             if (!(BoostEconomy.getInstance().isLegacy())) {
                 Player player = (Player) sender;
                 ItemStack item = player.getInventory().getItemInMainHand();
 
-                if (item != null && plugin.isBanknote(item)) {
+                if (plugin.isBanknote(item)) {
                     double amount = plugin.getBanknoteAmount(item);
 
                     if (amount >= 0) {
@@ -73,7 +70,7 @@ public class Deposit implements CommandExecutor {
                 Player player = (Player) sender;
                 ItemStack item = player.getInventory().getItemInHand();
 
-                if (item != null && plugin.isBanknote(item)) {
+                if (plugin.isBanknote(item)) {
                     double amount = plugin.getBanknoteAmount(item);
 
                     if (amount >= 0) {
@@ -106,6 +103,9 @@ public class Deposit implements CommandExecutor {
                     BoostEconomy.playErrorSound((Player) sender);
                 }
             }
+        } else {
+            sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
+            BoostEconomy.playErrorSound((Player) sender);
         }
         return true;
     }
