@@ -2,7 +2,6 @@ package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.misc.Economy;
-import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
@@ -10,9 +9,11 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityDeathEvent;
 
+import static net.md_5.bungee.api.ChatMessageType.ACTION_BAR;
+
 public class MobKillEvent implements Listener {
 
-    private BoostEconomy plugin;
+    private final BoostEconomy plugin;
     public MobKillEvent (BoostEconomy plugin) {
         this.plugin = plugin;
     }
@@ -56,7 +57,7 @@ public class MobKillEvent implements Listener {
                         .replaceAll("%mob%", "" + event.getEntityType())
                         .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
 
-                killer.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(message));
+                killer.spigot().sendMessage(ACTION_BAR, new TextComponent(message));
             }
         }
     }

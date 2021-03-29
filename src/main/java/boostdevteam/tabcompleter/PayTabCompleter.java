@@ -26,7 +26,7 @@ public class PayTabCompleter implements TabCompleter {
                 return playerNames;
             }
             case 2: {
-                List<String> list3 = Arrays.asList("0", "100", "1000");
+                List<String> list3 = Arrays.asList("100", "1000");
                 return list3;
             }
             default:

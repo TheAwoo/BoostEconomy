@@ -1,7 +1,7 @@
 package boostdevteam.boosteconomy;
 
 import boostdevteam.boosteconomy.files.LogFile;
-import boostdevteam.boosteconomy.files.MetricsLite;
+import boostdevteam.boosteconomy.files.Metrics;
 import boostdevteam.boosteconomy.files.MobFile;
 import boostdevteam.boosteconomy.messages.Messages;
 import boostdevteam.boosteconomy.messages.lang.en_US;
@@ -41,10 +41,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.Callable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static boostdevteam.boosteconomy.files.LogFile.LogFileData;
+
+/**
+ * @author ItsWagPvP
+ */
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
 
@@ -238,13 +243,37 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             }
 
             try {
+
                 int pluginId = 9572;
-                @SuppressWarnings("unused")
-                MetricsLite metrics = new MetricsLite(this, pluginId);
+                Metrics metrics = new Metrics(this, pluginId);
+
+                metrics.addCustomChart(new Metrics.SimplePie("language", new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        return getConfig().getString("Language", "en_US");
+                    }
+                }));
+
+                metrics.addCustomChart(new Metrics.SimplePie("config", new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        return getConfig().getString("Version", "Unknown");
+                    }
+                }));
+
+                metrics.addCustomChart(new Metrics.SimplePie("placeholders", new Callable<String>() {
+                    @Override
+                    public String call() throws Exception {
+                        return getConfig().getString("Config.Placeholders", "true");
+                    }
+                }));
+
             }catch (Exception e) {
                 errors++;
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError with metrics!");
                 e.printStackTrace();
+            } finally {
+                Bukkit.getConsoleSender().sendMessage("§f-> §dLoaded metrics!");
             }
 
             try {
@@ -443,6 +472,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     // Plugin shutdown logic
     @Override
     public void onDisable() {
+        saveLog("Plugin unloaded");
         if (!setupEconomy()) {
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
             Bukkit.getConsoleSender().sendMessage("           §bBoostEconomy");
@@ -470,9 +500,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             }
             Bukkit.getConsoleSender().sendMessage("§8+------------------------------------+");
         }
-
-        saveLog("Plugin unloaded");
-
     }
 
     // Main instance of this class
