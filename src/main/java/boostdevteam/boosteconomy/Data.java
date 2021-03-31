@@ -1,10 +1,10 @@
 package boostdevteam.boosteconomy;
 
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,7 +43,7 @@ public class Data {
     }
 
     // Save data and save data for the baltop
-    public void saveData(Player p, long money) {
+    public void saveData(OfflinePlayer p, long money) {
         try {
 
             this.data.set("Data." + p.getName() + ".Money", money);
@@ -62,7 +62,7 @@ public class Data {
             }
 
             // Sort the getBalTop() List:
-            Collections.sort( getBalTop(), new BoostPlayerComparator() );
+            Collections.sort(getBalTop(), new BoostPlayerComparator() );
 
         } catch (IOException e) {
             Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cError on saving the data for " + p.getName());
@@ -70,7 +70,7 @@ public class Data {
         }
     }
 
-    public boolean hasBalance(Player p) {
+    public boolean hasBalance(OfflinePlayer p) {
         return this.data.getString("Data." + p.getName() + ".Money") != null;
     }
 
@@ -78,7 +78,7 @@ public class Data {
         return this.data.getString("Data." + s + ".Money") != null;
     }
 
-    public long getValue(Player p) {
+    public long getValue(OfflinePlayer p) {
         return this.data.getLong("Data." + p.getName() + ".Money");
     }
 

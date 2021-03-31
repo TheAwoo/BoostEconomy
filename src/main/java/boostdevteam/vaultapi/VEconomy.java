@@ -6,7 +6,6 @@ import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 
@@ -63,7 +62,7 @@ public class VEconomy implements Economy {
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer) {
         Data data = new Data();
-        return data.hasBalance((Player) offlinePlayer);
+        return data.hasBalance(offlinePlayer);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class VEconomy implements Economy {
     @Override
     public boolean hasAccount(OfflinePlayer offlinePlayer, String s) {
         Data data = new Data();
-        return data.hasBalance((Player) offlinePlayer);
+        return data.hasBalance(offlinePlayer);
     }
 
     @Override
@@ -140,9 +139,9 @@ public class VEconomy implements Economy {
     @Override
     public EconomyResponse withdrawPlayer(String arg0, double arg1) {
         if(getBalance(arg0)-arg1 >= 0 ) {
-            BoostEconomy.getData().saveData(Bukkit.getPlayer(arg0), (long) (getBalance(arg0) - arg1));
+            BoostEconomy.getData().saveData(Bukkit.getOfflinePlayer(arg0), (long) (getBalance(arg0) - arg1));
         } else {
-            BoostEconomy.getData().saveData(Bukkit.getPlayer(arg0), 0);
+            BoostEconomy.getData().saveData(Bukkit.getOfflinePlayer(arg0), 0);
         }
         return new EconomyResponse(arg1, getBalance(arg0), EconomyResponse.ResponseType.SUCCESS, "bank not yet supported");
     }
