@@ -3,4 +3,4 @@ https://www.spigotmc.org/resources/86591/
 
 To do list:
 
-- SQL Support
+- Server Account
