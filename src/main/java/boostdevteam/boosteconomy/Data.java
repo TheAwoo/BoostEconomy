@@ -28,7 +28,7 @@ public class Data {
                 FileData.createNewFile();
 
                 this.data = YamlConfiguration.loadConfiguration(FileData);
-                this.data.options().header("You can change the money of a player");
+                this.data.options().header("This is the file for the /baltop command");
                 this.data.createSection("Data");
                 this.data.save(FileData);
             }catch (IOException e) {

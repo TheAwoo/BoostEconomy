@@ -1,5 +1,5 @@
 name: BoostEconomy
-version: 1.3.9
+version: 1.4.0
 main: boostdevteam.boosteconomy.BoostEconomy
 author: _ItsWagPvP
 load: STARTUP
@@ -52,3 +52,6 @@ commands:
     aliases:
       - claimnote
     description: If you have a banknote in your hand it will be taken
+  save:
+    usage: /<command>
+    description: Create or edit an offlineplayer balance

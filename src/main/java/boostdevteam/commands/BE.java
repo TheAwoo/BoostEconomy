@@ -11,6 +11,12 @@ import org.bukkit.entity.Player;
 
 public class BE implements CommandExecutor {
 
+    private BoostEconomy plugin;
+
+    public BE (BoostEconomy plugin) {
+        this.plugin = plugin;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandlabel, String[] args) {
         if (cmd.getName().equalsIgnoreCase("be")) {
@@ -127,8 +133,6 @@ public class BE implements CommandExecutor {
                             }
                             return true;
                         }
-
-
                     } else {
                         sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
                         if (sender instanceof Player) {

@@ -80,7 +80,7 @@ public class VEconomy implements Economy {
     @Override
     public double getBalance(String p) {
         if (BoostEconomy.getData().hasBalance(Bukkit.getPlayer(p))) {
-            return Double.parseDouble(String.valueOf(BoostEconomy.getData().getValue(Bukkit.getPlayer(p))));
+            return plugin.getRDatabase().getTokens(p);
         }
         return 0;
     }

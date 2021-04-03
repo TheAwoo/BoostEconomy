@@ -2,6 +2,7 @@ package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.boosteconomy.Data;
+import boostdevteam.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -17,7 +18,11 @@ public class PluginListener implements Listener{
         Data data = BoostEconomy.getData();
 
         if (!data.hasBalance(p)) {
+            Economy eco = new Economy(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
+
+            eco.setBalance();
             data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
+
             if (BoostEconomy.getInstance().getConfig().getBoolean("Config.ConsoleSaveMessage")) {
                 Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §7Saving data for §c" + e.getPlayer().getName());
             }

@@ -48,7 +48,7 @@ public class es_ES {
                 file.set("Messages.Money.Resetted", "&b&lDinero &8» &7Tu dinero se ha restablecido a  &c%money%$");
 
                 file.set("Messages.BalTop.Header", "&c&lTop 10 balances");
-                file.set("Messages.Baltop.PlayerFormat", "&6%number%) &f&l%player%: &c%money%$");
+                file.set("Messages.BalTop.PlayerFormat", "&6%number%) &f&l%player%: &c%money%$");
 
                 file.set("Messages.Banknotes.Note-Redeemed", "&b&lCheques &8» &7Billete de &a%money%$ &7ha sido redimido");
                 file.set("Messages.Banknotes.Invalid-Number", "&b&lCheques &8» &c¡El número que ingresó no es válido!");

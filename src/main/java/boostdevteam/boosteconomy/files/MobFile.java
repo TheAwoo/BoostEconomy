@@ -13,30 +13,9 @@ public class MobFile {
     public FileConfiguration mobData;
 
     public void saveMob() throws IOException {
-
-        if (BoostEconomy.getVersion().contains("1.13")
-                || BoostEconomy.getVersion().contains("1.14")
-                || BoostEconomy.getVersion().contains("1.15")
-                || BoostEconomy.getVersion().contains("1.16")) {
-
-            this.mobData.options().header("Because you are in 1.13+ version there's a pre-made list of entity:");
-        }
-
-        if (BoostEconomy.getVersion().contains("1.13")
-                || BoostEconomy.getVersion().contains("1.14")
-                || BoostEconomy.getVersion().contains("1.15")
-                || BoostEconomy.getVersion().contains("1.16")) {
-
-            this.mobData.options().header("Because you are in 1.13+ version there's a pre-made list of all available entities:");
-
-        } else {
-            this.mobData.options().header("Because you are not in 1.13+ version not all entities are available\n" +
-                    "There's a pre-made layout that you can copy to use more mobs!");
-
+            this.mobData.options().header("If you want to add more mobs just copy the format from this:");
             this.mobData.set("Mobs." + "ZOMBIE" + ".Enabled", true);
             this.mobData.set("Mobs." + "ZOMBIE" + ".Reward", 100.0);
-
-        }
     }
 
     public MobFile() {

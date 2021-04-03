@@ -15,6 +15,7 @@ public class LogFile {
     public LogFile() {
         if (!LogFileData.exists()) {
             try {
+
                 LogFileData.createNewFile();
                 this.logData = YamlConfiguration.loadConfiguration(LogFileData);
                 this.logData.options().header("In this file you can view the log of the plugin commands made by players.");

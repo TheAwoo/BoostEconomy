@@ -1,5 +1,7 @@
 package boostdevteam.boosteconomy;
 
+import boostdevteam.boosteconomy.database.Database;
+import boostdevteam.boosteconomy.database.SQLite;
 import boostdevteam.boosteconomy.files.LogFile;
 import boostdevteam.boosteconomy.files.Metrics;
 import boostdevteam.boosteconomy.files.MobFile;
@@ -52,6 +54,9 @@ import static boostdevteam.boosteconomy.files.LogFile.LogFileData;
  */
 
 public final class BoostEconomy extends JavaPlugin implements Listener {
+
+    // Database
+    private Database db;
 
     // Files
     public static BoostEconomy plugin;
@@ -217,6 +222,14 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             Bukkit.getConsoleSender().sendMessage("            §bBoostEconomy");
             Bukkit.getConsoleSender().sendMessage("              §aEnabling");
             Bukkit.getConsoleSender().sendMessage("§8");
+            try {
+                this.db = new SQLite(this);
+                this.db.load();
+            }catch (Exception e) {
+                Bukkit.getConsoleSender().sendMessage(e.getMessage());
+            } finally {
+                Bukkit.getConsoleSender().sendMessage("§f-> §bDatabase loaded!");
+            }
             if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
                 if (getConfig().getBoolean("Config.Placeholders")) {
                     try {
@@ -447,7 +460,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
         getCommand("eco").setExecutor(new Eco());
         getCommand("eco").setTabCompleter(new EcoTabCompleter());
 
-        getCommand("be").setExecutor(new BE());
+        getCommand("be").setExecutor(new BE(this));
         getCommand("be").setTabCompleter(new BETabCompleter());
 
         getCommand("pay").setExecutor(new Pay());
@@ -467,6 +480,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
         getCommand("banknotes").setExecutor(new Banknotes(this));
         getCommand("banknotes").setTabCompleter(new BanknotesTabCompleter());
+
+        getCommand("save").setExecutor(new SaveData());
+        getCommand("save").setTabCompleter(new SaveTabCompleter());
     }
 
     // Plugin shutdown logic
@@ -505,6 +521,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     // Main instance of this class
     public static BoostEconomy getInstance() {
         return plugin;
+    }
+
+    public Database getRDatabase() {
+        return db;
     }
 
     public static FileConfiguration getLanguage() {

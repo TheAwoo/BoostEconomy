@@ -9,16 +9,20 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Arrays;
 import java.util.List;
 
-public class BETabCompleter implements TabCompleter {
+public class SaveTabCompleter implements TabCompleter {
     @Nullable
     @Override
     public List<String> onTabComplete(@NotNull CommandSender sender, @NotNull Command command, @NotNull String alias, @NotNull String[] args) {
         int i = (args.length);
         switch (i) {
             case 1: {
-                List<String> list = Arrays.asList("reload", "help", "checkforupdates", "debug", "discord", "save");
+                List<String> list = Arrays.asList("<player>");
                 return list;
-                }
+            }
+            case 2: {
+                List<String> list = Arrays.asList("<money>");
+                return list;
+            }
             default: {
                 List<String> listDefault = Arrays.asList("");
                 return listDefault;

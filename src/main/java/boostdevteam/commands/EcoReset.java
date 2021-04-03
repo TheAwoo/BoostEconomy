@@ -33,7 +33,7 @@ public class EcoReset implements CommandExecutor {
                             if (p != null) {
                                 Data data = BoostEconomy.getData();
 
-                                Economy eco = new Economy(p, 0);
+                                Economy eco = new Economy(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
                                 data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
