@@ -2,7 +2,7 @@ package boostdevteam.placeholderapi;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.boosteconomy.Data;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.bukkit.entity.Player;
 
@@ -148,8 +148,6 @@ public class Placeholders extends PlaceholderExpansion {
             return "" + fixMoney(sum);
         }
 
-        // We return null if an invalid placeholder (f.e. %boosteconomy_invalidplaceholder%)
-        // was provided
         return "Invalid placeholder!";
     }
 

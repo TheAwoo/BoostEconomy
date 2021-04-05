@@ -11,11 +11,11 @@ import boostdevteam.boosteconomy.messages.lang.es_ES;
 import boostdevteam.boosteconomy.messages.lang.fr_FR;
 import boostdevteam.boosteconomy.messages.lang.it_IT;
 import boostdevteam.commands.*;
+import boostdevteam.commands.tabcompleter.*;
 import boostdevteam.events.MobKillEvent;
 import boostdevteam.events.PlayerJoinEvent;
 import boostdevteam.events.PluginListener;
 import boostdevteam.placeholderapi.Placeholders;
-import boostdevteam.tabcompleter.*;
 import boostdevteam.vaultapi.VEconomy;
 import boostdevteam.vaultapi.VHook;
 import com.google.common.io.Files;
@@ -227,8 +227,9 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 this.db.load();
             }catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage(e.getMessage());
+                errors++;
             } finally {
-                Bukkit.getConsoleSender().sendMessage("§f-> §bDatabase loaded!");
+                Bukkit.getConsoleSender().sendMessage("§f-> §bLoaded database!");
             }
             if(Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null){
                 if (getConfig().getBoolean("Config.Placeholders")) {
@@ -239,7 +240,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                         errors++;
                     } finally {
                         Bukkit.getConsoleSender().sendMessage("§f-> §7Hooked with §aPlaceholderAPI§7!");
-                        Bukkit.getConsoleSender().sendMessage("§f-> §7Loaded placeholders!");
                     }
                 }
             } else {
@@ -274,10 +274,10 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     }
                 }));
 
-                metrics.addCustomChart(new Metrics.SimplePie("placeholders", new Callable<String>() {
+                metrics.addCustomChart(new Metrics.SingleLineChart("saved_players", new Callable<Integer>() {
                     @Override
-                    public String call() throws Exception {
-                        return getConfig().getString("Config.Placeholders", "true");
+                    public Integer call() throws Exception {
+                        return getRDatabase().getList().size();
                     }
                 }));
 
@@ -505,6 +505,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
             try {
                 hook.offHook();
+                getRDatabase().getSQLConnection().close();
             } catch (Exception e) {
                 Bukkit.getConsoleSender().sendMessage("§f-> §cError on unhooking from Vault!");
                 Bukkit.getConsoleSender().sendMessage("§f-> §cIs Vault loaded?");
@@ -613,7 +614,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             return false;
         } else if (!(itemstack.getItemMeta().getDisplayName().equals(getConfig().getString("Banknotes.Name").replaceAll("&", "§")))) {
             return false;
-        } else return itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material")));
+        } else return itemstack.getType().equals(Material.getMaterial(BoostEconomy.getInstance().getConfig().getString("Banknotes.Material", "PAPER")));
     }
 
 

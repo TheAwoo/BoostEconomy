@@ -1,11 +1,16 @@
 package boostdevteam.boosteconomy.database;
 
 import boostdevteam.boosteconomy.BoostEconomy;
+import org.bukkit.Bukkit;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
 public abstract class Database {
@@ -33,52 +38,83 @@ public abstract class Database {
         }
     }
 
-    // These are the methods you can use to get things out of your database. You of course can make new ones to return different things in the database.
-    // This returns the number of people the player killed.
     public Long getTokens(String player) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        ResultSet rs;
-        try {
-            conn = getSQLConnection();
-            ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE player = '"+player+"';");
-
-            rs = ps.executeQuery();
-            while(rs.next()){
-                if(rs.getString("player").equalsIgnoreCase(player)){ // Tell database to search for the player you sent into the method. e.g getTokens(sam) It will look for sam.
-                    return rs.getLong("moneys"); // Return the players amount of moneys. If you wanted to get total (just a random number for an example for you guys) You would change this to total!
+        CompletableFuture<Long> token = CompletableFuture.supplyAsync(() -> {
+            Connection conn = getSQLConnection();
+            try (
+                     PreparedStatement ps = conn.prepareStatement("SELECT * FROM " + table + " WHERE player = '"+player+"';");
+                     ResultSet rs = ps.executeQuery();
+                    ) {
+                while(rs.next()){
+                    if(rs.getString("player").equalsIgnoreCase(player)){ // Tell database to search for the player you sent into the method. e.g getTokens(sam) It will look for sam.
+                        return rs.getLong("moneys"); // Return the players amount of moneys. If you wanted to get total (just a random number for an example for you guys) You would change this to total!
+                    }
                 }
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
             }
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
+            return 0L;
+        });
+
+        try {
+            return token.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
         }
         return 0L;
     }
 
     // Now we need methods to save things to the database
     public void setTokens(String player, Long tokens) {
-        Connection conn = null;
-        PreparedStatement ps = null;
-        try {
-            conn = getSQLConnection();
-            ps = conn.prepareStatement("REPLACE INTO " + table + " (player,moneys) VALUES(?,?)"); // IMPORTANT. In SQLite class, We made 3 colums. player, Kills, Total.
-            ps.setString(1, player);                                             // YOU MUST put these into this line!! And depending on how many
-            // colums you put (say you made 5) All 5 need to be in the brackets
-            // Seperated with comma's (,) AND there needs to be the same amount of
-            // question marks in the VALUES brackets. Right now i only have 3 colums
-            // So VALUES (?,?,?) If you had 5 colums VALUES(?,?,?,?,?)
+        Bukkit.getScheduler().runTaskAsynchronously(BoostEconomy.getInstance(), () -> {
+            Connection conn = getSQLConnection();
+            try (
+                    PreparedStatement ps = conn.prepareStatement("REPLACE INTO " + table + " (player,moneys) VALUES(?,?)");
+                    ){
 
-            ps.setLong(2, tokens); // This sets the value in the database. The colums go in order. Player is ID 1, kills is ID 2, Total would be 3 and so on. you can use
-            // setInt, setString and so on. tokens and total are just variables sent in, You can manually send values in as well. p.setInt(2, 10) <-
-            // This would set the players kills instantly to 10. Sorry about the variable names, It sets their kills to 10 i just have the variable called
-            // Tokens from another plugin :/
-            ps.executeUpdate();
-            //close(ps, ps.getResultSet());
-        } catch (SQLException ex) {
-            plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
-        }
+                ps.setString(1, player);
+
+
+                ps.setLong(2, tokens);
+
+                ps.executeUpdate();
+            } catch (SQLException ex) {
+                plugin.getLogger().log(Level.SEVERE, Errors.sqlConnectionExecute(), ex);
+            }
+        });
     }
 
+    // Gets the list of the players in the database
+    public List<String> getList () {
+        CompletableFuture<List<String>> getList = CompletableFuture.supplyAsync(() -> {
+            Connection conn = getSQLConnection();
+            List<String> list = new ArrayList<>();
+            try (
+                    PreparedStatement ps = conn.prepareStatement("SELECT player FROM 'data'");
+                    ResultSet rs = ps.executeQuery();
+            ) {
+
+                while (rs.next()) {
+                    list.add(rs.getString("player"));
+                }
+
+                return list;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+            return list;
+        });
+
+        try {
+            return getList.get();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        return new ArrayList<>();
+    }
+
+    // Closes the database connection
     public void close(PreparedStatement ps, ResultSet rs){
         try {
             if (ps != null)
@@ -86,7 +122,7 @@ public abstract class Database {
             if (rs != null)
                 rs.close();
         } catch (SQLException ex) {
-            Error.close(plugin, ex);
+            Errors.close(plugin, ex);
         }
     }
 }

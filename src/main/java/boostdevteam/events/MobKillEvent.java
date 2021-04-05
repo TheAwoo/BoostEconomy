@@ -1,7 +1,7 @@
 package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;

@@ -1,7 +1,7 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;

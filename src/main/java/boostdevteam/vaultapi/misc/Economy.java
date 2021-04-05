@@ -1,4 +1,4 @@
-package boostdevteam.misc;
+package boostdevteam.vaultapi.misc;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.vaultapi.VEconomy;
@@ -25,7 +25,6 @@ public class Economy extends VEconomy {
     }
 
     public void setBalance() {
-        BoostEconomy.getData().saveData(this.p, Long.parseLong(toLong(this.money)));
         plugin.getRDatabase().setTokens(this.p.getName(), Long.parseLong(toLong(this.money)));
     }
 
@@ -38,7 +37,7 @@ public class Economy extends VEconomy {
     public void takeBalance() {
         super.withdrawPlayer(this.p.getName(), this.money);
         long x = getBalance();
-        plugin.getRDatabase().setTokens(this.p.getName(), Long.parseLong(toLong(x - this.money)));
+        plugin.getRDatabase().setTokens(this.p.getName(), Long.parseLong(toLong(Math.max(x - this.money, 0))));
     }
 
     public boolean detractable() {

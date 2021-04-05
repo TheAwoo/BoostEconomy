@@ -15,10 +15,13 @@ public class SaveData implements CommandExecutor {
             if (sender instanceof ConsoleCommandSender || sender instanceof Player) {
                 if (sender.hasPermission("boosteconomy.save") || sender.hasPermission("boosteconomy.*")) {
                     if (args.length == 2) {
-                        //Economy eco = new Economy(Bukkit.getPlayer(args[0]), Double.parseDouble(args[1]));
-                        //eco.setBalance();
-                        BoostEconomy.getInstance().getRDatabase().setTokens(args[0], Long.parseLong(args[1]));
-                        sender.sendMessage("§b§lSave §8» §7Saved " + Long.valueOf(args[1]) + "$ for the player " + args[0]);
+                        try {
+                            BoostEconomy.getInstance().getRDatabase().setTokens(args[0], Long.parseLong(args[1]));
+                            sender.sendMessage("§b§lSave §8» §7Saved " + Long.valueOf(args[1]) + "$ for the player " + args[0]);
+                        }catch (NumberFormatException e) {
+                            sender.sendMessage("§b§lSave §8» §7Not enough arguments! /save <player> <money>");
+                        }
+
                         return true;
                     } else {
                         sender.sendMessage("§b§lSave §8» §7Not enough arguments! /save <player> <money>");

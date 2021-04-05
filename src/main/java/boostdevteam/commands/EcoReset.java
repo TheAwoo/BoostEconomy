@@ -2,7 +2,7 @@ package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.boosteconomy.Data;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -19,11 +19,10 @@ public class EcoReset implements CommandExecutor {
                 Player player = (Player) sender;
                 if (sender.hasPermission("boosteconomy.ecoreset") || sender.hasPermission("boosteconomy.*")) {
                     if (args.length == 0) {
-                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
+                        sender.sendMessage(BoostEconomy.getInstance().getConfig().getString("Messages.Money.InvalidArgs.Reset")
+                                .replaceAll("&", "§"));
 
-                        if (sender instanceof Player) {
-                            BoostEconomy.playErrorSound(player);
-                        }
+                        BoostEconomy.playErrorSound(player);
 
                         return true;
 
@@ -35,55 +34,49 @@ public class EcoReset implements CommandExecutor {
 
                                 Economy eco = new Economy(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
+                                eco.setBalance();
+
                                 data.saveData(p, BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney"));
 
-                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done").replaceAll("&", "§"));
-                                p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Resetted").replaceAll("&", "§").replaceAll("%money%", "" + eco.getBalance()));
+                                sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done")
+                                        .replaceAll("&", "§"));
+                                p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Resetted")
+                                        .replaceAll("&", "§")
+                                        .replaceAll("%money%", "" + BoostEconomy.getInstance().getConfig().getLong("Config.StartMoney")));
 
                                 String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
                                 BoostEconomy.saveLog(senderName + " have reset the balance of " + p.getName());
 
-                                if (sender instanceof Player) {
-                                    BoostEconomy.playSuccessSound(player);
-                                    BoostEconomy.playSuccessSound(p);
-                                }
 
-                                return true;
+                                BoostEconomy.playSuccessSound(player);
+                                BoostEconomy.playSuccessSound(p);
 
                             } else {
 
                                 sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.PlayerNotFound").replaceAll("&", "§"));
 
-                                if (sender instanceof Player) {
-                                    BoostEconomy.playErrorSound(player);
-                                }
+                                BoostEconomy.playErrorSound(player);
 
                                 return true;
                             }
                         } else {
                             sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
-                            if (sender instanceof Player) {
-                                BoostEconomy.playErrorSound(player);
-                            }
+                            BoostEconomy.playErrorSound(player);
 
-                            return true;
                         }
+                        return true;
                     } else {
                         sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.InvalidArgs.Reset").replaceAll("&", "§"));
 
-                        if (sender instanceof Player) {
-                            BoostEconomy.playErrorSound(player);
-                        }
+                        BoostEconomy.playErrorSound(player);
 
                         return true;
                     }
                 } else {
                     sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.NoPerms").replaceAll("&", "§"));
 
-                    if (sender instanceof Player) {
-                        BoostEconomy.playErrorSound(player);
-                    }
+                    BoostEconomy.playErrorSound(player);
 
                     return true;
                 }

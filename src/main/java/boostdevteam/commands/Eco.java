@@ -1,7 +1,7 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.apache.commons.lang.math.NumberUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
@@ -31,10 +31,10 @@ public class Eco implements CommandExecutor {
 
                                     money.setBalance();
                                     sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done").replaceAll("&", "§"));
-                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + args[2]));
 
                                     String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
-                                    BoostEconomy.saveLog(senderName + " have changed the money of " + p.getName() + " to " + money.getBalance() + "$");
+                                    BoostEconomy.saveLog(senderName + " have changed the money of " + p.getName() + " to " + args[2] + "$");
                                     if (sender instanceof Player) {
                                         BoostEconomy.playErrorSound((Player) sender);
                                         BoostEconomy.playSuccessSound(p);
@@ -53,7 +53,7 @@ public class Eco implements CommandExecutor {
 
                                     money.addBalance();
                                     sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done").replaceAll("&", "§"));
-                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + (money.getBalance() + Long.parseLong(args[2]))));
 
                                     String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
                                     BoostEconomy.saveLog(senderName + " gived " + args[(2)] + "$ to " + p.getName());
@@ -75,7 +75,7 @@ public class Eco implements CommandExecutor {
 
                                     money.takeBalance();
                                     sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Done").replaceAll("&", "§"));
-                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + money.getBalance()));
+                                    p.sendMessage(BoostEconomy.getLanguage().getString("Messages.Money.Refreshed").replaceAll("&", "§").replaceAll("%money%", "" + Math.max(money.getBalance() - Long.valueOf(args[2]), 0)));
 
                                     String senderName = sender instanceof ConsoleCommandSender ? "Console" : sender.getName();
                                     BoostEconomy.saveLog(senderName + " removed " + args[(2)] + "$ from " + p.getName());

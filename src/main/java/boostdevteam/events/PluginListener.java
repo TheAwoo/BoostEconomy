@@ -2,7 +2,7 @@ package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
 import boostdevteam.boosteconomy.Data;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;

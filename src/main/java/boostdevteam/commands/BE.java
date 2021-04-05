@@ -1,7 +1,6 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.boosteconomy.Data;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -51,7 +50,8 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§b§l/baltop §7Show the top balances of the server");
                             sender.sendMessage("§b§l/banknotes <give> <player> <money> §7Main command for the banknotes");
                             sender.sendMessage("§b§l/deposit §7Deposit the banknote in your hand in your bank");
-                            sender.sendMessage("§b§l/withdraw <monbey> §7Create a banknote");
+                            sender.sendMessage("§b§l/withdraw <money/ALL> §7Create a banknote");
+                            sender.sendMessage("§b§l/save <player> <money> §7Create a player account on the database");
                             sender.sendMessage("§8§l§m+---------------------------+");
                             if (sender instanceof Player) {
                                 Player p = (Player) sender;
@@ -66,7 +66,6 @@ public class BE implements CommandExecutor {
                         }
                     } else if (args[0].equalsIgnoreCase("debug")) {
                         if (sender instanceof ConsoleCommandSender) {
-                            Data data = new Data();
                             sender.sendMessage("§8+------------------------------------+");
                             sender.sendMessage("             §bBoostEconomy");
                             sender.sendMessage("                §4Debug");
@@ -79,7 +78,7 @@ public class BE implements CommandExecutor {
                             sender.sendMessage("§f-> §7Software version: §6" + Bukkit.getVersion());
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7Online players: §3" + Bukkit.getServer().getOnlinePlayers().size());
-                            sender.sendMessage("§f-> §7Players saved (data.yml): §3" + data.getBalTop().size());
+                            sender.sendMessage("§f-> §7Players saved: §3" + BoostEconomy.getInstance().getRDatabase().getList().size());
                             sender.sendMessage("§a");
                             sender.sendMessage("§f-> §7PlaceholderAPI: §a" + Bukkit.getPluginManager().isPluginEnabled("PlaceholderAPI"));
                             sender.sendMessage("§8+------------------------------------+");

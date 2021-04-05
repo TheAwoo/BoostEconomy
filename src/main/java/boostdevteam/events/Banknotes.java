@@ -1,7 +1,7 @@
 package boostdevteam.events;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -85,9 +85,7 @@ public class Banknotes implements Listener {
                     item.setAmount(item.getAmount() - 1);
                 }
 
-                if(event.hasBlock()) {
-                    event.setCancelled(true);
-                }
+                event.setCancelled(true);
 
             } catch (Exception e) {
                 event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note!");
@@ -149,9 +147,7 @@ public class Banknotes implements Listener {
                     item.setAmount(item.getAmount() - 1);
                 }
 
-                if(event.hasBlock()) {
-                    event.setCancelled(true);
-                }
+                event.setCancelled(true);
 
             } catch (Exception e) {
                 event.getPlayer().sendMessage("§b§lBoostEconomy §8--> §cError on claiming the note! Report it to an admin!");

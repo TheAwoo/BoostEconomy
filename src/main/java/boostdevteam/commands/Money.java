@@ -1,7 +1,7 @@
 package boostdevteam.commands;
 
 import boostdevteam.boosteconomy.BoostEconomy;
-import boostdevteam.misc.Economy;
+import boostdevteam.vaultapi.misc.Economy;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.SkullType;

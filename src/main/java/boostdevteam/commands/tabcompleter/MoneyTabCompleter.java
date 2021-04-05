@@ -1,4 +1,4 @@
-package boostdevteam.tabcompleter;
+package boostdevteam.commands.tabcompleter;
 
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;

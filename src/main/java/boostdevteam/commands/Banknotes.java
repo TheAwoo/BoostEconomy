@@ -26,7 +26,10 @@ public class Banknotes implements CommandExecutor {
 
     @Override
     public boolean onCommand(@NotNull CommandSender sender,@NotNull Command command,@NotNull String label,@NotNull String[] args) {
-        if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) return false;
+        if (!plugin.getConfig().getBoolean("Banknotes.UseBanknotes")) {
+            sender.sendMessage("§b§lBanknotes §8» §7The banknotes are disabled!");
+            return true;
+        }
         if (args.length == 0) {
             sender.sendMessage(BoostEconomy.getLanguage().getString("Messages.General.InvalidArgs").replaceAll("&", "§"));
             if (sender instanceof Player) {

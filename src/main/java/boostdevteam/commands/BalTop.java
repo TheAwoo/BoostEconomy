@@ -21,6 +21,8 @@ import java.util.List;
 
 public class BalTop implements CommandExecutor {
 
+    public static Data data;
+
     public ItemStack item (int i) {
         Data data = BoostEconomy.getData();
         Data.BoostPlayerData pData = data.getBalTop().get(i);
