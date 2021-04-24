@@ -44,7 +44,7 @@ public class MobKillEvent implements Listener {
             // Chat message
 
             if (BoostEconomy.getInstance().getConfig().getBoolean("Entity.Message")) {
-                killer.sendMessage(BoostEconomy.getLanguage().getString("Messages.KillMessage").replaceAll("&", "§")
+                killer.sendMessage(BoostEconomy.getLanguage().getString("Messages.Reward.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
                         .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"))
                 .replaceAll("&", "§"));
@@ -53,7 +53,7 @@ public class MobKillEvent implements Listener {
             // ActionBar Message
 
             if(BoostEconomy.getInstance().getConfig().getBoolean("Entity.ActionBar")) {
-                String message = BoostEconomy.getLanguage().getString("Messages.KillMessage").replaceAll("&", "§")
+                String message = BoostEconomy.getLanguage().getString("Messages.Reward.KillMessage").replaceAll("&", "§")
                         .replaceAll("%mob%", "" + event.getEntityType())
                         .replaceAll("%money%", "" + BoostEconomy.mob.mobData.getDouble("Mobs." + section + ".Reward"));
 
