@@ -28,7 +28,7 @@ public class BalTop implements CommandExecutor {
         Data.BoostPlayerData pData = data.getBalTop().get(i);
 
         String name = pData.getName();
-        double money = pData.getMoney();
+        long money = (long) pData.getMoney();
 
         if (!(BoostEconomy.getInstance().isLegacy())) {
             ItemStack item = new ItemStack(Material.PLAYER_HEAD, (i + 1));
@@ -96,10 +96,9 @@ public class BalTop implements CommandExecutor {
                         // Send the message
                         for ( int i = start; i < data.getBalTop().size() && i < start + pageSize; i++ ) {
                             Data.BoostPlayerData pData = data.getBalTop().get(i);
-                            FileConfiguration config = BoostEconomy.getInstance().getConfig();
 
                             String name = pData.getName();
-                            double money = pData.getMoney();
+                            long money = (long) pData.getMoney();
 
                             p.sendMessage(BoostEconomy.getLanguage().getString("Messages.BalTop.PlayerFormat")
                                     .replaceAll("&", "§")

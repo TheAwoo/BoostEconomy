@@ -66,7 +66,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     
     // Startup variables
     private static int errors, warning = 0;
-    private static boolean sounds, placeholderapi, configOutDated, essentials;
+    private static boolean sounds, placeholderapi, configOutDated;
 
     // Banknotes value finder
     private final Pattern MONEY_PATTERN = Pattern.compile("\\$[\\d,.]*");
@@ -128,17 +128,11 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
             e.printStackTrace();
 
         }finally {
-            try {
-                sender.sendMessage(getLanguage().getString("Messages.General.Reload")
+            sender.sendMessage(getLanguage().getString("Messages.General.Reload")
                         .replaceAll("&", "§")
                         .replaceAll("%time%", "" + (System.currentTimeMillis() - before)));
-
-                if (sender instanceof Player) {
-                    playSuccessSound((Player) sender);
-                }
-            }catch (NullPointerException e) {
-                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cYour locale option " +
-                        "("+ getInstance().getConfig().getString("Language") + ") is invalid!");
+            if (sender instanceof Player) {
+                playSuccessSound((Player) sender);
             }
         }
     }
@@ -248,13 +242,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                 placeholderapi = true;
             }
 
-            if (Bukkit.getPluginManager().getPlugin("Essentials") != null){
-                Bukkit.getConsoleSender().sendMessage("§f");
-                Bukkit.getConsoleSender().sendMessage("§f-> §7Essentials economy can cause some conflicts with BoostEconomy!");
-                warning++;
-                essentials = true;
-            }
-
             try {
 
                 int pluginId = 9572;
@@ -356,9 +343,6 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
                     if (configOutDated) {
                         Bukkit.getConsoleSender().sendMessage("§e- Outdated config.yml");
                     }
-                    if (essentials) {
-                        Bukkit.getConsoleSender().sendMessage("§e- Essentials economy loaded");
-                    }
                 }
 
                 Bukkit.getConsoleSender().sendMessage("§8");
@@ -369,7 +353,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     // Will check if the config.yml is outdated
     public static void checkConfigVersion () {
-        if (!getInstance().getConfig().getString("Version").equals(BoostEconomy.plugin.getDescription().getVersion())) {
+        if (!getInstance().getConfig().getString("Version", "NULL").equals(BoostEconomy.plugin.getDescription().getVersion())) {
             Bukkit.getConsoleSender().sendMessage("§7");
             Bukkit.getConsoleSender().sendMessage("§f-> §eLook that your config.yml is outdated!");
             warning++;
@@ -529,16 +513,20 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
     }
 
     public static FileConfiguration getLanguage() {
-        if (getInstance().getConfig().getString("Language").equals("en_US")) {
-            return en_US.file;
-        } else if (getInstance().getConfig().getString("Language").equals("it_IT")) {
-            return it_IT.file;
-        } else if (getInstance().getConfig().getString("Language").equals("es_ES")) {
-            return es_ES.file;
-        } else if (getInstance().getConfig().getString("Language").equals("fr_FR")) {
-            return fr_FR.file;
+        switch (getInstance().getConfig().getString("Language", "en_US")) {
+            case "en_US":
+                return en_US.file;
+            case "it_IT":
+                return it_IT.file;
+            case "es_ES":
+                return es_ES.file;
+            case "fr_FR":
+                return fr_FR.file;
+            default:
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cYour locale option " + "(" + getInstance().getConfig().getString("Language") + ") is invalid!");
+                Bukkit.getConsoleSender().sendMessage("[BoostEconomy] §cUsing en_US!");
+                return en_US.file;
         }
-        return null;
     }
 
     // Data for players and baltop
@@ -553,7 +541,7 @@ public final class BoostEconomy extends JavaPlugin implements Listener {
 
     // Control if Vault is installed
     private boolean setupEconomy() {
-        return getServer().getPluginManager().getPlugin("Vault") != null;
+         return getServer().getPluginManager().getPlugin("Vault") != null;
     }
 
     // Vault economy instance

@@ -162,7 +162,7 @@ public class Placeholders extends PlaceholderExpansion {
         return format.format(d);
     }
 
-    private String fixMoney(double d) {
+    public String fixMoney(double d) {
 
         if (d < 1000L) {
             return format(d);

@@ -1,8 +1,9 @@
 name: BoostEconomy
-version: 1.4.1
+version: 1.4.2
 main: boostdevteam.boosteconomy.BoostEconomy
 author: _ItsWagPvP
 load: STARTUP
+database: true
 depend: [ Vault ]
 softdepend: [ PlaceholderAPI ]
 api-version: 1.13

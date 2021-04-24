@@ -102,38 +102,22 @@ public class VEconomy implements Economy {
 
     @Override
     public boolean has(String s, double v) {
-        if( (getBalance(s) - v) >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (getBalance(s) - v) >= 0;
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, double v) {
-        if( (getBalance(offlinePlayer) - v) >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (getBalance(offlinePlayer) - v) >= 0;
     }
 
     @Override
     public boolean has(String s, String s1, double v) {
-        if( (getBalance(s) - v) >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (getBalance(s) - v) >= 0;
     }
 
     @Override
     public boolean has(OfflinePlayer offlinePlayer, String s, double v) {
-        if( (getBalance(offlinePlayer) - v) >= 0) {
-            return true;
-        } else {
-            return false;
-        }
+        return (getBalance(offlinePlayer) - v) >= 0;
     }
 
     @Override

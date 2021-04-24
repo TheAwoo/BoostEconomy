@@ -6,10 +6,6 @@ import java.util.*;
 
 public class Data {
 
-    //public static final File FileData = new File(BoostEconomy.getInstance().getDataFolder() + "/data.yml");
-    //public FileConfiguration data;
-    private int pointer = 0;
-
     public List<BoostPlayerData> balTop;
     public Map<String,BoostPlayerData> balTopName;
 
@@ -94,7 +90,7 @@ public class Data {
 
     public class BoostPlayerData {
 
-        private String name;
+        private final String name;
         private double money;
 
         public BoostPlayerData(String name, double money) {
