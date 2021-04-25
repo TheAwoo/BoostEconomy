@@ -41,7 +41,7 @@ public class Banknotes implements Listener {
                 }
 
                 // Check if the player is allowed to deposit bank notes
-                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit") || !event.getPlayer().hasPermission("boosteconomy.*")) {
+                if (!event.getPlayer().hasPermission("boosteconomy.banknotes.deposit") && !event.getPlayer().hasPermission("boosteconomy.*")) {
                     return;
                 }
 
