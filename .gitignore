@@ -1,3 +1,7 @@
-#Intellij IDE (the only ide a jdev should be using)
+# Cruft from IntelliJ
 /BoostEconomy.iml
 /.idea/
+.attach_*
+
+# mvn
+/target/
